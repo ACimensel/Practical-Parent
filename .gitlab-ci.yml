@@ -1,0 +1,26 @@
+image: seanghay/android-ci
+
+stages:
+  - build
+
+build:
+  stage: build
+  tags:
+    - build
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID != null || $CI_COMMIT_BRANCH == "master"'
+  before_script:
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew checkstyle || FAILED=true
+    - ./gradlew lint || FAILED=true
+    - ./gradlew assembleDebug || FAILED=true
+    - if [ $FAILED ]; then exit 1; fi
+  after_script:
+    - cp app/build/reports/checkstyle/checkstyle.html checkstyle.html
+    - cp app/build/reports/lint-results.html lint-results.html
+  artifacts:
+    when: on_failure
+    paths:
+      - checkstyle.html
+      - lint-results.html
