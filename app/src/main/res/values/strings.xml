@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Practical Parent</string>
+    <string name="flip_coin">Flip Coin</string>
+    <string name="timeout">Timeout</string>
+    <string name="children">Children</string>
+    <string name="about">About</string>
 </resources>
