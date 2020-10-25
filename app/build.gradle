@@ -26,6 +26,11 @@ android {
         warningsAsErrors true
         disable 'Overdraw', 'IconLocation', 'IconDuplicates', 'IconMissingDensityFolder', 'AllowBackup'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 task checkstyle(type: Checkstyle) {
