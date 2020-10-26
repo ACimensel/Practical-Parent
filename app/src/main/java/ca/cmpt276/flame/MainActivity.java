@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
+import ca.cmpt276.flame.model.ChildrenManager;
+
 /**
  * Main Activity: displays a menu to the user, allowing them to open
  * the FlipCoinActivity, the TimeoutActivity, the ChildrenActivity and
@@ -15,7 +17,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupSharedPrefs();
         setupButtons();
+    }
+
+    private void setupSharedPrefs() {
+        // let model classes access Shared Preferences
+        ChildrenManager.init(getPreferences(MODE_PRIVATE));
     }
 
     private void setupButtons() {
