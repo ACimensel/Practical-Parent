@@ -2,10 +2,12 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
 import ca.cmpt276.flame.model.ChildrenManager;
+import ca.cmpt276.flame.model.FlipManager;
 
 /**
  * Main Activity: displays a menu to the user, allowing them to open
@@ -23,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSharedPrefs() {
         // let model classes access Shared Preferences
-        ChildrenManager.init(getPreferences(MODE_PRIVATE));
+        SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
+        ChildrenManager.init(sharedPrefs);
+        FlipManager.init(sharedPrefs);
     }
 
     private void setupButtons() {
