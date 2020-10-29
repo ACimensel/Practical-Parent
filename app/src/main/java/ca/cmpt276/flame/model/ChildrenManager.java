@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.UUID;
 
 /**
  * ChildrenManager is a singleton that manages multiple Child objects.
@@ -19,7 +19,7 @@ public class ChildrenManager implements Iterable<Child> {
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_CHILDREN_MANAGER";
     private static ChildrenManager childrenManager;
     private static SharedPreferences sharedPrefs;
-    private List<Child> children = new ArrayList<>();
+    private LinkedHashMap<UUID, Child> children = new LinkedHashMap<>();
 
     // Singleton
 
@@ -53,39 +53,44 @@ public class ChildrenManager implements Iterable<Child> {
         // singleton: prevent other classes from creating new ones
     }
 
+    public int getNumChildren() {
+        return children.size();
+    }
+
     public void addChild(Child child) {
         if(child == null) {
             throw new IllegalArgumentException("addChild expects non-null child, null given");
         }
 
-        children.add(child);
+        children.put(child.getUuid(), child);
         persistToSharedPrefs();
     }
 
-    public Child getChild(int i) {
-        if(i < 0 || i >= children.size()) {
-            throw new IllegalArgumentException("getChild expects valid in-range index, invalid index given");
-        }
-
-        return children.get(i);
+    public Child getChild(UUID id) {
+        checkValidChildUuid(id);
+        return children.get(id);
     }
 
-    public int getNumChildren() {
-        return children.size();
-    }
-
-    public void removeChild(int i) {
-        if(i < 0 || i >= children.size()) {
-            throw new IllegalArgumentException("removeChild expects valid in-range index, invalid index given");
-        }
-
-        children.remove(i);
+    public void renameChild(UUID id, String name) {
+        checkValidChildUuid(id);
+        children.get(id).setName(name);
         persistToSharedPrefs();
     }
 
-    // method is public because some classes might modify a
-    // Child object directly and then need to save the result
-    public void persistToSharedPrefs() {
+    public void removeChild(UUID id) {
+        checkValidChildUuid(id);
+        FlipManager.getInstance().removeChildFromHistory(id);
+        children.remove(id);
+        persistToSharedPrefs();
+    }
+
+    private void checkValidChildUuid(UUID id) {
+        if(!children.containsKey(id)) {
+            throw new IllegalArgumentException("removeChild expects ID to correspond to valid child");
+        }
+    }
+
+    private void persistToSharedPrefs() {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         String json = (new Gson()).toJson(this);
         editor.putString(SHARED_PREFS_KEY, json);
@@ -95,6 +100,6 @@ public class ChildrenManager implements Iterable<Child> {
     @NonNull
     @Override
     public Iterator<Child> iterator() {
-        return children.iterator();
+        return children.values().iterator();
     }
 }
