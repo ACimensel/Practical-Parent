@@ -7,4 +7,6 @@
     <string name="history">History</string>
     <string name="user_to_flip">It\'s Artun\'s turn!</string>
     <string name="coinFrame_desc">Frame to display upon entering the FlipCoinActivity before GIF starts playing</string>
+    <string name="heads">HEADS!</string>
+    <string name="tails">TAILS!</string>
 </resources>

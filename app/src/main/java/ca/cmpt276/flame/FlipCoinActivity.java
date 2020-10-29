@@ -7,11 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import ca.cmpt276.flame.model.CoinFlipManager;
+import ca.cmpt276.flame.model.SoundPlayer;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -19,11 +20,11 @@ import pl.droidsonroids.gif.GifImageView;
  */
 public class FlipCoinActivity extends AppCompatActivity {
     private boolean coinSpinning = false;
+    private TextView coinResultTxt;
     private ImageView coinFrame;
     private GifImageView coinGif;
     private Button flipBtn;
     private Button histBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,13 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
+        coinResultTxt = findViewById(R.id.flipCoin_resultTxt);
         coinFrame = findViewById(R.id.flipCoin_coinFrame);
         coinGif = findViewById(R.id.flipCoin_coinGif);
         flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
         histBtn = findViewById(R.id.flipCoin_btnHistory);
+
+        coinResultTxt.setText("");
         updateCoinFrame();
         setUpFlipCoinButton();
         setUpHistoryButton();
@@ -69,6 +73,8 @@ public class FlipCoinActivity extends AppCompatActivity {
     private void flipCoin() {
         coinSpinning = true;
         coinFrame.setImageDrawable(null);
+        coinResultTxt.setText("");
+        SoundPlayer.playCoinSpinSound(this);
 
         if(CoinFlipManager.getRandomCoinValue() == CoinFlipManager.coinValue.HEADS) {
             if(CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) {
@@ -87,7 +93,11 @@ public class FlipCoinActivity extends AppCompatActivity {
             }
         }
 
-        new Handler().postDelayed(() -> coinSpinning = false, 2000);
+        new Handler().postDelayed(() -> {
+            if (CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) { coinResultTxt.setText(R.string.heads); }
+            else { coinResultTxt.setText(R.string.tails); }
+            coinSpinning = false;
+        }, 2000);
     }
 
     protected static Intent makeIntent(Context context) {
