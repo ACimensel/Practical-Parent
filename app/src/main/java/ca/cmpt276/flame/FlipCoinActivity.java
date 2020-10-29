@@ -5,35 +5,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import ca.cmpt276.flame.model.CoinFlipManager;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * FlipCoinActivity: TODO add proper comment once activity created
  */
 public class FlipCoinActivity extends AppCompatActivity {
-    // TODO: MOVE THESE TO COIN FLIP MANAGER
-    private final int SPINS = 1;
     private boolean coinSpinning = false;
-    private ImageView coin;
-    private Button btn;
-
-    private final static int[] frameIdArr = new int[] {
-            R.drawable.coin_frame_0, R.drawable.coin_frame_1, R.drawable.coin_frame_2,
-            R.drawable.coin_frame_3, R.drawable.coin_frame_4, R.drawable.coin_frame_5,
-            R.drawable.coin_frame_6, R.drawable.coin_frame_7, R.drawable.coin_frame_8,
-            R.drawable.coin_frame_9, R.drawable.coin_frame_10, R.drawable.coin_frame_11,
-
-            R.drawable.coin_frame_12, R.drawable.coin_frame_13, R.drawable.coin_frame_14,
-            R.drawable.coin_frame_15, R.drawable.coin_frame_16, R.drawable.coin_frame_17,
-            R.drawable.coin_frame_18, R.drawable.coin_frame_19, R.drawable.coin_frame_20,
-            R.drawable.coin_frame_21, R.drawable.coin_frame_22, R.drawable.coin_frame_23,
-    };
+    private ImageView coinFrame;
+    private GifImageView coinGif;
+    private Button flipBtn;
+    private Button histBtn;
 
 
     @Override
@@ -42,9 +31,13 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
-        coin = findViewById(R.id.flipCoin_coin);
-        btn = findViewById(R.id.flipCoin_btnFlipCoin);
+        coinFrame = findViewById(R.id.flipCoin_coinFrame);
+        coinGif = findViewById(R.id.flipCoin_coinGif);
+        flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
+        histBtn = findViewById(R.id.flipCoin_btnHistory);
+        updateCoinFrame();
         setUpFlipCoinButton();
+        setUpHistoryButton();
     }
 
     private void setupToolbar() {
@@ -53,35 +46,48 @@ public class FlipCoinActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    private void setUpFlipCoinButton() {
+    private void updateCoinFrame() {
+        if ((CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS)) {
+            coinFrame.setImageResource(R.drawable.coin_frame_head);
+        } else {
+            coinFrame.setImageResource(R.drawable.coin_frame_tail);
+        }
+    }
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!coinSpinning) { flipCoin(); }
-            }
+    private void setUpFlipCoinButton() {
+        flipBtn.setOnClickListener(v -> {
+            if(!coinSpinning) { flipCoin(); }
+        });
+    }
+
+    private void setUpHistoryButton() {
+        histBtn.setOnClickListener(v -> {
+            // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED
         });
     }
 
     private void flipCoin() {
         coinSpinning = true;
+        coinFrame.setImageDrawable(null);
 
-        Toast.makeText(FlipCoinActivity.this, "5sec elapsed!", Toast.LENGTH_SHORT).show();
-        //coin.setImageDrawable(getResources().getDrawable(R.drawable.coin_frame_12));
-
-        for(int frame = 0; frame < frameIdArr.length; frame++) {
-
-            coin.setImageDrawable(getResources().getDrawable(frameIdArr[frame]));
-
-            /*
-            if (i == NUM_COIN_FRAMES - 1) {
-                i = 0;
-                revs++;
+        if(CoinFlipManager.getRandomCoinValue() == CoinFlipManager.coinValue.HEADS) {
+            if(CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) {
+                coinGif.setImageResource(R.drawable.h2h_2000ms);
+            } else {
+                coinGif.setImageResource(R.drawable.t2h_2000ms);
+                CoinFlipManager.setLastCoinValue(CoinFlipManager.coinValue.HEADS);
             }
-            else { i++; }*/
+        }
+        else {
+            if (CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) {
+                coinGif.setImageResource(R.drawable.h2t_2000ms);
+                CoinFlipManager.setLastCoinValue(CoinFlipManager.coinValue.TAILS);
+            } else {
+                coinGif.setImageResource(R.drawable.t2t_2000ms);
+            }
         }
 
-        coinSpinning = false;
+        new Handler().postDelayed(() -> coinSpinning = false, 2000);
     }
 
     protected static Intent makeIntent(Context context) {

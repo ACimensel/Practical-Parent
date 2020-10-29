@@ -32,15 +32,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/flipCoin_coinGif"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/h2t_2000ms"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias=".4" />
+
     <ImageView
-        android:id="@+id/flipCoin_coin"
+        android:id="@+id/flipCoin_coinFrame"
         android:layout_width="200dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/coin_frame_0" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias=".4"
+        app:srcCompat="@drawable/coin_frame_head"
+        android:contentDescription="@string/coinFrame_desc" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/flipCoin_containerButtons"
@@ -59,12 +72,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/flip_coin"
-            app:layout_constraintBottom_toTopOf="@+id/flipCoin_btnFlipCoin2"
+            app:layout_constraintBottom_toTopOf="@+id/flipCoin_btnHistory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/flipCoin_btnFlipCoin2"
+            android:id="@+id/flipCoin_btnHistory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
