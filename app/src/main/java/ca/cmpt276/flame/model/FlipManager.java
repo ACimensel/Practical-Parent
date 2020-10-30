@@ -13,7 +13,7 @@ import java.util.UUID;
 
 /**
  * FlipManager is a singleton class that manages coin flips and
- * a list of FlipHistory objects. It is persisted between app
+ * a list of FlipHistoryEntry objects. It is persisted between app
  * launches using SharedPreferences.
  */
 public class FlipManager implements Iterable<FlipHistoryEntry> {
@@ -96,12 +96,13 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         CoinSide result = getRandomCoinSide();
         Child child = getTurnChild();
 
-        if(child != null) {
-            // only store in history if there are children configured
+        if(child == null) {
+            history.add(new FlipHistoryEntry(null, result, false));
+        } else {
             history.add(new FlipHistoryEntry(child.getUuid(), result, result == selection));
-            persistToSharedPrefs();
         }
 
+        persistToSharedPrefs();
         return result;
     }
 

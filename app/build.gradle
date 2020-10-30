@@ -24,7 +24,7 @@ android {
 
     lintOptions {
         warningsAsErrors true
-        disable 'Overdraw', 'IconLocation', 'IconDuplicates', 'IconMissingDensityFolder', 'AllowBackup', 'GifUsage'
+        disable 'Overdraw', 'IconLocation', 'IconDuplicates', 'IconMissingDensityFolder', 'AllowBackup', 'GifUsage', 'LockedOrientationActivity'
     }
 
     compileOptions {

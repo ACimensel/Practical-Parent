@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * FLipHistory manages a coin flip history entry. It contains the UUID of
+ * FLipHistoryEntry manages a coin flip history entry. It contains the UUID of
  * the Child who flipped the coin, what the result of the flip was, whether
  * the child won or not and the date of the flip.
  */
@@ -21,6 +21,7 @@ public class FlipHistoryEntry {
         this.date = new Date();
     }
 
+    // may return null if no child associated with the flip
     public UUID getChildUuid() {
         return childUuid;
     }
