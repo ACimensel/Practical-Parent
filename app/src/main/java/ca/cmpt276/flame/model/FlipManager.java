@@ -13,10 +13,10 @@ import java.util.UUID;
 
 /**
  * FlipManager is a singleton class that manages coin flips and
- * a list of FlipHistory objects. It is persisted between app
+ * a list of FlipHistoryEntry objects. It is persisted between app
  * launches using SharedPreferences.
  */
-public class FlipManager implements Iterable<FlipHistory> {
+public class FlipManager implements Iterable<FlipHistoryEntry> {
     /** CoinSide represents the two possible sides of a coin */
     public enum CoinSide {
         HEADS,
@@ -26,7 +26,7 @@ public class FlipManager implements Iterable<FlipHistory> {
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_FLIP_MANAGER";
     private static FlipManager flipManager;
     private static SharedPreferences sharedPrefs;
-    private final List<FlipHistory> history = new ArrayList<>();
+    private final List<FlipHistoryEntry> history = new ArrayList<>();
 
     // Singleton
 
@@ -75,7 +75,7 @@ public class FlipManager implements Iterable<FlipHistory> {
         }
 
         // find the last child who flipped and then let the next one flip
-        FlipHistory lastFlip = history.get(history.size() - 1);
+        FlipHistoryEntry lastFlip = history.get(history.size() - 1);
         UUID lastChild = lastFlip.getChildUuid();
 
         Iterator<Child> itr = childrenManager.iterator();
@@ -96,12 +96,13 @@ public class FlipManager implements Iterable<FlipHistory> {
         CoinSide result = getRandomCoinSide();
         Child child = getTurnChild();
 
-        if(child != null) {
-            // only store in history if there are children configured
-            history.add(new FlipHistory(child.getUuid(), result, result == selection));
-            persistToSharedPrefs();
+        if(child == null) {
+            history.add(new FlipHistoryEntry(null, result, false));
+        } else {
+            history.add(new FlipHistoryEntry(child.getUuid(), result, result == selection));
         }
 
+        persistToSharedPrefs();
         return result;
     }
 
@@ -132,7 +133,7 @@ public class FlipManager implements Iterable<FlipHistory> {
 
     @NonNull
     @Override
-    public Iterator<FlipHistory> iterator() {
+    public Iterator<FlipHistoryEntry> iterator() {
         return history.iterator();
     }
 }
