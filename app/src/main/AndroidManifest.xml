@@ -9,11 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:screenOrientation="portrait" android:name=".AboutActivity" />
-        <activity android:screenOrientation="portrait" android:name=".ChildrenActivity" />
-        <activity android:screenOrientation="portrait" android:name=".TimeoutActivity" />
-        <activity android:screenOrientation="portrait" android:name=".FlipCoinActivity" />
-        <activity android:screenOrientation="portrait" android:name=".MainActivity">
+        <activity android:name=".ChildEditActivity"></activity>
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChildrenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TimeoutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FlipCoinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
