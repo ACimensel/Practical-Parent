@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         timeoutBtn.setOnClickListener(view -> {
-            startActivity(TimeoutActivity.makeIntent(this));
+            startActivity(ChoosingTime.makeIntent(this));
         });
 
         childrenBtn.setOnClickListener(view -> {

@@ -4,4 +4,5 @@
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
+    <string name="time_left">Time left</string>
 </resources>
