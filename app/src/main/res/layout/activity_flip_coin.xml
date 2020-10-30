@@ -94,11 +94,12 @@
         android:id="@+id/flipCoin_resultTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/heads"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/flipCoin_containerButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipCoin_coinGif" />
+        app:layout_constraintTop_toBottomOf="@+id/flipCoin_coinGif"
+        app:layout_constraintVertical_bias=".35" />
 </androidx.constraintlayout.widget.ConstraintLayout>

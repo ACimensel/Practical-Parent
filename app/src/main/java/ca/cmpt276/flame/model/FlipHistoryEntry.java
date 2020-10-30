@@ -8,13 +8,13 @@ import java.util.UUID;
  * the Child who flipped the coin, what the result of the flip was, whether
  * the child won or not and the date of the flip.
  */
-public class FlipHistory {
+public class FlipHistoryEntry {
     private final UUID childUuid;
     private final FlipManager.CoinSide result;
     private final Boolean won;
     private final Date date;
 
-    public FlipHistory(UUID childUuid, FlipManager.CoinSide result, Boolean won) {
+    public FlipHistoryEntry(UUID childUuid, FlipManager.CoinSide result, Boolean won) {
         this.childUuid = childUuid;
         this.result = result;
         this.won = won;

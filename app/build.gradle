@@ -24,7 +24,7 @@ android {
 
     lintOptions {
         warningsAsErrors true
-        disable 'Overdraw', 'IconLocation', 'IconDuplicates', 'IconMissingDensityFolder', 'AllowBackup'
+        disable 'Overdraw', 'IconLocation', 'IconDuplicates', 'IconMissingDensityFolder', 'AllowBackup', 'GifUsage'
     }
 
     compileOptions {
@@ -48,7 +48,7 @@ task checkstyle(type: Checkstyle) {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     testImplementation 'junit:junit:4.12'

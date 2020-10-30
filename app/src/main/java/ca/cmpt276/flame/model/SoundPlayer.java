@@ -5,6 +5,9 @@ import android.media.MediaPlayer;
 
 import ca.cmpt276.flame.R;
 
+/**
+ * SoundPlayer: TODO add proper comment once model created
+ */
 public class SoundPlayer {
     private static MediaPlayer coinSpinSound;
 

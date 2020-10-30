@@ -16,17 +16,18 @@ import java.util.UUID;
  * a list of FlipHistory objects. It is persisted between app
  * launches using SharedPreferences.
  */
-public class FlipManager implements Iterable<FlipHistory> {
+public class FlipManager implements Iterable<FlipHistoryEntry> {
     /** CoinSide represents the two possible sides of a coin */
     public enum CoinSide {
         HEADS,
         TAILS
     }
 
+    private static FlipManager.CoinSide lastCoinValue = FlipManager.CoinSide.TAILS;
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_FLIP_MANAGER";
     private static FlipManager flipManager;
     private static SharedPreferences sharedPrefs;
-    private final List<FlipHistory> history = new ArrayList<>();
+    private final List<FlipHistoryEntry> history = new ArrayList<>();
 
     // Singleton
 
@@ -75,7 +76,7 @@ public class FlipManager implements Iterable<FlipHistory> {
         }
 
         // find the last child who flipped and then let the next one flip
-        FlipHistory lastFlip = history.get(history.size() - 1);
+        FlipHistoryEntry lastFlip = history.get(history.size() - 1);
         UUID lastChild = lastFlip.getChildUuid();
 
         Iterator<Child> itr = childrenManager.iterator();
@@ -98,7 +99,7 @@ public class FlipManager implements Iterable<FlipHistory> {
 
         if(child != null) {
             // only store in history if there are children configured
-            history.add(new FlipHistory(child.getUuid(), result, result == selection));
+            history.add(new FlipHistoryEntry(child.getUuid(), result, result == selection));
             persistToSharedPrefs();
         }
 
@@ -109,6 +110,14 @@ public class FlipManager implements Iterable<FlipHistory> {
         CoinSide[] sides = CoinSide.values();
         int randomChoice = (int) Math.floor(Math.random() * sides.length);
         return sides[randomChoice];
+    }
+
+    public FlipManager.CoinSide getLastCoinValue() {
+        return lastCoinValue;
+    }
+
+    public void setLastCoinValue(FlipManager.CoinSide coinVal) {
+        lastCoinValue = coinVal;
     }
 
     // when a child is deleted, also remove them from history
@@ -132,7 +141,7 @@ public class FlipManager implements Iterable<FlipHistory> {
 
     @NonNull
     @Override
-    public Iterator<FlipHistory> iterator() {
+    public Iterator<FlipHistoryEntry> iterator() {
         return history.iterator();
     }
 }

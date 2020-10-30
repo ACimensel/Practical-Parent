@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.cmpt276.flame.model.CoinFlipManager;
+import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.SoundPlayer;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -19,6 +19,9 @@ import pl.droidsonroids.gif.GifImageView;
  * FlipCoinActivity: TODO add proper comment once activity created
  */
 public class FlipCoinActivity extends AppCompatActivity {
+    FlipManager flipManager = FlipManager.getInstance();
+
+    final int DELAY_IN_MS = 2000;
     private boolean coinSpinning = false;
     private TextView coinResultTxt;
     private ImageView coinFrame;
@@ -51,7 +54,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void updateCoinFrame() {
-        if ((CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS)) {
+        if ((flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS)) {
             coinFrame.setImageResource(R.drawable.coin_frame_head);
         } else {
             coinFrame.setImageResource(R.drawable.coin_frame_tail);
@@ -60,7 +63,9 @@ public class FlipCoinActivity extends AppCompatActivity {
 
     private void setUpFlipCoinButton() {
         flipBtn.setOnClickListener(v -> {
-            if(!coinSpinning) { flipCoin(); }
+            if(!coinSpinning) {
+                flipCoin();
+            }
         });
     }
 
@@ -76,28 +81,32 @@ public class FlipCoinActivity extends AppCompatActivity {
         coinResultTxt.setText("");
         SoundPlayer.playCoinSpinSound(this);
 
-        if(CoinFlipManager.getRandomCoinValue() == CoinFlipManager.coinValue.HEADS) {
-            if(CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) {
+        // TODO: pass in head/tail when radio buttons are implemented
+        if(flipManager.doFlip(null) == FlipManager.CoinSide.HEADS) {
+            if(flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2h_2000ms);
             } else {
                 coinGif.setImageResource(R.drawable.t2h_2000ms);
-                CoinFlipManager.setLastCoinValue(CoinFlipManager.coinValue.HEADS);
+                flipManager.setLastCoinValue(FlipManager.CoinSide.HEADS);
             }
         }
         else {
-            if (CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) {
+            if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2t_2000ms);
-                CoinFlipManager.setLastCoinValue(CoinFlipManager.coinValue.TAILS);
+                flipManager.setLastCoinValue(FlipManager.CoinSide.TAILS);
             } else {
                 coinGif.setImageResource(R.drawable.t2t_2000ms);
             }
         }
 
         new Handler().postDelayed(() -> {
-            if (CoinFlipManager.getLastCoinValue() == CoinFlipManager.coinValue.HEADS) { coinResultTxt.setText(R.string.heads); }
-            else { coinResultTxt.setText(R.string.tails); }
+            if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
+                coinResultTxt.setText(R.string.heads);
+            } else {
+                coinResultTxt.setText(R.string.tails);
+            }
             coinSpinning = false;
-        }, 2000);
+        }, DELAY_IN_MS);
     }
 
     protected static Intent makeIntent(Context context) {
