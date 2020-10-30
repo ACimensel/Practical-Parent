@@ -6,7 +6,9 @@ import android.media.MediaPlayer;
 import ca.cmpt276.flame.R;
 
 /**
- * SoundPlayer: TODO add proper comment once model created
+ * SoundPlayer is a static class for playing the different sounds in the application.
+ * It is responsible for playing sounds which include a coin spin, peaceful background music,
+ * and chirping upon timeout timer finishing
  */
 public class SoundPlayer {
     private static MediaPlayer coinSpinSound;

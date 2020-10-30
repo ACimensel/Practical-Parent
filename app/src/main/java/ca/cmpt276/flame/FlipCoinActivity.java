@@ -11,18 +11,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.SoundPlayer;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
- * FlipCoinActivity: TODO add proper comment once activity created
+ * FlipCoinActivity allows the user to flip a coin and random get a heads or tails, with a
+ * coin spin sound played. The result is displayed as a text after coin flip animation is complete.
+ * This activity shows which childs turn it is to pick heads or tails. If no children are configured
+ * no text is displayed for turn of child. If children are configured, they are allowed to pick
+ * whether they think the next result will be a heads or tails. Coin flip history is stored.
  */
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
     final int DELAY_IN_MS = 2000;
     private boolean coinSpinning = false;
+    private TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
     private GifImageView coinGif;
@@ -35,6 +41,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
+        childTurnTxt = findViewById(R.id.flipCoin_childturn);
         coinResultTxt = findViewById(R.id.flipCoin_resultTxt);
         coinFrame = findViewById(R.id.flipCoin_coinFrame);
         coinGif = findViewById(R.id.flipCoin_coinGif);
@@ -42,6 +49,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         histBtn = findViewById(R.id.flipCoin_btnHistory);
 
         coinResultTxt.setText("");
+        updateChildTurnText();
         updateCoinFrame();
         setUpFlipCoinButton();
         setUpHistoryButton();
@@ -51,6 +59,15 @@ public class FlipCoinActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.flip_coin);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    private void updateChildTurnText() {
+        Child child = flipManager.getTurnChild();
+        if(child == null) {
+            childTurnTxt.setText("");
+        } else {
+            childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
+        }
     }
 
     private void updateCoinFrame() {

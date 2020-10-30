@@ -23,7 +23,7 @@
         app:layout_constraintGuide_percent=".5" />
 
     <TextView
-        android:id="@+id/child_name_turn"
+        android:id="@+id/flipCoin_childturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/user_to_flip"
