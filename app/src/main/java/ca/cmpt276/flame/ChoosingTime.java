@@ -12,19 +12,24 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class ChoosingTime extends AppCompatActivity {
+import ca.cmpt276.flame.model.TimeOutManager;
 
+public class ChoosingTime extends AppCompatActivity {
+    TimeOutManager timeOutManager = TimeOutManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_time);
         createTimerOptions();
         Button StartBtn = (Button) findViewById(R.id.start_time_btn);
-
+        Button CancelBtn = (Button) findViewById(R.id.cancel_timer_btn);
         StartBtn.setOnClickListener(view ->{
             TextView timeValue = findViewById(R.id.choosing_time_value);
             int time = Integer.parseInt(timeValue.getText().toString());
             startActivity(TimeoutActivity.makeIntent(this, time));
+        });
+        CancelBtn.setOnClickListener(view ->{
+            finish();
         });
 
     }
@@ -46,6 +51,12 @@ public class ChoosingTime extends AppCompatActivity {
             });
 
             group.addView(timerBtn);
+
+            if (buttonValues[index] == timeOutManager.getTimer_time()) {
+                timerBtn.setChecked(true);
+                TextView timeValue = findViewById(R.id.choosing_time_value);
+                timeValue.setText("" + buttonValues[index]);
+            }
         }
     }
 

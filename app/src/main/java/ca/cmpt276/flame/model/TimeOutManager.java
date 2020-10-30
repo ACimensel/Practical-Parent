@@ -5,7 +5,7 @@ import android.content.Intent;
 
 public class TimeOutManager {
     private static TimeOutManager timeOutManager;
-    private int timer_time = 0;
+    private int timer_time = 1;
     public static TimeOutManager getInstance(){
         if(timeOutManager == null) {
             timeOutManager = new TimeOutManager();
