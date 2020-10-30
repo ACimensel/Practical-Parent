@@ -23,7 +23,6 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         TAILS
     }
 
-    private static FlipManager.CoinSide lastCoinValue = FlipManager.CoinSide.TAILS;
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_FLIP_MANAGER";
     private static FlipManager flipManager;
     private static SharedPreferences sharedPrefs;
@@ -112,12 +111,12 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         return sides[randomChoice];
     }
 
-    public FlipManager.CoinSide getLastCoinValue() {
-        return lastCoinValue;
-    }
+    public CoinSide getLastCoinValue() {
+        if(history.size() == 0) {
+            return CoinSide.TAILS;
+        }
 
-    public void setLastCoinValue(FlipManager.CoinSide coinVal) {
-        lastCoinValue = coinVal;
+        return history.get(history.size() - 1).getResult();
     }
 
     // when a child is deleted, also remove them from history

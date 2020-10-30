@@ -26,8 +26,8 @@ import pl.droidsonroids.gif.GifImageView;
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
-    final int DELAY_IN_MS = 2000;
-    private boolean coinSpinning = false;
+    private boolean isCoinSpinning = false;
+    private boolean isFirstSpin = true;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
@@ -66,7 +66,11 @@ public class FlipCoinActivity extends AppCompatActivity {
         if(child == null) {
             childTurnTxt.setText("");
         } else {
-            childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
+            if(isFirstSpin) {
+                childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
+            } else {
+                childTurnTxt.setText(getString(R.string.user_to_flip_next, child.getName()));
+            }
         }
     }
 
@@ -80,7 +84,7 @@ public class FlipCoinActivity extends AppCompatActivity {
 
     private void setUpFlipCoinButton() {
         flipBtn.setOnClickListener(v -> {
-            if(!coinSpinning) {
+            if(!isCoinSpinning) {
                 flipCoin();
             }
         });
@@ -93,36 +97,37 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void flipCoin() {
-        coinSpinning = true;
+        isCoinSpinning = true;
+        isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
+        FlipManager.CoinSide lastVal = flipManager.getLastCoinValue();
         SoundPlayer.playCoinSpinSound(this);
 
         // TODO: pass in head/tail when radio buttons are implemented
         if(flipManager.doFlip(null) == FlipManager.CoinSide.HEADS) {
-            if(flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
+            if(lastVal == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2h_2000ms);
             } else {
                 coinGif.setImageResource(R.drawable.t2h_2000ms);
-                flipManager.setLastCoinValue(FlipManager.CoinSide.HEADS);
             }
-        }
-        else {
-            if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
+        } else {
+            if (lastVal == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2t_2000ms);
-                flipManager.setLastCoinValue(FlipManager.CoinSide.TAILS);
             } else {
                 coinGif.setImageResource(R.drawable.t2t_2000ms);
             }
         }
 
+        final int DELAY_IN_MS = 2000;
         new Handler().postDelayed(() -> {
             if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
                 coinResultTxt.setText(R.string.heads);
             } else {
                 coinResultTxt.setText(R.string.tails);
             }
-            coinSpinning = false;
+            updateChildTurnText();
+            isCoinSpinning = false;
         }, DELAY_IN_MS);
     }
 
