@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +29,8 @@ import ca.cmpt276.flame.model.ChildrenManager;
  * ChildrenActivity: TODO add proper comment once activity created
  */
 public class ChildrenActivity extends AppCompatActivity {
-
+    private static final int ACTIVITY_RESULT_EDIT = 1;
+    private static final int ACTIVITY_RESULT_ADD = 2;
 
     private ChildrenManager manager = ChildrenManager.getInstance();
 
@@ -39,25 +39,22 @@ public class ChildrenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children);
-
         setupToolbar();
         setupChildrenView();
         ClickCallBack();
     }
 
-    //set up menu
+    //setup menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_children_edit, menu);
         return true;
     }
 
-    //set up action_add button
-
-
+    //setup action_add button
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, new Child("only_for_add"));
                 startActivityForResult(intent, 2);
@@ -71,7 +68,7 @@ public class ChildrenActivity extends AppCompatActivity {
     private void setupChildrenView() {
         ListView list = (ListView) findViewById(R.id.listView_children);
         ArrayList<Child> children = new ArrayList<Child>();
-        for (Child child: manager){
+        for (Child child : manager) {
             children.add(child);
         }
 
@@ -80,17 +77,18 @@ public class ChildrenActivity extends AppCompatActivity {
     }
 
 
-    private void ClickCallBack(){
+    //setup register click callback for listview
+    private void ClickCallBack() {
         ListView list = (ListView) findViewById(R.id.listView_children);
-        ArrayList<Child> children = new ArrayList<Child>();
-        for (Child child: manager){
-            children.add(child);
-        }
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 {
-                    //passing index
+                    ArrayList<Child> children = new ArrayList<Child>();
+                    for (Child child : manager) {
+                        children.add(child);
+                    }
+                    //passing Child information to ChildEditActivity
                     Child clickedChild = children.get(position);
                     String uuid = clickedChild.getUuid().toString();
                     Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, clickedChild);
@@ -116,28 +114,39 @@ public class ChildrenActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED){
+        if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
-        switch(requestCode) {
-            case (1) : {
+        switch (requestCode) {
+            case (ACTIVITY_RESULT_EDIT): {
+                //if resultcode == OK, rename the child
                 if (resultCode == Activity.RESULT_OK) {
                     //get information
                     String new_name = data.getStringExtra(ChildEditActivity.NEW_NAME);
                     String uuid_string = data.getStringExtra(ChildEditActivity.UUID);
                     UUID uuid = UUID.fromString(uuid_string);
-                    manager.renameChild(uuid,new_name);
+                    manager.renameChild(uuid, new_name);
+                    //update listview
+                    setupChildrenView();
+                }
+                //if resultcode == First_User, delete teh child
+                if (resultCode == Activity.RESULT_FIRST_USER) {
+                    //get information
+                    String uuid_string = data.getStringExtra(ChildEditActivity.UUID);
+                    UUID uuid = UUID.fromString(uuid_string);
+                    //delete the child
+                    manager.removeChild(uuid);
                     //update listview
                     setupChildrenView();
                 }
                 break;
             }
-            case (2) : {
-                if (resultCode == Activity.RESULT_OK){
-                    String new_name = data.getStringExtra(ChildEditActivity.NEW_NAME);
-                    manager.addChild(new Child(new_name));
-                    setupChildrenView();
-                }
+            case (ACTIVITY_RESULT_ADD): {
+                //get information
+                String new_name = data.getStringExtra(ChildEditActivity.NEW_NAME);
+                manager.addChild(new Child(new_name));
+                //update listview
+                setupChildrenView();
                 break;
             }
         }

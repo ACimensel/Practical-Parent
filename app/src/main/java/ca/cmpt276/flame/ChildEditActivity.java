@@ -32,11 +32,35 @@ public class ChildEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_edit);
         setupToolbar();
         extractDataFromIntent();
-        if(old_name == "only_for_edit"){
-            setupSaveForAddButton();
-        }
 
-        setupSaveButton();
+        //Different setting when clicked Add/Edit Button
+        if (old_name.equals("only_for_add")) {
+            setupSaveForAddButton();
+            invisibleDeleteButton();
+        } else {
+            setupSaveButton();
+            setupDeleteButton();
+        }
+    }
+
+    private void invisibleDeleteButton() {
+        Button btn = (Button) findViewById(R.id.button_delete);
+        btn.setVisibility(View.GONE);
+    }
+
+    private void setupDeleteButton() {
+        Button btn = (Button) findViewById(R.id.button_delete);
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //passing uuid for deleting
+                intent.putExtra(UUID, uuid_string);
+                setResult(Activity.RESULT_FIRST_USER, intent);
+                finish();
+            }
+        });
     }
 
     private void setupSaveForAddButton() {
@@ -47,6 +71,7 @@ public class ChildEditActivity extends AppCompatActivity {
                 EditText input_name = (EditText) findViewById(R.id.editText_Name);
                 new_name = input_name.getText().toString();
                 Intent intent = new Intent();
+                //passing input name for adding
                 intent.putExtra(NEW_NAME, new_name);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
@@ -62,6 +87,7 @@ public class ChildEditActivity extends AppCompatActivity {
                 EditText input_name = (EditText) findViewById(R.id.editText_Name);
                 new_name = input_name.getText().toString();
                 Intent intent = new Intent();
+                //passing uuid and new name for renaming
                 intent.putExtra(NEW_NAME, new_name);
                 intent.putExtra(UUID, uuid_string);
                 setResult(Activity.RESULT_OK, intent);
