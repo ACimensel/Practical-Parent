@@ -35,7 +35,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     private GifImageView coinGif;
     private Button flipBtn;
     private Button historyBtn;
-    private RadioGroup radioGroup;
+    private RadioGroup chooseSideRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         coinGif = findViewById(R.id.flipCoin_gifCoin);
         flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
         historyBtn = findViewById(R.id.flipCoin_btnHistory);
-        radioGroup = findViewById(R.id.flipCoin_radioGroup);
+        chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
 
         coinResultTxt.setText("");
         updateChildTurnText();
@@ -88,7 +88,7 @@ public class FlipCoinActivity extends AppCompatActivity {
 
     private void setUpRadioGroup() {
         if(flipManager.getTurnChild() == null) {
-            radioGroup.removeAllViews();
+            chooseSideRadioGroup.removeAllViews();
         }
     }
 
@@ -114,7 +114,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         coinResultTxt.setText("");
         SoundPlayer.playCoinSpinSound(this);
 
-        int chosenCoinSide = radioGroup.getCheckedRadioButtonId();
+        int chosenCoinSide = chooseSideRadioGroup.getCheckedRadioButtonId();
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
@@ -151,7 +151,7 @@ public class FlipCoinActivity extends AppCompatActivity {
                 coinResultTxt.setText(R.string.tails_result);
             }
             updateChildTurnText();
-            radioGroup.clearCheck();
+            chooseSideRadioGroup.clearCheck();
             isCoinSpinning = false;
         }, DELAY_IN_MS);
     }
