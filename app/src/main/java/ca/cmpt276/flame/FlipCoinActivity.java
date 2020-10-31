@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.FlipManager;
@@ -113,7 +112,6 @@ public class FlipCoinActivity extends AppCompatActivity {
         isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
-        chooseSideRadioGroup.setEnabled(false);
         setRadioGroupButtons(false);
         SoundPlayer.playCoinSpinSound(this);
 
@@ -153,18 +151,14 @@ public class FlipCoinActivity extends AppCompatActivity {
         if(coinSideBeforeSpin == FlipManager.CoinSide.HEADS) {
             if(flipResult == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2h_2000ms);
-                Toast.makeText(this, "h2h", Toast.LENGTH_SHORT).show();
             } else {
                 coinGif.setImageResource(R.drawable.h2t_2000ms);
-                Toast.makeText(this, "h2t", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (flipResult == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.t2h_2000ms);
-                Toast.makeText(this, "t2h", Toast.LENGTH_SHORT).show();
             } else {
                 coinGif.setImageResource(R.drawable.t2t_2000ms);
-                Toast.makeText(this, "t2t", Toast.LENGTH_SHORT).show();
             }
         }
     }
