@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineH" />
 
     <RadioGroup
+        android:id="@+id/flipCoin_radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
