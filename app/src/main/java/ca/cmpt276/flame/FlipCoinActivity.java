@@ -21,7 +21,7 @@ import pl.droidsonroids.gif.GifImageView;
  * coin spin sound played. The result is displayed as a text after coin flip animation is complete.
  * This activity shows which childs turn it is to pick heads or tails. If no children are configured
  * no text is displayed for turn of child. If children are configured, they are allowed to pick
- * whether they think the next result will be a heads or tails. Coin flip history is stored.
+ * whether they think the next result will be a heads or tails.
  */
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
@@ -33,7 +33,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     private ImageView coinFrame;
     private GifImageView coinGif;
     private Button flipBtn;
-    private Button histBtn;
+    private Button historyBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
-        childTurnTxt = findViewById(R.id.flipCoin_childturn);
-        coinResultTxt = findViewById(R.id.flipCoin_resultTxt);
-        coinFrame = findViewById(R.id.flipCoin_coinFrame);
-        coinGif = findViewById(R.id.flipCoin_coinGif);
+        childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
+        coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
+        coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
+        coinGif = findViewById(R.id.flipCoin_gifCoin);
         flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
-        histBtn = findViewById(R.id.flipCoin_btnHistory);
+        historyBtn = findViewById(R.id.flipCoin_btnHistory);
 
         coinResultTxt.setText("");
         updateChildTurnText();
@@ -75,7 +75,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void updateCoinFrame() {
-        if ((flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS)) {
+        if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
             coinFrame.setImageResource(R.drawable.coin_frame_head);
         } else {
             coinFrame.setImageResource(R.drawable.coin_frame_tail);
@@ -91,40 +91,39 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setUpHistoryButton() {
-        histBtn.setOnClickListener(v -> {
+        historyBtn.setOnClickListener(v -> {
             // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED
         });
     }
 
     private void flipCoin() {
+        final int DELAY_IN_MS = 2000;
         isCoinSpinning = true;
         isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
-        FlipManager.CoinSide lastVal = flipManager.getLastCoinValue();
+        FlipManager.CoinSide flipResult = flipManager.doFlip(null); // TODO pass in head/tail when radio buttons are implemented
         SoundPlayer.playCoinSpinSound(this);
 
-        // TODO: pass in head/tail when radio buttons are implemented
-        if(flipManager.doFlip(null) == FlipManager.CoinSide.HEADS) {
-            if(lastVal == FlipManager.CoinSide.HEADS) {
+        if(flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
+            if(flipResult == FlipManager.CoinSide.HEADS) {
                 coinGif.setImageResource(R.drawable.h2h_2000ms);
             } else {
-                coinGif.setImageResource(R.drawable.t2h_2000ms);
+                coinGif.setImageResource(R.drawable.h2t_2000ms);
             }
         } else {
-            if (lastVal == FlipManager.CoinSide.HEADS) {
-                coinGif.setImageResource(R.drawable.h2t_2000ms);
+            if (flipResult == FlipManager.CoinSide.HEADS) {
+                coinGif.setImageResource(R.drawable.t2h_2000ms);
             } else {
                 coinGif.setImageResource(R.drawable.t2t_2000ms);
             }
         }
 
-        final int DELAY_IN_MS = 2000;
         new Handler().postDelayed(() -> {
             if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
-                coinResultTxt.setText(R.string.heads);
+                coinResultTxt.setText(R.string.heads_result);
             } else {
-                coinResultTxt.setText(R.string.tails);
+                coinResultTxt.setText(R.string.tails_result);
             }
             updateChildTurnText();
             isCoinSpinning = false;
