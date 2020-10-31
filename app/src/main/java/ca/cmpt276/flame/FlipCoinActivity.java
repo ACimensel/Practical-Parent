@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.FlipManager;
@@ -112,9 +113,12 @@ public class FlipCoinActivity extends AppCompatActivity {
         isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
+        chooseSideRadioGroup.setEnabled(false);
+        setRadioGroupButtons(false);
         SoundPlayer.playCoinSpinSound(this);
 
         int chosenCoinSide = chooseSideRadioGroup.getCheckedRadioButtonId();
+        FlipManager.CoinSide coinSideBeforeSpin = flipManager.getLastCoinValue();
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
@@ -126,24 +130,11 @@ public class FlipCoinActivity extends AppCompatActivity {
             flipResult = flipManager.doFlip(null);
         }
 
-        // Play 1 of 4 animations, depending on the starting coin value and the end value returned by doFlip()
-        if(flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
-            if(flipResult == FlipManager.CoinSide.HEADS) {
-                coinGif.setImageResource(R.drawable.h2h_2000ms);
-            } else {
-                coinGif.setImageResource(R.drawable.h2t_2000ms);
-            }
-        } else {
-            if (flipResult == FlipManager.CoinSide.HEADS) {
-                coinGif.setImageResource(R.drawable.t2h_2000ms);
-            } else {
-                coinGif.setImageResource(R.drawable.t2t_2000ms);
-            }
-        }
+        playCoinAnimation(coinSideBeforeSpin, flipResult);
 
         // After animation ends:
-        // 1) show result as text, 2) update child turn text
-        // 3) clear radio group check, 4) allow user to spin again
+        // 1) show result as text, 2) update child turn text, 3) clear radio group if checked
+        // 4) Enable clicking of the radio buttons, 5) allow user to spin coin again
         new Handler().postDelayed(() -> {
             if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
                 coinResultTxt.setText(R.string.heads_result);
@@ -152,8 +143,36 @@ public class FlipCoinActivity extends AppCompatActivity {
             }
             updateChildTurnText();
             chooseSideRadioGroup.clearCheck();
+            setRadioGroupButtons(true);
             isCoinSpinning = false;
         }, DELAY_IN_MS);
+    }
+
+    private void playCoinAnimation(FlipManager.CoinSide coinSideBeforeSpin, FlipManager.CoinSide flipResult) {
+        // Play 1 of 4 animations, depending on the starting coin value and the end value returned by doFlip()
+        if(coinSideBeforeSpin == FlipManager.CoinSide.HEADS) {
+            if(flipResult == FlipManager.CoinSide.HEADS) {
+                coinGif.setImageResource(R.drawable.h2h_2000ms);
+                Toast.makeText(this, "h2h", Toast.LENGTH_SHORT).show();
+            } else {
+                coinGif.setImageResource(R.drawable.h2t_2000ms);
+                Toast.makeText(this, "h2t", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (flipResult == FlipManager.CoinSide.HEADS) {
+                coinGif.setImageResource(R.drawable.t2h_2000ms);
+                Toast.makeText(this, "t2h", Toast.LENGTH_SHORT).show();
+            } else {
+                coinGif.setImageResource(R.drawable.t2t_2000ms);
+                Toast.makeText(this, "t2t", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    void setRadioGroupButtons(boolean enable) {
+        for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
+            chooseSideRadioGroup.getChildAt(i).setEnabled(enable);
+        }
     }
 
     protected static Intent makeIntent(Context context) {
