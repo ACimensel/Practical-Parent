@@ -19,8 +19,8 @@ import ca.cmpt276.flame.model.TimeOutManager;
  */
 public class ChoosingTime extends AppCompatActivity {
     TimeOutManager timeOutManager = TimeOutManager.getInstance();
+    TextView timeValueTxt;
 
-    private TextView timerTime;
     private static final int TIME_OPTION1 = 1;
     private static final int TIME_OPTION2 = 2;
     private static final int TIME_OPTION3 = 3;
@@ -31,14 +31,14 @@ public class ChoosingTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_time);
+        timeValueTxt = findViewById(R.id.choosing_time_value);
 
         createTimerOptions();
-        timerTime = findViewById(R.id.choosing_time_value);
         Button startBtn = (Button) findViewById(R.id.start_time_btn);
         Button cancelBtn = (Button) findViewById(R.id.cancel_timer_btn);
 
         startBtn.setOnClickListener(view -> {
-            int time = Integer.parseInt(timerTime.getText().toString());
+            int time = Integer.parseInt(timeValueTxt.getText().toString());
             startActivity(TimeoutActivity.makeIntent(this, time));
         });
         cancelBtn.setOnClickListener(view -> finish());
@@ -54,13 +54,13 @@ public class ChoosingTime extends AppCompatActivity {
             RadioButton timerBtn = new RadioButton(this);
             timerBtn.setText(buttonValues[index] + "minute");
 
-            timerBtn.setOnClickListener((View.OnClickListener) v -> timerTime.setText("" + buttonValues[index]));
+            timerBtn.setOnClickListener((View.OnClickListener) v -> timeValueTxt.setText("" + buttonValues[index]));
 
             group.addView(timerBtn);
 
             if (buttonValues[index] == timeOutManager.getTimerTime()) {
                 timerBtn.setChecked(true);
-                timerTime.setText("" + buttonValues[index]);
+                timeValueTxt.setText("" + buttonValues[index]);
             }
         }
     }
