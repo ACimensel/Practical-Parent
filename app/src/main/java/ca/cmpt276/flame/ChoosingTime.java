@@ -19,6 +19,8 @@ import ca.cmpt276.flame.model.TimeOutManager;
  */
 public class ChoosingTime extends AppCompatActivity {
     TimeOutManager timeOutManager = TimeOutManager.getInstance();
+
+    private TextView timerTime;
     private static final int TIME_OPTION1 = 1;
     private static final int TIME_OPTION2 = 2;
     private static final int TIME_OPTION3 = 3;
@@ -29,12 +31,14 @@ public class ChoosingTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_time);
+
         createTimerOptions();
+        timerTime = findViewById(R.id.choosing_time_value);
         Button startBtn = (Button) findViewById(R.id.start_time_btn);
         Button cancelBtn = (Button) findViewById(R.id.cancel_timer_btn);
+
         startBtn.setOnClickListener(view -> {
-            TextView timeValue = findViewById(R.id.choosing_time_value);
-            int time = Integer.parseInt(timeValue.getText().toString());
+            int time = Integer.parseInt(timerTime.getText().toString());
             startActivity(TimeoutActivity.makeIntent(this, time));
         });
         cancelBtn.setOnClickListener(view -> finish());
@@ -44,21 +48,19 @@ public class ChoosingTime extends AppCompatActivity {
     private void createTimerOptions() {
         RadioGroup group = (RadioGroup) findViewById(R.id.choosing_time_options);
         int[] buttonValues =  {TIME_OPTION1, TIME_OPTION2, TIME_OPTION3, TIME_OPTION4, TIME_OPTION5};
+
         for(int i = 0; i < buttonValues.length; i++) {
             int index = i;
             RadioButton timerBtn = new RadioButton(this);
             timerBtn.setText(buttonValues[index] + "minute");
-            timerBtn.setOnClickListener((View.OnClickListener) v -> {
-                TextView timerTime = (TextView) findViewById(R.id.choosing_time_value);
-                timerTime.setText("" + buttonValues[index]);
-            });
+
+            timerBtn.setOnClickListener((View.OnClickListener) v -> timerTime.setText("" + buttonValues[index]));
 
             group.addView(timerBtn);
 
             if (buttonValues[index] == timeOutManager.getTimerTime()) {
                 timerBtn.setChecked(true);
-                TextView timeValue = findViewById(R.id.choosing_time_value);
-                timeValue.setText("" + buttonValues[index]);
+                timerTime.setText("" + buttonValues[index]);
             }
         }
     }
