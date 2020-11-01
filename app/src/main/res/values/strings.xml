@@ -1,8 +1,19 @@
 <resources>
-    <string name="app_name">Practical Parent</string>
+    <string name="app_name_short">PracParent</string>
+    <string name="app_name_long">Practical Parent</string>
     <string name="flip_coin">Flip Coin</string>
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
+<<<<<<< app/src/main/res/values/strings.xml
     <string name="time_left">Time left</string>
+=======
+    <string name="history">History</string>
+    <string name="user_to_flip">It\'s %1$s\'s turn!</string>
+    <string name="user_to_flip_next">It\'s %1$s\'s turn next!</string>
+    <string name="heads_result">HEADS!</string>
+    <string name="tails_result">TAILS!</string>
+    <string name="heads_radio_txt">Heads</string>
+    <string name="tails_radio_txt">Tails</string>
+>>>>>>> app/src/main/res/values/strings.xml
 </resources>

@@ -112,6 +112,14 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         return sides[randomChoice];
     }
 
+    public CoinSide getLastCoinValue() {
+        if(history.size() == 0) {
+            return CoinSide.TAILS;
+        }
+
+        return history.get(history.size() - 1).getResult();
+    }
+
     // when a child is deleted, also remove them from history
     // should only be called by the ChildrenManager
     protected void removeChildFromHistory(UUID childUuid) {
