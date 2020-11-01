@@ -11,11 +11,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import ca.cmpt276.flame.model.TimeOutManager;
 
@@ -23,7 +20,6 @@ import ca.cmpt276.flame.model.TimeOutManager;
  * TimeoutActivity: TODO add proper comment once activity created
  */
 public class TimeoutActivity extends AppCompatActivity {
-    //private static final String EXTRA_TIME = "ca.cmpt276.flame - time";
 
     @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
@@ -36,18 +32,14 @@ public class TimeoutActivity extends AppCompatActivity {
         TimeOutManager timeOutManager = TimeOutManager.getInstance();
         TextView countTime = findViewById(R.id.time_left_value);
         countTime.setText("" +timeOutManager.getTimer_time()+ ":00");
-        AtomicBoolean isResume = new AtomicBoolean(false);
-        AtomicBoolean isStart = new AtomicBoolean(true);
-       // long startTime = timeOutManager.getTimer_time()*60000;
         final long[] timeRemaining = new long[1];
         timeRemaining[0] = timeOutManager.getTimer_time()*60000;
-
+        //setting up counter for the first time starting
         final CountDownTimer[] countDownTimer = {new CountDownTimer(timeRemaining[0], 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
                 timeRemaining[0] = millisUntilFinished;
-                Log.e("millisUntilFinished", "" + timeRemaining[0]);
             }
 
             @Override
@@ -55,19 +47,21 @@ public class TimeoutActivity extends AppCompatActivity {
                 countTime.setText("Finished");
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibrator.vibrate(VibrationEffect.createOneShot(5000, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(500);
+                    vibrator.vibrate(5000);
                 }
             }
         }.start()};
-
+        //pause button which also act as resume or start button
         pauseTimerBtn.setOnClickListener(view -> {
             String btnName = pauseTimerBtn.getText().toString();
+            //for pause functionality
             if(btnName.equals("Pause")) {
                 countDownTimer[0].cancel();
                 pauseTimerBtn.setText("Resume");
             }
+            //As a resume button creates a new time starting from where the timer was stopped
             else if(btnName.equals("Resume")){
                 countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
                     @Override
@@ -81,16 +75,18 @@ public class TimeoutActivity extends AppCompatActivity {
                         countTime.setText("Finished");
                         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                            vibrator.vibrate(VibrationEffect.createOneShot(5000, VibrationEffect.DEFAULT_AMPLITUDE));
+
                         } else {
-                            vibrator.vibrate(500);
+                            vibrator.vibrate(5000);
                         }
+
                     }
                 }.start();
                 pauseTimerBtn.setText("Pause");
             }
+            //As start button creates a new timer which starts from the initial timer time
             else if(btnName.equals("Start")){
-                //countDownTimer[0].start();
                 timeRemaining[0] = timeOutManager.getTimer_time() * 60000;
                 countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
                     @Override
@@ -114,6 +110,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 resetBtn.setText("Reset");
             }
         });
+        //reset button cancel the previous timer and sets remaining timer time to the starting time
         resetBtn.setOnClickListener(view-> {
             countDownTimer[0].cancel();
             if(resetBtn.getText().toString().equals("Reset")) {
@@ -121,15 +118,12 @@ public class TimeoutActivity extends AppCompatActivity {
                 countTime.setText(""+ timeOutManager.getTimer_time() + ":00" );
                 pauseTimerBtn.setText("Start");
                 resetBtn.setText("Cancel");
-                //countDownTimer.start();
             }
             else{
                 finish();
             }
         });
     }
-
-
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
