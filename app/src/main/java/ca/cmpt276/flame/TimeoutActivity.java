@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import ca.cmpt276.flame.model.TimeOutManager;
 
@@ -22,7 +25,7 @@ import ca.cmpt276.flame.model.TimeOutManager;
 public class TimeoutActivity extends AppCompatActivity {
     //private static final String EXTRA_TIME = "ca.cmpt276.flame - time";
 
-    @SuppressLint("ResourceType")
+    @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +36,20 @@ public class TimeoutActivity extends AppCompatActivity {
         TimeOutManager timeOutManager = TimeOutManager.getInstance();
         TextView countTime = findViewById(R.id.time_left_value);
         countTime.setText("" +timeOutManager.getTimer_time()+ ":00");
-        CountDownTimer countDownTimer = new CountDownTimer(timeOutManager.getTimer_time()*60000,1000) {
+        AtomicBoolean isResume = new AtomicBoolean(false);
+        AtomicBoolean isStart = new AtomicBoolean(true);
+       // long startTime = timeOutManager.getTimer_time()*60000;
+        final long[] timeRemaining = new long[1];
+        timeRemaining[0] = timeOutManager.getTimer_time()*60000;
+
+        final CountDownTimer[] countDownTimer = {new CountDownTimer(timeRemaining[0], 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                countTime.setText(""+ millisUntilFinished/60000+":"+(millisUntilFinished%60000)/1000);
+                countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
+                timeRemaining[0] = millisUntilFinished;
+                Log.e("millisUntilFinished", "" + timeRemaining[0]);
             }
+
             @Override
             public void onFinish() {
                 countTime.setText("Finished");
@@ -48,14 +60,72 @@ public class TimeoutActivity extends AppCompatActivity {
                     vibrator.vibrate(500);
                 }
             }
-        }.start();
+        }.start()};
 
         pauseTimerBtn.setOnClickListener(view -> {
+            String btnName = pauseTimerBtn.getText().toString();
+            if(btnName.equals("Pause")) {
+                countDownTimer[0].cancel();
+                pauseTimerBtn.setText("Resume");
+            }
+            else if(btnName.equals("Resume")){
+                countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
+                        timeRemaining[0] = millisUntilFinished;
+                    }
 
+                    @Override
+                    public void onFinish() {
+                        countTime.setText("Finished");
+                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(500);
+                        }
+                    }
+                }.start();
+                pauseTimerBtn.setText("Pause");
+            }
+            else if(btnName.equals("Start")){
+                //countDownTimer[0].start();
+                timeRemaining[0] = timeOutManager.getTimer_time() * 60000;
+                countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
+                        timeRemaining[0] = millisUntilFinished;
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        countTime.setText("Finished");
+                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            vibrator.vibrate(500);
+                        }
+                    }
+                }.start();
+                pauseTimerBtn.setText("Pause");
+                resetBtn.setText("Reset");
+            }
         });
         resetBtn.setOnClickListener(view-> {
-            countDownTimer.cancel();
-            countDownTimer.start();
+            countDownTimer[0].cancel();
+            if(resetBtn.getText().toString().equals("Reset")) {
+                timeRemaining[0] = timeOutManager.getTimer_time() * 60000 ;
+                countTime.setText(""+ timeOutManager.getTimer_time() + ":00" );
+                pauseTimerBtn.setText("Start");
+                resetBtn.setText("Cancel");
+                //countDownTimer.start();
+            }
+            else{
+                finish();
+            }
         });
     }
 
