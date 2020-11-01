@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipManager;
+import ca.cmpt276.flame.model.BGMusicPlayer;
 
 /**
  * Main Activity: displays a menu to the user, allowing them to open
@@ -21,6 +22,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupSharedPrefs();
         setupButtons();
+
+        BGMusicPlayer.playBgMusic(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            BGMusicPlayer.pauseBgMusic();
+        }
     }
 
     private void setupSharedPrefs() {
@@ -36,20 +53,9 @@ public class MainActivity extends AppCompatActivity {
         Button childrenBtn = findViewById(R.id.main_btnChildren);
         Button aboutBtn = findViewById(R.id.main_btnAbout);
 
-        flipCoinBtn.setOnClickListener(view -> {
-            startActivity(FlipCoinActivity.makeIntent(this));
-        });
-
-        timeoutBtn.setOnClickListener(view -> {
-            startActivity(TimeoutActivity.makeIntent(this));
-        });
-
-        childrenBtn.setOnClickListener(view -> {
-            startActivity(ChildrenActivity.makeIntent(this));
-        });
-
-        aboutBtn.setOnClickListener(view -> {
-            startActivity(AboutActivity.makeIntent(this));
-        });
+        flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
+        timeoutBtn.setOnClickListener(view -> startActivity(TimeoutActivity.makeIntent(this)));
+        childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
+        aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
     }
 }

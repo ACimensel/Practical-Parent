@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
+
 /**
  * ChildrenActivity: TODO add proper comment once activity created
  */
@@ -17,6 +19,12 @@ public class ChildrenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children);
         setupToolbar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
     }
 
     private void setupToolbar() {
