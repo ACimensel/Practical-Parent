@@ -21,6 +21,10 @@ import ca.cmpt276.flame.model.TimeOutManager;
  */
 public class TimeoutActivity extends AppCompatActivity {
 
+    public static final int CONVERT_MIN_TO_MILLIS = 60000;
+    public static final int VIBRATION_TIME_IN_MS = 5000;
+    public static final int COUNTDOWN_VALUE_IN_MS = 1000;
+
     @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +35,14 @@ public class TimeoutActivity extends AppCompatActivity {
         Button pauseTimerBtn = (Button) findViewById(R.id.pause_timer_button);
         TimeOutManager timeOutManager = TimeOutManager.getInstance();
         TextView countTime = findViewById(R.id.time_left_value);
-        countTime.setText("" +timeOutManager.getTimer_time()+ ":00");
-        final long[] timeRemaining = new long[1];
-        timeRemaining[0] = timeOutManager.getTimer_time()*60000;
+        countTime.setText("" + timeOutManager.getTimerTime() + ":00");
+        long[] timeRemaining = new long[1];
+        timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
         //setting up counter for the first time starting
-        final CountDownTimer[] countDownTimer = {new CountDownTimer(timeRemaining[0], 1000) {
+        CountDownTimer[] countDownTimer = {new CountDownTimer(timeRemaining[0], COUNTDOWN_VALUE_IN_MS) {
             @Override
             public void onTick(long millisUntilFinished) {
-                countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
+                countTime.setText("" + millisUntilFinished / CONVERT_MIN_TO_MILLIS + ":" + (millisUntilFinished % CONVERT_MIN_TO_MILLIS) / COUNTDOWN_VALUE_IN_MS);
                 timeRemaining[0] = millisUntilFinished;
             }
 
@@ -47,9 +51,9 @@ public class TimeoutActivity extends AppCompatActivity {
                 countTime.setText("Finished");
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(5000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(5000);
+                    vibrator.vibrate(VIBRATION_TIME_IN_MS);
                 }
             }
         }.start()};
@@ -57,69 +61,70 @@ public class TimeoutActivity extends AppCompatActivity {
         pauseTimerBtn.setOnClickListener(view -> {
             String btnName = pauseTimerBtn.getText().toString();
             //for pause functionality
-            if(btnName.equals("Pause")) {
-                countDownTimer[0].cancel();
-                pauseTimerBtn.setText("Resume");
-            }
-            //As a resume button creates a new time starting from where the timer was stopped
-            else if(btnName.equals("Resume")){
-                countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
-                        timeRemaining[0] = millisUntilFinished;
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        countTime.setText("Finished");
-                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(5000, VibrationEffect.DEFAULT_AMPLITUDE));
-
-                        } else {
-                            vibrator.vibrate(5000);
+            switch (btnName) {
+                case "Pause":
+                    countDownTimer[0].cancel();
+                    pauseTimerBtn.setText("Resume");
+                    break;
+                case "Resume":
+                    //As a resume button creates a new time starting from where the timer was stopped
+                    countDownTimer[0] = new CountDownTimer(timeRemaining[0], COUNTDOWN_VALUE_IN_MS) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            countTime.setText("" + millisUntilFinished / CONVERT_MIN_TO_MILLIS + ":" + (millisUntilFinished % CONVERT_MIN_TO_MILLIS) / COUNTDOWN_VALUE_IN_MS);
+                            timeRemaining[0] = millisUntilFinished;
                         }
 
-                    }
-                }.start();
-                pauseTimerBtn.setText("Pause");
-            }
-            //As start button creates a new timer which starts from the initial timer time
-            else if(btnName.equals("Start")){
-                timeRemaining[0] = timeOutManager.getTimer_time() * 60000;
-                countDownTimer[0] = new CountDownTimer(timeRemaining[0],1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        countTime.setText("" + millisUntilFinished / 60000 + ":" + (millisUntilFinished % 60000) / 1000);
-                        timeRemaining[0] = millisUntilFinished;
-                    }
+                        @Override
+                        public void onFinish() {
+                            countTime.setText("Finished");
+                            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
 
-                    @Override
-                    public void onFinish() {
-                        countTime.setText("Finished");
-                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-                        } else {
-                            vibrator.vibrate(500);
+                            } else {
+                                vibrator.vibrate(VIBRATION_TIME_IN_MS);
+                            }
+
                         }
-                    }
-                }.start();
-                pauseTimerBtn.setText("Pause");
-                resetBtn.setText("Reset");
+                    }.start();
+                    pauseTimerBtn.setText("Pause");
+                    break;
+                case "Start":
+                    //As start button creates a new timer which starts from the initial timer time
+                    timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
+                    countDownTimer[0] = new CountDownTimer(timeRemaining[0], COUNTDOWN_VALUE_IN_MS) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            countTime.setText("" + millisUntilFinished / CONVERT_MIN_TO_MILLIS + ":" + (millisUntilFinished % CONVERT_MIN_TO_MILLIS) / COUNTDOWN_VALUE_IN_MS);
+                            timeRemaining[0] = millisUntilFinished;
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            countTime.setText("Finished");
+                            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
+                            } else {
+                                vibrator.vibrate(VIBRATION_TIME_IN_MS);
+                            }
+                        }
+                    }.start();
+                    pauseTimerBtn.setText("Pause");
+                    resetBtn.setText("Reset");
+                    break;
             }
         });
         //reset button cancel the previous timer and sets remaining timer time to the starting time
-        resetBtn.setOnClickListener(view-> {
+        resetBtn.setOnClickListener(view -> {
             countDownTimer[0].cancel();
             if(resetBtn.getText().toString().equals("Reset")) {
-                timeRemaining[0] = timeOutManager.getTimer_time() * 60000 ;
-                countTime.setText(""+ timeOutManager.getTimer_time() + ":00" );
+                timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
+                countTime.setText("" + timeOutManager.getTimerTime() + ":00");
                 pauseTimerBtn.setText("Start");
                 resetBtn.setText("Cancel");
-            }
-            else{
+            } else {
                 finish();
             }
         });
@@ -131,10 +136,10 @@ public class TimeoutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    public static Intent makeIntent(Context context,int time) {
+    public static Intent makeIntent(Context context, int time) {
         TimeOutManager timeOutManager = TimeOutManager.getInstance();
         Intent intent = new Intent(context, TimeoutActivity.class);
-        timeOutManager.setTimer_time(time);
+        timeOutManager.setTimerTime(time);
         return intent;
     }
 

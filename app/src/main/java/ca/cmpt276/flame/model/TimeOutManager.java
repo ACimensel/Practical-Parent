@@ -1,12 +1,12 @@
 package ca.cmpt276.flame.model;
 
-import android.content.Context;
-import android.content.Intent;
-
+/**
+ * TimeoutActivity: TODO add proper comment once activity created
+ */
 public class TimeOutManager {
     private static TimeOutManager timeOutManager;
-    private int timer_time = 1;
-    public static TimeOutManager getInstance(){
+    private int timerTime = 1;
+    public static TimeOutManager getInstance() {
         if(timeOutManager == null) {
             timeOutManager = new TimeOutManager();
         }
@@ -16,11 +16,11 @@ public class TimeOutManager {
     private TimeOutManager() {
     }
 
-    public void setTimer_time(int timeEntered) {
-        timer_time = timeEntered;
+    public void setTimerTime(int timeEntered) {
+        timerTime = timeEntered;
     }
 
-    public int getTimer_time() {
-        return timer_time;
+    public int getTimerTime() {
+        return timerTime;
     }
 }
