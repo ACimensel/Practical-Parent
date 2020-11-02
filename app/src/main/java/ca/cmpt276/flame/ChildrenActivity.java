@@ -7,32 +7,24 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 
 /**
- * ChildrenActivity: TODO add proper comment once activity created
+ * ChildrenActivity: allow users to view a list of children
+ * Users may click 'add' button on the top right to add a new child
+ * Users may click an existing child to rename or delete the child
  */
 public class ChildrenActivity extends AppCompatActivity {
-    private static final int ACTIVITY_RESULT_EDIT = 1;
-    private static final int ACTIVITY_RESULT_ADD = 2;
-
-    private ChildrenManager manager = ChildrenManager.getInstance();
+    private ChildrenManager childManager = ChildrenManager.getInstance();
 
 
     @Override
@@ -41,7 +33,7 @@ public class ChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_children);
         setupToolbar();
         setupChildrenView();
-        ClickCallBack();
+        setupClickCallBack();
     }
 
     //setup menu
@@ -56,7 +48,7 @@ public class ChildrenActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, new Child("only_for_add"));
+                Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, null);
                 startActivityForResult(intent, 2);
                 return true;
 
@@ -68,7 +60,7 @@ public class ChildrenActivity extends AppCompatActivity {
     private void setupChildrenView() {
         ListView list = (ListView) findViewById(R.id.listView_children);
         ArrayList<Child> children = new ArrayList<Child>();
-        for (Child child : manager) {
+        for (Child child : childManager) {
             children.add(child);
         }
 
@@ -77,25 +69,18 @@ public class ChildrenActivity extends AppCompatActivity {
     }
 
 
-    //setup register click callback for listview
-    private void ClickCallBack() {
+    //setup register click callback for list view
+    private void setupClickCallBack() {
         ListView list = (ListView) findViewById(R.id.listView_children);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                {
-                    ArrayList<Child> children = new ArrayList<Child>();
-                    for (Child child : manager) {
-                        children.add(child);
-                    }
-                    //passing Child information to ChildEditActivity
-                    Child clickedChild = children.get(position);
-                    String uuid = clickedChild.getUuid().toString();
-                    Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, clickedChild);
-
-                    startActivityForResult(intent, 1);
-                }
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            ArrayList<Child> children = new ArrayList<Child>();
+            for (Child child : childManager) {
+                children.add(child);
             }
+            //passing Child information to ChildEditActivity
+            Child clickedChild = children.get(position);
+            Intent intent = ChildEditActivity.makeIntent(ChildrenActivity.this, clickedChild);
+            startActivityForResult(intent, 1);
         });
     }
 
@@ -114,41 +99,9 @@ public class ChildrenActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-        switch (requestCode) {
-            case (ACTIVITY_RESULT_EDIT): {
-                //if resultcode == OK, rename the child
-                if (resultCode == Activity.RESULT_OK) {
-                    //get information
-                    String new_name = data.getStringExtra(ChildEditActivity.NEW_NAME);
-                    String uuid_string = data.getStringExtra(ChildEditActivity.UUID);
-                    UUID uuid = UUID.fromString(uuid_string);
-                    manager.renameChild(uuid, new_name);
-                    //update listview
-                    setupChildrenView();
-                }
-                //if resultcode == First_User, delete teh child
-                if (resultCode == Activity.RESULT_FIRST_USER) {
-                    //get information
-                    String uuid_string = data.getStringExtra(ChildEditActivity.UUID);
-                    UUID uuid = UUID.fromString(uuid_string);
-                    //delete the child
-                    manager.removeChild(uuid);
-                    //update listview
-                    setupChildrenView();
-                }
-                break;
-            }
-            case (ACTIVITY_RESULT_ADD): {
-                //get information
-                String new_name = data.getStringExtra(ChildEditActivity.NEW_NAME);
-                manager.addChild(new Child(new_name));
-                //update listview
-                setupChildrenView();
-                break;
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            //refresh list view
+            setupChildrenView();
         }
     }
 }

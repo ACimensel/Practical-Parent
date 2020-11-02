@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChildEditActivity"></activity>
+        <activity
+            android:name=".ChildEditActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AboutActivity"
             android:screenOrientation="portrait" />
