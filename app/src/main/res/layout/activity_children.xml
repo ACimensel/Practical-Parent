@@ -11,12 +11,13 @@
         layout="@layout/toolbar" />
 
     <ListView
-        android:id="@+id/listView_children"
-        android:layout_width="369dp"
-        android:layout_height="643dp"
-        android:layout_marginStart="4dp"
+        android:id="@+id/children_listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clickable="false"
         android:clipChildren="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_Children" />
 

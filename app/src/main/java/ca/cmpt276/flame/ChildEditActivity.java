@@ -3,93 +3,122 @@ package ca.cmpt276.flame;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+
+import java.util.UUID;
 
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 
 /**
- * ChildrenActivity:
+ * ChildEditActivity:
  * Add a new child
  * Rename an existing child
  * Delete a child
  */
 public class ChildEditActivity extends AppCompatActivity {
-    private static Child clickedChild;
+    private static final String EXTRA_CHILD_UUID = "EXTRA_CHILD_UUID";
+    private Child clickedChild;
     private String newName;
-    ChildrenManager childManager = ChildrenManager.getInstance();
+    private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_edit);
+        getDataFromIntent();
         setupToolbar();
+        fillChildName();
+        setupSaveButton();
 
         if (clickedChild == null) {
-            setupSaveButton();
             hideDeleteButton();
         } else {
-            setupSaveButton();
             setupDeleteButton();
         }
     }
 
-    protected static Intent makeIntent(Context context, Child child) {
-        clickedChild = child;
-        Intent intent = new Intent(context, ChildEditActivity.class);
-        return intent;
-    }
-
-    private void hideDeleteButton() {
-        Button btn = findViewById(R.id.button_delete);
-        btn.setVisibility(View.GONE);
-    }
-
-    private void setupDeleteButton() {
-        Button btn = findViewById(R.id.button_delete);
-        btn.setVisibility(View.VISIBLE);
-        btn.setOnClickListener(v -> {
-            childManager.removeChild(clickedChild.getUuid());
-            setResult(Activity.RESULT_OK);
-            finish();
-        });
-    }
-
-
-    private void setupSaveButton() {
-        Button btn = findViewById(R.id.button_save);
-        btn.setOnClickListener(v -> {
-            EditText inputName = findViewById(R.id.editText_Name);
-            newName = inputName.getText().toString();
-            Intent intent = new Intent();
-            //check if the user leaves the name field empty
-            System.out.println(newName);
-            if (newName.equals("")) {
-                setResult(Activity.RESULT_CANCELED);
-            } else if (clickedChild != null) {
-                //passing uuid and new name for renaming
-                childManager.renameChild(clickedChild.getUuid(), newName);
-            } else {
-                //passing new name for add child
-                childManager.addChild(new Child(newName));
-            }
-            setResult(Activity.RESULT_OK);
-            finish();
-        });
+    private void getDataFromIntent() {
+        String childUuid = getIntent().getStringExtra(EXTRA_CHILD_UUID);
+        if(!childUuid.isEmpty()) {
+            clickedChild = childrenManager.getChild(UUID.fromString(childUuid));
+        }
     }
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_edit);
-        toolbar.setTitle(R.string.edit);
+
+        if(clickedChild == null) {
+            toolbar.setTitle(R.string.add_child);
+        } else {
+            toolbar.setTitle(R.string.edit_child);
+        }
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
+    private void fillChildName() {
+        if(clickedChild != null) {
+            EditText inputName = findViewById(R.id.childEdit_editTxtChildName);
+            inputName.setText(clickedChild.getName());
+        }
+    }
+
+    private void setupSaveButton() {
+        Button btn = findViewById(R.id.childEdit_btnSave);
+
+        btn.setOnClickListener(v -> {
+            EditText inputName = findViewById(R.id.childEdit_editTxtChildName);
+            newName = inputName.getText().toString();
+
+            if(newName.isEmpty()) {
+                Toast.makeText(this, getString(R.string.child_name_empty_error), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //check if the user leaves the name field empty
+            if (clickedChild != null) {
+                //passing uuid and new name for renaming
+                childrenManager.renameChild(clickedChild.getUuid(), newName);
+            } else {
+                //passing new name for add child
+                childrenManager.addChild(new Child(newName));
+            }
+
+            finish();
+        });
+    }
+
+    private void hideDeleteButton() {
+        Button btn = findViewById(R.id.childEdit_btnDelete);
+        btn.setVisibility(View.GONE);
+    }
+
+    private void setupDeleteButton() {
+        Button btn = findViewById(R.id.childEdit_btnDelete);
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(v -> {
+            childrenManager.removeChild(clickedChild.getUuid());
+            finish();
+        });
+    }
+
+    protected static Intent makeIntent(Context context, Child child) {
+        String childUuid = "";
+        if(child != null) {
+            childUuid = child.getUuid().toString();
+        }
+
+        Intent intent = new Intent(context, ChildEditActivity.class);
+        intent.putExtra(EXTRA_CHILD_UUID, childUuid);
+        return intent;
+    }
 }
