@@ -5,6 +5,14 @@
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
+    <string name="add">Add</string>
+    <string name="child_name_empty_error">Please enter a non-empty name</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit_child">Edit Child</string>
+    <string name="add_child">Add Child</string>
+    <string name="enter_a_name">Enter a name</string>
     <string name="history">History</string>
     <string name="user_to_flip">It\'s %1$s\'s turn!</string>
     <string name="user_to_flip_next">It\'s %1$s\'s turn next!</string>
