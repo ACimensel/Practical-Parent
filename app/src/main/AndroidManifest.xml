@@ -10,9 +10,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ChoosingTimeActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" />
+            android:name=".ChooseTimeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AboutActivity"
             android:screenOrientation="portrait" />
@@ -21,8 +20,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TimeoutActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ChoosingTimeActivity"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FlipCoinActivity"
             android:screenOrientation="portrait" />

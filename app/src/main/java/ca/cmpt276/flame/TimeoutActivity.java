@@ -12,91 +12,127 @@ import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.MessageFormat;
+import java.util.Locale;
 
-import ca.cmpt276.flame.model.TimeOutManager;
+import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
- * TimeoutActivity: TODO add proper comment once activity created
+ * TimeoutActivity shows the currently running timer, and allows the user
+ * to pause, reset, resume or cancel the timer
  */
 public class TimeoutActivity extends AppCompatActivity {
 
-    public static final int CONVERT_MIN_TO_MILLIS = 60000;
-    public static final int VIBRATION_TIME_IN_MS = 5000;
-    public static final int COUNTDOWN_VALUE_IN_MS = 1000;
-    private Button resetBtn;
+    private static final int MIN_IN_MILLIS = 60000;
+    private static final int SEC_IN_MILLIS = 1000;
+    private static final int VIBRATION_TIME_IN_MS = 5000;
+
+    private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
+    private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
+    private Button resetBtn;
+    private TextView countdownTimeTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
         setupToolbar();
-        resetBtn = (Button) findViewById(R.id.reset_timer_button);
-        pauseTimerBtn = (Button) findViewById(R.id.pause_timer_button);
-        TimeOutManager timeOutManager = TimeOutManager.getInstance();
-        TextView countTime = findViewById(R.id.time_left_value);
-        countTime.setText(MessageFormat.format("{0}:00", timeOutManager.getTimerTime()));
-        long[] timeRemaining = new long[1];
-        timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
-        CountDownTimer[] countDownTimer = setUpCountDownTimer(countTime, timeRemaining);
-        setUpButtons(timeOutManager, countTime, timeRemaining, countDownTimer);
+        setupPauseButton();
+        setUpResetButton();
+        setupTimer();
     }
 
-    private void setUpResetButton(TimeOutManager timeOutManager, TextView countTime, long[] timeRemaining, CountDownTimer[] countDownTimer) {
-        //reset button cancel the previous timer and sets remaining timer time to the starting time
-        resetBtn.setOnClickListener(view -> {
-            countDownTimer[0].cancel();
-            if(resetBtn.getText().toString().equals("Reset")) {
-                timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
-                countTime.setText(MessageFormat.format("{0}:00", timeOutManager.getTimerTime()));
+    private void setupTimer() {
+        countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
+        updateCountdownTimeTxt();
+        countDownTimer = startTimer();
+    }
+
+    private void updateButtons() {
+        switch(timeoutManager.getTimerState()) {
+            case RUNNING:
+                pauseTimerBtn.setText(R.string.pause_btn_text);
+                resetBtn.setText(R.string.reset_btn_text);
+                break;
+            case PAUSED:
+                pauseTimerBtn.setText(R.string.resume_btn_text);
+                resetBtn.setText(R.string.reset_btn_text);
+                break;
+            case STOPPED:
                 pauseTimerBtn.setText(R.string.start_btn_text);
                 resetBtn.setText(R.string.cancel_btn_text);
-            } else {
-                finish();
-            }
-        });
+                break;
+        }
     }
 
-    private void setUpButtons(TimeOutManager timeOutManager, TextView countTime, long[] timeRemaining, CountDownTimer[] countDownTimer) {
-        //pause button which also act as resume or start button
+    private void updateCountdownTimeTxt() {
+        long timeInMillis = timeoutManager.getMillisRemaining();
+
+        long minRemaining = timeInMillis / MIN_IN_MILLIS;
+        long secRemaining = (timeInMillis % MIN_IN_MILLIS) / SEC_IN_MILLIS;
+        String timeStr = String.format(Locale.getDefault(), "%d:%02d", minRemaining, secRemaining);
+        countdownTimeTxt.setText(timeStr);
+    }
+
+    private void setupPauseButton() {
+        pauseTimerBtn = findViewById(R.id.timeout_btnPause);
+
+        // pause button which also act as resume or start button
         pauseTimerBtn.setOnClickListener(view -> {
-            String btnName = pauseTimerBtn.getText().toString();
-            //for pause functionality
-            switch (btnName) {
-                case "Pause":
-                    countDownTimer[0].cancel();
-                    pauseTimerBtn.setText(R.string.resume_btn_text);
+            switch (timeoutManager.getTimerState()) {
+                case RUNNING:
+                    timeoutManager.setTimerState(TimeoutManager.TimerState.PAUSED);
+                    countDownTimer.cancel();
+                    updateButtons();
                     break;
-                case "Resume":
-                    //As a resume button creates a new time starting from where the timer was stopped
-                    countDownTimer[0] = setNewTimer(countTime, timeRemaining);
-                    pauseTimerBtn.setText(R.string.pause_btn_text);
-                    break;
-                case "Start":
-                    //As start button creates a new timer which starts from the initial timer time
-                    timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
-                    countDownTimer[0] = setNewTimer(countTime, timeRemaining);
-                    pauseTimerBtn.setText(R.string.pause_btn_text);
-                    resetBtn.setText(R.string.reset_btn_text);
+                case PAUSED:
+                    // same behaviour for both buttons
+                case STOPPED:
+                    // As a resume or start button, start the timer
+                    countDownTimer = startTimer();
                     break;
             }
         });
-        setUpResetButton(timeOutManager, countTime, timeRemaining, countDownTimer);
     }
 
-    private CountDownTimer setNewTimer(TextView countTime, long[] timeRemaining) {
-        return new CountDownTimer(timeRemaining[0], COUNTDOWN_VALUE_IN_MS) {
+    private void setUpResetButton() {
+        resetBtn = findViewById(R.id.timeout_btnReset);
+
+        // reset button cancels the previous timer and sets remaining time to the starting time
+        resetBtn.setOnClickListener(view -> {
+            if (timeoutManager.getTimerState() == TimeoutManager.TimerState.STOPPED) {
+                finish();
+            } else {
+                countDownTimer.cancel();
+                timeoutManager.resetMillisRemaining();
+                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
+                updateCountdownTimeTxt();
+                updateButtons();
+            }
+        });
+    }
+
+    private CountDownTimer startTimer() {
+        timeoutManager.setTimerState(TimeoutManager.TimerState.RUNNING);
+        updateButtons();
+
+        long timeInMillis = timeoutManager.getMillisRemaining();
+
+        return new CountDownTimer(timeInMillis, SEC_IN_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
-                countTime.setText((millisUntilFinished / CONVERT_MIN_TO_MILLIS + ":" + (millisUntilFinished % CONVERT_MIN_TO_MILLIS) / COUNTDOWN_VALUE_IN_MS).toString());
-                timeRemaining[0] = millisUntilFinished;
+                timeoutManager.setMillisRemaining(millisUntilFinished);
+                updateCountdownTimeTxt();
             }
 
             @Override
             public void onFinish() {
-                countTime.setText("Finished");
-                //code from  https://stackoverflow.com/a/13950364
+                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
+                timeoutManager.resetMillisRemaining();
+                updateButtons();
+                countdownTimeTxt.setText(R.string.finished);
+
+                // code from  https://stackoverflow.com/a/13950364
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -104,14 +140,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 } else {
                     vibrator.vibrate(VIBRATION_TIME_IN_MS);
                 }
-
             }
         }.start();
-    }
-
-    private CountDownTimer[] setUpCountDownTimer(TextView countTime, long[] timeRemaining) {
-        //setting up counter for the first time starting
-        return new CountDownTimer[]{setNewTimer(countTime, timeRemaining)};
     }
 
     private void setupToolbar() {
@@ -120,11 +150,8 @@ public class TimeoutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    public static Intent makeIntent(Context context, int time) {
-        TimeOutManager timeOutManager = TimeOutManager.getInstance();
-        Intent intent = new Intent(context, TimeoutActivity.class);
-        timeOutManager.setTimerTime(time);
-        return intent;
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, TimeoutActivity.class);
     }
 
 }

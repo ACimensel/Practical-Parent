@@ -20,4 +20,13 @@
     <string name="resume_btn_text">Resume</string>
     <string name="pause_btn_text">Pause</string>
     <string name="reset_btn_text">Reset</string>
+    <string name="finished">Finished</string>
+    <plurals name="minute">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="choose_time_minutes_error">
+        <item quantity="one">Please enter between 1 and %d minute</item>
+        <item quantity="other">Please enter between 1 and %d minutes</item>
+    </plurals>
 </resources>
