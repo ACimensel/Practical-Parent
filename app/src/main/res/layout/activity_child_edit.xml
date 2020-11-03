@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".ChildEditActivity"
+    tools:visibility="visible">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_edit" />
+
+    <TextView
+        android:id="@+id/childEdit_txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/name"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_edit" />
+
+    <EditText
+        android:id="@+id/childEdit_editTxtChildName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        android:hint="@string/enter_a_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/childEdit_txtTitle"
+        app:layout_constraintTop_toBottomOf="@+id/childEdit_txtTitle" />
+
+    <Button
+        android:id="@+id/childEdit_btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/save"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintTop_toBottomOf="@+id/childEdit_editTxtChildName" />
+
+    <Button
+        android:id="@+id/childEdit_btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/delete"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintTop_toTopOf="@+id/childEdit_btnSave"
+        tools:visibility="invisible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

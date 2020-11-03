@@ -10,16 +10,19 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ChooseTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".TimeoutActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChildrenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TimeoutActivity"
+            android:name=".ChildEditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FlipCoinActivity"

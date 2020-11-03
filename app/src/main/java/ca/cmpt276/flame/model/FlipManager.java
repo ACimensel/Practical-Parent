@@ -124,7 +124,8 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
     // should only be called by the ChildrenManager
     protected void removeChildFromHistory(UUID childUuid) {
         for(int i = 0; i < history.size(); i++) {
-            if(history.get(i).getChildUuid().equals(childUuid)) {
+            UUID historyChildUuid = history.get(i).getChildUuid();
+            if(childUuid.equals(historyChildUuid)) {
                 history.remove(i);
                 i--; // array size has now changed
             }
