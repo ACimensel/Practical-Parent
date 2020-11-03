@@ -12,6 +12,7 @@ import ca.cmpt276.flame.R;
  */
 public class BGMusicPlayer {
     private static MediaPlayer bgMusic;
+    private static final float MUSIC_VOLUME = 0.4f;
 
     private BGMusicPlayer() {
         // static class: prevent other classes from creating new ones
@@ -19,7 +20,8 @@ public class BGMusicPlayer {
 
     public static void playBgMusic(Context context) {
         if (bgMusic == null) {
-            bgMusic = MediaPlayer.create(context, R.raw.stasis_faster_version);
+            bgMusic = MediaPlayer.create(context, R.raw.serenity);
+            bgMusic.setVolume(MUSIC_VOLUME, MUSIC_VOLUME);
             bgMusic.start();
             bgMusic.setLooping(true);
         }
