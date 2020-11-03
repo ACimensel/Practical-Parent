@@ -22,8 +22,8 @@ import ca.cmpt276.flame.model.TimeoutManager;
  */
 public class TimeoutActivity extends AppCompatActivity {
 
-    private static final int MIN_IN_MILLIS = 60000;
-    private static final int SEC_IN_MILLIS = 1000;
+    private static final int MILLIS_IN_MIN = 60000;
+    private static final int MILLIS_IN_SEC = 1000;
     private static final int VIBRATION_TIME_IN_MS = 5000;
 
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
@@ -68,8 +68,8 @@ public class TimeoutActivity extends AppCompatActivity {
     private void updateCountdownTimeTxt() {
         long timeInMillis = timeoutManager.getMillisRemaining();
 
-        long minRemaining = timeInMillis / MIN_IN_MILLIS;
-        long secRemaining = (timeInMillis % MIN_IN_MILLIS) / SEC_IN_MILLIS;
+        long minRemaining = timeInMillis / MILLIS_IN_MIN;
+        long secRemaining = (timeInMillis % MILLIS_IN_MIN) / MILLIS_IN_SEC;
         String timeStr = String.format(Locale.getDefault(), "%d:%02d", minRemaining, secRemaining);
         countdownTimeTxt.setText(timeStr);
     }
@@ -118,7 +118,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
         long timeInMillis = timeoutManager.getMillisRemaining();
 
-        return new CountDownTimer(timeInMillis, SEC_IN_MILLIS) {
+        return new CountDownTimer(timeInMillis, MILLIS_IN_SEC) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeoutManager.setMillisRemaining(millisUntilFinished);
@@ -150,7 +150,7 @@ public class TimeoutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    public static Intent makeIntent(Context context) {
+    protected static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
 

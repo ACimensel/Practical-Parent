@@ -21,8 +21,8 @@ import ca.cmpt276.flame.model.TimeoutManager;
  * Start button and cancel button starts the time and returns to the main activity respectively.
  */
 public class ChooseTimeActivity extends AppCompatActivity {
-    TimeoutManager timeoutManager = TimeoutManager.getInstance();
-    TextView timeValueTxt;
+    private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
+    private TextView timeValueTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
