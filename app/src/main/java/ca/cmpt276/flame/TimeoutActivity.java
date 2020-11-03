@@ -2,8 +2,6 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
