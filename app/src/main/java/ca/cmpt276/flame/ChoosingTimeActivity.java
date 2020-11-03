@@ -17,7 +17,7 @@ import ca.cmpt276.flame.model.TimeOutManager;
 /**
  * TimeoutActivity: TODO add proper comment once activity created
  */
-public class ChoosingTime extends AppCompatActivity {
+public class ChoosingTimeActivity extends AppCompatActivity {
     TimeOutManager timeOutManager = TimeOutManager.getInstance();
     TextView timeValueTxt;
 
@@ -34,6 +34,10 @@ public class ChoosingTime extends AppCompatActivity {
         timeValueTxt = findViewById(R.id.choosing_time_value);
 
         createTimerOptions();
+        setUpButtons();
+    }
+
+    private void setUpButtons() {
         Button startBtn = (Button) findViewById(R.id.start_time_btn);
         Button cancelBtn = (Button) findViewById(R.id.cancel_timer_btn);
 
@@ -66,6 +70,6 @@ public class ChoosingTime extends AppCompatActivity {
     }
 
     protected static Intent makeIntent(Context context) {
-        return new Intent(context, ChoosingTime.class);
+        return new Intent(context, ChoosingTimeActivity.class);
     }
 }
