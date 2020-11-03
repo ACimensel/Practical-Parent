@@ -30,7 +30,11 @@ public class Child {
         if(name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be non-empty");
         }
-
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
