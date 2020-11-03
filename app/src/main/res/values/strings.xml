@@ -14,10 +14,7 @@
     <string name="heads_radio_txt">Heads</string>
     <string name="tails_radio_txt">Tails</string>
     <string name="start_timer">Start Timer</string>
-    <string name="cancel">Cancel</string>
     <string name="choose_or_enter_the_time">Choose or Enter the Time</string>
-    <string name="pause">Pause</string>
-    <string name="reset">Reset</string>
     <string name="start_btn_text">Start</string>
     <string name="cancel_btn_text">Cancel</string>
     <string name="resume_btn_text">Resume</string>

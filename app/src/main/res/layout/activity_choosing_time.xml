@@ -66,7 +66,7 @@
         android:id="@+id/cancel_timer_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cancel"
+        android:text="@string/cancel_btn_text"
         app:layout_constraintBottom_toBottomOf="@+id/start_time_btn"
         app:layout_constraintEnd_toEndOf="@+id/choosing_timer_text"
         app:layout_constraintHorizontal_bias="0.493"

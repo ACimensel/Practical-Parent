@@ -29,7 +29,6 @@ public class TimeoutActivity extends AppCompatActivity {
     private Button resetBtn;
     private Button pauseTimerBtn;
 
-    @SuppressLint({"ResourceType", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +38,17 @@ public class TimeoutActivity extends AppCompatActivity {
         pauseTimerBtn = (Button) findViewById(R.id.pause_timer_button);
         TimeOutManager timeOutManager = TimeOutManager.getInstance();
         TextView countTime = findViewById(R.id.time_left_value);
-        countTime.setText("" + timeOutManager.getTimerTime() + ":00");
+        countTime.setText(MessageFormat.format("{0}:00", timeOutManager.getTimerTime()));
         long[] timeRemaining = new long[1];
         timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
         CountDownTimer[] countDownTimer = setUpCountDownTimer(countTime, timeRemaining);
         setUpButtons(timeOutManager, countTime, timeRemaining, countDownTimer);
     }
 
-    private void setUpResetButton(TimeOutManager timeOutManager, TextView countTime, long[] timeRemaining, CountDownTimer countDownTimer) {
+    private void setUpResetButton(TimeOutManager timeOutManager, TextView countTime, long[] timeRemaining, CountDownTimer[] countDownTimer) {
         //reset button cancel the previous timer and sets remaining timer time to the starting time
         resetBtn.setOnClickListener(view -> {
-            countDownTimer.cancel();
+            countDownTimer[0].cancel();
             if(resetBtn.getText().toString().equals("Reset")) {
                 timeRemaining[0] = timeOutManager.getTimerTime() * CONVERT_MIN_TO_MILLIS;
                 countTime.setText(MessageFormat.format("{0}:00", timeOutManager.getTimerTime()));
@@ -85,7 +84,7 @@ public class TimeoutActivity extends AppCompatActivity {
                     break;
             }
         });
-        setUpResetButton(timeOutManager, countTime, timeRemaining, countDownTimer[0]);
+        setUpResetButton(timeOutManager, countTime, timeRemaining, countDownTimer);
     }
 
     private CountDownTimer setNewTimer(TextView countTime, long[] timeRemaining) {
@@ -99,6 +98,7 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 countTime.setText("Finished");
+                //code from  https://stackoverflow.com/a/13950364
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));

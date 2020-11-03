@@ -12,10 +12,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
+
 import ca.cmpt276.flame.model.TimeOutManager;
 
 /**
- * TimeoutActivity: TODO add proper comment once activity created
+ * TimeoutActivity: Allows user to choose quick timer from the list or enter a custom time for timer.
+ * Start button and cancel button starts the time and returns to the main activity respectively.
  */
 public class ChoosingTimeActivity extends AppCompatActivity {
     TimeOutManager timeOutManager = TimeOutManager.getInstance();
@@ -48,7 +51,6 @@ public class ChoosingTimeActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(view -> finish());
     }
 
-    @SuppressLint("SetTextI18n")
     private void createTimerOptions() {
         RadioGroup group = (RadioGroup) findViewById(R.id.choosing_time_options);
         int[] buttonValues =  {TIME_OPTION1, TIME_OPTION2, TIME_OPTION3, TIME_OPTION4, TIME_OPTION5};
@@ -56,15 +58,15 @@ public class ChoosingTimeActivity extends AppCompatActivity {
         for(int i = 0; i < buttonValues.length; i++) {
             int index = i;
             RadioButton timerBtn = new RadioButton(this);
-            timerBtn.setText(buttonValues[index] + "minute");
+            timerBtn.setText(MessageFormat.format("{0}minute", buttonValues[index]));
 
-            timerBtn.setOnClickListener((View.OnClickListener) v -> timeValueTxt.setText("" + buttonValues[index]));
+            timerBtn.setOnClickListener((View.OnClickListener) v -> timeValueTxt.setText(MessageFormat.format("{0}", buttonValues[index])));
 
             group.addView(timerBtn);
 
             if (buttonValues[index] == timeOutManager.getTimerTime()) {
                 timerBtn.setChecked(true);
-                timeValueTxt.setText("" + buttonValues[index]);
+                timeValueTxt.setText(MessageFormat.format("{0}", buttonValues[index]));
             }
         }
     }
