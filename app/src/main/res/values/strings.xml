@@ -37,4 +37,8 @@
         <item quantity="one">Please enter between 1 and %d minute</item>
         <item quantity="other">Please enter between 1 and %d minutes</item>
     </plurals>
+    <string name="chooseTimeActivity_timer_hint">min</string>
+    <string name="aboutActivity_appUsageTitleTxt">How to use app:</string>
+    <string name="aboutActivity_authorTitle">Author:</string>
+    <string name="aboutActivity_referencesTitle">References:</string>
 </resources>

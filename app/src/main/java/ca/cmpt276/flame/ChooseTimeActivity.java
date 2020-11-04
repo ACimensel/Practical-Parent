@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,11 +29,17 @@ public class ChooseTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_time);
-        timeValueTxt = findViewById(R.id.chooseTime_inputTime);
-
+        setUpTimeValueTxt();
         setupToolbar();
         createTimerOptions();
         setUpButtons();
+    }
+
+    private void setUpTimeValueTxt() {
+        final int INPUT_LENGTH = 3;
+        timeValueTxt = findViewById(R.id.chooseTime_inputTime);
+        timeValueTxt.setHint(R.string.chooseTimeActivity_timer_hint);
+        timeValueTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(INPUT_LENGTH)});
     }
 
     private void setupToolbar() {
@@ -43,7 +50,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
     private void setUpButtons() {
         Button startBtn = findViewById(R.id.chooseTime_btnStart);
-        Button cancelBtn = findViewById(R.id.chooseTime_btnCancel);
 
         startBtn.setOnClickListener(view -> {
             final int MAX_MINUTES = 999;
@@ -64,9 +70,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
             timeoutManager.setMinutesEntered(minutes);
             startActivity(TimeoutActivity.makeIntent(this));
         });
-
-        cancelBtn.setOnClickListener(view -> finish());
-    }
+}
 
     private void createTimerOptions() {
         RadioGroup group = findViewById(R.id.chooseTime_radioTimeOptions);

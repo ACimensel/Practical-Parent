@@ -44,39 +44,23 @@
         android:inputType="time"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/chooseTime_txtTitle"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/chooseTime_txtTitle"
         app:layout_constraintTop_toBottomOf="@+id/chooseTime_txtTitle"
         tools:ignore="LabelFor" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/chooseTime_btnStart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:maxWidth="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseTime_radioTimeOptions">
-
-        <Button
-            android:id="@+id/chooseTime_btnStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="12dp"
-            android:paddingEnd="8dp"
-            android:text="@string/start_timer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/chooseTime_btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel_btn_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="24dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:text="@string/start_timer"
+        app:layout_constraintEnd_toEndOf="@+id/chooseTime_txtTitle"
+        app:layout_constraintStart_toStartOf="@+id/chooseTime_txtTitle"
+        app:layout_constraintTop_toBottomOf="@+id/chooseTime_radioTimeOptions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
