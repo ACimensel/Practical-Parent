@@ -20,4 +20,5 @@
     <string name="tails_result">TAILS!</string>
     <string name="heads_radio_txt">Heads</string>
     <string name="tails_radio_txt">Tails</string>
+    <string name="flip_history">Flip History</string>
 </resources>
