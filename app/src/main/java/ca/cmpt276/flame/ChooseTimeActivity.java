@@ -70,7 +70,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
             timeoutManager.setMinutesEntered(minutes);
             startActivity(TimeoutActivity.makeIntent(this));
         });
-}
+    }
 
     private void createTimerOptions() {
         RadioGroup group = findViewById(R.id.chooseTime_radioTimeOptions);
