@@ -134,7 +134,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
                     txtWin.setTextColor(getResources().getColor(R.color.colorRed));
                 }
                 txtWin.setText(win);
-            }else{
+            } else {
                 txtWin.setText("");
             }
 
