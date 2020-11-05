@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -186,22 +185,22 @@ public class FlipCoinActivity extends AppCompatActivity {
 
     private void disableFlipCoinBtn() {
         isFlipCoinBtnDisabled = true;
-        flipBtn.setBackgroundColor(Color.parseColor("#787878"));
+        flipBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
     private void enableFlipCoinBtn() {
         isFlipCoinBtnDisabled = false;
-        flipBtn.setBackgroundColor(Color.parseColor("#1565C0"));
+        flipBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void disableHistoryBtn() {
         isHistoryBtnDisabled = true;
-        historyBtn.setBackgroundColor(Color.parseColor("#787878"));
+        historyBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
     private void enableHistoryBtn() {
         isHistoryBtnDisabled = false;
-        historyBtn.setBackgroundColor(Color.parseColor("#1565C0"));
+        historyBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     protected static Intent makeIntent(Context context) {
