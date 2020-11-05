@@ -62,6 +62,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
             }
 
             timeoutManager.setMinutesEntered(minutes);
+            timeoutManager.start();
             startActivity(TimeoutActivity.makeIntent(this));
         });
 

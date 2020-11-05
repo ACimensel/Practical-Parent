@@ -19,7 +19,7 @@ public class ChildrenManager implements Iterable<Child> {
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_CHILDREN_MANAGER";
     private static ChildrenManager childrenManager;
     private static SharedPreferences sharedPrefs;
-    private LinkedHashMap<UUID, Child> children = new LinkedHashMap<>();
+    private final LinkedHashMap<UUID, Child> children = new LinkedHashMap<>();
 
     // Singleton
 
@@ -86,7 +86,7 @@ public class ChildrenManager implements Iterable<Child> {
 
     private void checkValidChildUuid(UUID id) {
         if(!children.containsKey(id)) {
-            throw new IllegalArgumentException("removeChild expects ID to correspond to valid child");
+            throw new IllegalArgumentException("ChildrenManager expects ID to correspond to valid child");
         }
     }
 

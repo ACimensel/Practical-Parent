@@ -40,12 +40,12 @@ public class TimeoutActivity extends AppCompatActivity {
         setupPauseButton();
         setUpResetButton();
         setupTimer();
-    }
-
-    private void setupTimer() {
-        countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
         updateCountdownTimeTxt();
-        countDownTimer = startTimer();
+        updateButtons();
+
+        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
+            countDownTimer.start();
+        }
     }
 
     private void updateButtons() {
@@ -66,6 +66,10 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void updateCountdownTimeTxt() {
+        if(countdownTimeTxt == null) {
+            countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
+        }
+
         long timeInMillis = timeoutManager.getMillisRemaining();
 
         long minRemaining = timeInMillis / MILLIS_IN_MIN;
@@ -77,21 +81,23 @@ public class TimeoutActivity extends AppCompatActivity {
     private void setupPauseButton() {
         pauseTimerBtn = findViewById(R.id.timeout_btnPause);
 
-        // pause button which also act as resume or start button
         pauseTimerBtn.setOnClickListener(view -> {
             switch (timeoutManager.getTimerState()) {
                 case RUNNING:
-                    timeoutManager.setTimerState(TimeoutManager.TimerState.PAUSED);
+                    // "Pause" button
                     countDownTimer.cancel();
-                    updateButtons();
+                    timeoutManager.pause();
                     break;
                 case PAUSED:
-                    // same behaviour for both buttons
+                    // "Resume" button if timer is paused, fall through
                 case STOPPED:
-                    // As a resume or start button, start the timer
-                    countDownTimer = startTimer();
+                    // "Start" button if timer is stopped
+                    countDownTimer.start();
+                    timeoutManager.start();
                     break;
             }
+
+            updateButtons();
         });
     }
 
@@ -104,31 +110,23 @@ public class TimeoutActivity extends AppCompatActivity {
                 finish();
             } else {
                 countDownTimer.cancel();
-                timeoutManager.resetMillisRemaining();
-                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
+                timeoutManager.reset();
                 updateCountdownTimeTxt();
                 updateButtons();
             }
         });
     }
 
-    private CountDownTimer startTimer() {
-        timeoutManager.setTimerState(TimeoutManager.TimerState.RUNNING);
-        updateButtons();
-
-        long timeInMillis = timeoutManager.getMillisRemaining();
-
-        return new CountDownTimer(timeInMillis, MILLIS_IN_SEC) {
+    private void setupTimer() {
+        countDownTimer = new CountDownTimer(timeoutManager.getMillisRemaining(), MILLIS_IN_SEC) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeoutManager.setMillisRemaining(millisUntilFinished);
                 updateCountdownTimeTxt();
             }
 
             @Override
             public void onFinish() {
-                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
-                timeoutManager.resetMillisRemaining();
+                timeoutManager.reset();
                 updateButtons();
                 countdownTimeTxt.setText(R.string.finished);
 
@@ -141,7 +139,7 @@ public class TimeoutActivity extends AppCompatActivity {
                     vibrator.vibrate(VIBRATION_TIME_IN_MS);
                 }
             }
-        }.start();
+        };
     }
 
     private void setupToolbar() {
