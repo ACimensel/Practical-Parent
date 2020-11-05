@@ -21,4 +21,6 @@
     <string name="heads_radio_txt">Heads</string>
     <string name="tails_radio_txt">Tails</string>
     <string name="flip_history">Flip History</string>
+    <string name="shows_only">Shows only %1$s</string>
+    <string name="shows_null">No history to show</string>
 </resources>

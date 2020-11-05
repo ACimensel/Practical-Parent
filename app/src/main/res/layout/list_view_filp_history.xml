@@ -28,6 +28,7 @@
         android:id="@+id/flip_history_txtTime"
         android:layout_width="172dp"
         android:layout_height="64dp"
+        android:paddingStart="10dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/flip_history_txtWin"
         tools:layout_editor_absoluteY="2dp" />
