@@ -120,9 +120,9 @@ public class FlipCoinActivity extends AppCompatActivity {
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
-        if(chosenCoinSide == 1) {
+        if(chosenCoinSide == R.id.flipCoin_headsBtn) {
             flipResult = flipManager.doFlip(FlipManager.CoinSide.HEADS);
-        } else if(chosenCoinSide == 2) {
+        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn) {
             flipResult = flipManager.doFlip(FlipManager.CoinSide.TAILS);
         } else {
             flipResult = flipManager.doFlip(null);
