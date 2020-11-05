@@ -15,7 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
@@ -51,18 +53,18 @@ public class FlipHistoryActivity extends AppCompatActivity {
     }
 
     private void setupSwitchButton() {
-        SwitchCompat sw = findViewById(R.id.flip_history_switch);
+        SwitchCompat switchCompat = findViewById(R.id.flip_history_switch);
         //check if there is no child has been added
         if (turnChild != null) {
-            sw.setText(getString(R.string.shows_only, turnChild.getName()));
+            switchCompat.setText(getString(R.string.shows_only, turnChild.getName()));
         } else {
-            sw.setText(R.string.shows_null);
+            switchCompat.setVisibility(View.GONE);
         }
 
-        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            historyList.clear();
             if (isChecked) {
                 //show only turn child's history
-                historyList.clear();
                 for (FlipHistoryEntry history : flipManager) {
                     if (history.getChildUuid().equals(turnChild.getUuid())) {
                         historyList.add(history);
@@ -70,7 +72,6 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 }
             } else {
                 //show all history
-                historyList.clear();
                 for (FlipHistoryEntry history : flipManager) {
                     historyList.add(history);
                 }
@@ -107,26 +108,33 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             //find the history to work with
             FlipHistoryEntry currentHistory = historyList.get(position);
+            Child child = childrenManager.getChild(currentHistory.getChildUuid());
 
             //Fill the view
+            //setup name text
             TextView txtName = itemView.findViewById(R.id.flip_history_txtName);
+            String flipResult = getString(R.string.flip_result, child.getName(), currentHistory.getResult());
+            txtName.setText(flipResult);
+
+            //set up win text
             TextView txtWin = itemView.findViewById(R.id.flip_history_txtWin);
-            TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
-            Child temp = childrenManager.getChild(currentHistory.getChildUuid());
-            String firsttxt = temp.getName() + " flipped " + currentHistory.getResult() + " and ";
             String win;
-            String time = currentHistory.getDate().toString();
             if (currentHistory.wasWon()) {
-                win = "won";
+                win = getString(R.string.win);
                 txtWin.setTextColor(getResources().getColor(R.color.colorAccent));
             } else {
-                win = "lost";
+                win = getString(R.string.lost);
                 txtWin.setTextColor(getResources().getColor(R.color.colorRed));
             }
-
             txtWin.setText(win);
-            txtName.setText(firsttxt);
+
+            //setup time text
+            TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
+            //change the data format
+            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.time_format), Locale.getDefault());
+            String time = format.format(currentHistory.getDate());
             txtTime.setText(time);
+
 
             return itemView;
         }
