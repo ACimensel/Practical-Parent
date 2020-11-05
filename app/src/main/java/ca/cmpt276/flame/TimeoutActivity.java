@@ -2,13 +2,10 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -86,14 +83,14 @@ public class TimeoutActivity extends AppCompatActivity {
                 case RUNNING:
                     // "Pause" button
                     countDownTimer.cancel();
-                    timeoutManager.pause();
+                    timeoutManager.pause(getApplicationContext());
                     break;
                 case PAUSED:
                     // "Resume" button if timer is paused, fall through
                 case STOPPED:
                     // "Start" button if timer is stopped
                     countDownTimer.start();
-                    timeoutManager.start();
+                    timeoutManager.start(getApplicationContext());
                     break;
             }
 
@@ -110,7 +107,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 finish();
             } else {
                 countDownTimer.cancel();
-                timeoutManager.reset();
+                timeoutManager.reset(getApplicationContext());
                 updateCountdownTimeTxt();
                 updateButtons();
             }
@@ -118,7 +115,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void setupTimer() {
-        countDownTimer = new CountDownTimer(timeoutManager.getMillisRemaining(), MILLIS_IN_SEC) {
+        countDownTimer = new CountDownTimer(timeoutManager.getMillisRemaining(), MILLIS_IN_SEC / 2) {
             @Override
             public void onTick(long millisUntilFinished) {
                 updateCountdownTimeTxt();
@@ -126,18 +123,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                timeoutManager.reset();
                 updateButtons();
                 countdownTimeTxt.setText(R.string.finished);
-
-                // code from  https://stackoverflow.com/a/13950364
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
-
-                } else {
-                    vibrator.vibrate(VIBRATION_TIME_IN_MS);
-                }
             }
         };
     }

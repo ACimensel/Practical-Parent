@@ -9,6 +9,7 @@
         android:label="@string/app_name_short"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
+        <receiver android:name=".TimerAlarmReceiver" />
         <activity
             android:name=".AboutActivity"
             android:screenOrientation="portrait" />

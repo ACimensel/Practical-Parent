@@ -1,8 +1,16 @@
 package ca.cmpt276.flame.model;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.core.app.AlarmManagerCompat;
+
 import com.google.gson.Gson;
+
+import ca.cmpt276.flame.TimerAlarmReceiver;
 
 /**
  * TimeoutManager is a singleton class that manages the current state of the timer:
@@ -56,44 +64,70 @@ public class TimeoutManager {
         return minutesEntered;
     }
 
-    public void setMinutesEntered(int minutes) {
+    public void setMinutesEntered(Context context, int minutes) {
         minutesEntered = minutes;
-        reset();
+        reset(context);
     }
 
-    public void start() {
-        if(timerState == TimerState.RUNNING) {
+    public void start(Context context) {
+        if(getTimerState() == TimerState.RUNNING) {
             return;
         }
 
         timerFinishTime = System.currentTimeMillis() + timerOffsetMillis;
         timerState = TimerState.RUNNING;
+        setAlarm(context);
         persistToSharedPrefs();
     }
 
-    public void pause() {
+    public void pause(Context context) {
         timerOffsetMillis = getMillisRemaining();
         timerState = TimerState.PAUSED;
+        cancelAlarm(context);
         persistToSharedPrefs();
     }
 
-    public void reset() {
+    public void reset(Context context) {
         timerOffsetMillis = minutesEntered * MIN_TO_MILLIS;
         timerState = TimerState.STOPPED;
+        cancelAlarm(context);
         persistToSharedPrefs();
+    }
+
+    private void setAlarm(Context context) {
+        AlarmManager alarmManager = getAlarmManager(context);
+        PendingIntent pendingIntent = getNotificationPendingIntent(context);
+        AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, timerFinishTime, pendingIntent);
+    }
+
+    private void cancelAlarm(Context context) {
+        AlarmManager alarmManager = getAlarmManager(context);
+        alarmManager.cancel(getNotificationPendingIntent(context));
+    }
+
+    private AlarmManager getAlarmManager(Context context) {
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    }
+
+    private PendingIntent getNotificationPendingIntent(Context context) {
+        Intent intent = new Intent(context, TimerAlarmReceiver.class);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public long getMillisRemaining() {
         if(timerState == TimerState.RUNNING) {
             long offset = timerFinishTime - System.currentTimeMillis();
             return offset > 0 ? offset : 0;
-        }
-        else {
+        } else {
             return timerOffsetMillis;
         }
     }
 
     public TimerState getTimerState() {
+        if(timerState == TimerState.RUNNING && getMillisRemaining() == 0) {
+            timerState = TimerState.STOPPED;
+        }
+
         return timerState;
     }
 
