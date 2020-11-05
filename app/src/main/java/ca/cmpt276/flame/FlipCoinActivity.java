@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -120,9 +121,9 @@ public class FlipCoinActivity extends AppCompatActivity {
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
-        if(chosenCoinSide == 1) {
+        if(chosenCoinSide == R.id.flipCoin_headsBtn) {
             flipResult = flipManager.doFlip(FlipManager.CoinSide.HEADS);
-        } else if(chosenCoinSide == 2) {
+        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn) {
             flipResult = flipManager.doFlip(FlipManager.CoinSide.TAILS);
         } else {
             flipResult = flipManager.doFlip(null);
