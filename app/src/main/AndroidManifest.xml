@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.cmpt276.flame">
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -15,13 +16,13 @@
             android:name=".ChildEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AboutActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChildrenActivity"
+            android:name=".ChooseTimeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TimeoutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChildrenActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FlipCoinActivity"

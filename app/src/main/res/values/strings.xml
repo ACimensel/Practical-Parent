@@ -5,6 +5,7 @@
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
+    <string name="time_left">Time left</string>
     <string name="add">Add</string>
     <string name="child_name_empty_error">Please enter a non-empty name</string>
     <string name="name">Name</string>
@@ -23,4 +24,20 @@
     <string name="flip_history">Flip History</string>
     <string name="shows_only">Shows only %1$s</string>
     <string name="shows_null">No history to show</string>
+    <string name="start_timer">Start Timer</string>
+    <string name="choose_or_enter_the_time">Choose or Enter the Time</string>
+    <string name="start_btn_text">Start</string>
+    <string name="cancel_btn_text">Cancel</string>
+    <string name="resume_btn_text">Resume</string>
+    <string name="pause_btn_text">Pause</string>
+    <string name="reset_btn_text">Reset</string>
+    <string name="finished">Finished</string>
+    <plurals name="minute">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="choose_time_minutes_error">
+        <item quantity="one">Please enter between 1 and %d minute</item>
+        <item quantity="other">Please enter between 1 and %d minutes</item>
+    </plurals>
 </resources>
