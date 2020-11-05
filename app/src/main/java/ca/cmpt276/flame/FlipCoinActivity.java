@@ -27,8 +27,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
-    private boolean isFlipCoinBtnDisabled = false;
-    private boolean isHistoryBtnDisabled = false;
     private boolean isFirstSpin = true;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
@@ -99,18 +97,12 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setUpFlipCoinButton() {
-        flipBtn.setOnClickListener(v -> {
-            if(!isFlipCoinBtnDisabled) {
-                flipCoin();
-            }
-        });
+        flipBtn.setOnClickListener(v -> flipCoin());
     }
 
     private void setUpHistoryButton() {
         historyBtn.setOnClickListener(v -> {
-            /*if(!isHistoryBtnDisabled) {
-                // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED, IF STATEMENT COMMENTED OUT TO PASS CHECKSTYLE EMPTY BLOCK ERROR. UNCOMMENT LATER
-            }*/
+            // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED
         });
     }
 
@@ -184,22 +176,22 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void disableFlipCoinBtn() {
-        isFlipCoinBtnDisabled = true;
+        flipBtn.setEnabled(false);
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
     private void enableFlipCoinBtn() {
-        isFlipCoinBtnDisabled = false;
+        flipBtn.setEnabled(true);
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void disableHistoryBtn() {
-        isHistoryBtnDisabled = true;
+        historyBtn.setEnabled(false);
         historyBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
     private void enableHistoryBtn() {
-        isHistoryBtnDisabled = false;
+        historyBtn.setEnabled(true);
         historyBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
