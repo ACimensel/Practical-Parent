@@ -43,8 +43,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
     private void setUpButtons() {
         Button startBtn = findViewById(R.id.chooseTime_btnStart);
-        Button cancelBtn = findViewById(R.id.chooseTime_btnCancel);
-
         startBtn.setOnClickListener(view -> {
             final int MAX_MINUTES = 999;
             int minutes;
@@ -64,8 +62,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
             timeoutManager.setMinutesEntered(minutes);
             startActivity(TimeoutActivity.makeIntent(this));
         });
-
-        cancelBtn.setOnClickListener(view -> finish());
     }
 
     private void createTimerOptions() {

@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineH"
+        android:id="@+id/guidelineH2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -24,7 +24,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineH2" />
 
     <RadioGroup
         android:id="@+id/flipCoin_radioGroup"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH"
+        app:layout_constraintTop_toTopOf="@+id/guidelineH2"
         app:layout_constraintVertical_bias=".35" />
 
     <ImageView
@@ -84,7 +84,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH"
+        app:layout_constraintTop_toTopOf="@+id/guidelineH2"
         app:layout_constraintVertical_bias=".35"
         app:srcCompat="@drawable/coin_frame_head" />
 
