@@ -15,7 +15,7 @@ public class TimeoutManager {
     }
 
     private static TimeoutManager timeoutManager;
-    private static final int MIN_TO_MILLIS = 60 * 1000;
+    private static final int MILLIS_IN_MIN = 60000;
     private int minutesEntered;
     private long millisRemaining;
     private TimerState timerState;
@@ -41,7 +41,7 @@ public class TimeoutManager {
     }
 
     public void resetMillisRemaining() {
-        millisRemaining = minutesEntered * MIN_TO_MILLIS;
+        millisRemaining = minutesEntered * MILLIS_IN_MIN;
     }
 
     public long getMillisRemaining() {
