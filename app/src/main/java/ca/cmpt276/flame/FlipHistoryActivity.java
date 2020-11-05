@@ -56,7 +56,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
         SwitchCompat switchCompat = findViewById(R.id.flip_history_switch);
         //check if there is no child has been added
         if (turnChild != null) {
-            switchCompat.setText(getString(R.string.shows_only, turnChild.getName()));
+            switchCompat.setText(getString(R.string.shows_only_person_name, turnChild.getName()));
         } else {
             switchCompat.setVisibility(View.GONE);
         }
