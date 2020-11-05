@@ -23,9 +23,9 @@
     <string name="tails_radio_txt">Tails</string>
     <string name="flip_history">Flip History</string>
     <string name="shows_only">Shows only %1$s</string>
-    <string name="flip_result">%1$s flipped %2$s and &#160;</string>
-    <string name="win">won</string>
-    <string name="lost">lost</string>
+    <string name="flip_result">%1$s flipped %2$s</string>
+    <string name="win">&#160; won</string>
+    <string name="lost">&#160; lost</string>
     <string name="time_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="start_timer">Start Timer</string>
     <string name="choose_or_enter_the_time">Choose or Enter the Time</string>

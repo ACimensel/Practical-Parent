@@ -66,7 +66,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             if (isChecked) {
                 //show only turn child's history
                 for (FlipHistoryEntry history : flipManager) {
-                    if (history.getChildUuid().equals(turnChild.getUuid())) {
+                    if (history.getChildUuid() != null && history.getChildUuid().equals(turnChild.getUuid())) {
                         historyList.add(history);
                     }
                 }
@@ -108,7 +108,12 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             //find the history to work with
             FlipHistoryEntry currentHistory = historyList.get(position);
-            Child child = childrenManager.getChild(currentHistory.getChildUuid());
+            Child child;
+            if (currentHistory.getChildUuid() == null) {
+                child = new Child("Unknown");
+            } else {
+                child = childrenManager.getChild(currentHistory.getChildUuid());
+            }
 
             //Fill the view
             //setup name text
@@ -118,15 +123,20 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             //set up win text
             TextView txtWin = itemView.findViewById(R.id.flip_history_txtWin);
-            String win;
-            if (currentHistory.wasWon()) {
-                win = getString(R.string.win);
-                txtWin.setTextColor(getResources().getColor(R.color.colorAccent));
-            } else {
-                win = getString(R.string.lost);
-                txtWin.setTextColor(getResources().getColor(R.color.colorRed));
+            //do not show the result when coin flipped by nobody
+            if (!child.getName().equals("Unknown")) {
+                String win;
+                if (currentHistory.wasWon()) {
+                    win = getString(R.string.win);
+                    txtWin.setTextColor(getResources().getColor(R.color.colorAccent));
+                } else {
+                    win = getString(R.string.lost);
+                    txtWin.setTextColor(getResources().getColor(R.color.colorRed));
+                }
+                txtWin.setText(win);
+            }else{
+                txtWin.setText("");
             }
-            txtWin.setText(win);
 
             //setup time text
             TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
