@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -27,7 +28,8 @@ import pl.droidsonroids.gif.GifImageView;
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
-    private boolean isCoinSpinning = false;
+    private boolean isFlipCoinBtnDisabled = false;
+    private boolean isHistoryBtnDisabled = false;
     private boolean isFirstSpin = true;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
@@ -89,12 +91,17 @@ public class FlipCoinActivity extends AppCompatActivity {
     private void setUpRadioGroup() {
         if(flipManager.getTurnChild() == null) {
             chooseSideRadioGroup.removeAllViews();
+            enableFlipCoinBtn();
+        } else {
+            findViewById(R.id.flipCoin_headsBtn).setOnClickListener(v -> enableFlipCoinBtn());
+            findViewById(R.id.flipCoin_tailsBtn).setOnClickListener(v -> enableFlipCoinBtn());
+            disableFlipCoinBtn();
         }
     }
 
     private void setUpFlipCoinButton() {
         flipBtn.setOnClickListener(v -> {
-            if(!isCoinSpinning) {
+            if(!isFlipCoinBtnDisabled) {
                 flipCoin();
             }
         });
@@ -102,13 +109,15 @@ public class FlipCoinActivity extends AppCompatActivity {
 
     private void setUpHistoryButton() {
         historyBtn.setOnClickListener(v -> {
-            // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED
+            /*if(!isHistoryBtnDisabled) {
+                // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED, IF STATEMENT COMMENTED OUT TO PASS CHECKSTYLE EMPTY BLOCK ERROR. UNCOMMENT LATER
+            }*/
         });
     }
 
     private void flipCoin() {
-        final int DELAY_IN_MS = 2000;
-        isCoinSpinning = true;
+        disableFlipCoinBtn();
+        disableHistoryBtn();
         isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
@@ -133,16 +142,22 @@ public class FlipCoinActivity extends AppCompatActivity {
         // After animation ends:
         // 1) show result as text, 2) update child turn text, 3) clear radio group if checked
         // 4) Enable clicking of the radio buttons, 5) allow user to spin coin again
+        final int DELAY_IN_MS = 2000;
         new Handler().postDelayed(() -> {
             if (flipManager.getLastCoinValue() == FlipManager.CoinSide.HEADS) {
                 coinResultTxt.setText(R.string.heads_result);
             } else {
                 coinResultTxt.setText(R.string.tails_result);
             }
+
             updateChildTurnText();
             chooseSideRadioGroup.clearCheck();
             setRadioGroupButtons(true);
-            isCoinSpinning = false;
+
+            enableHistoryBtn();
+            if(flipManager.getTurnChild() == null) {
+                enableFlipCoinBtn();
+            }
         }, DELAY_IN_MS);
     }
 
@@ -167,6 +182,26 @@ public class FlipCoinActivity extends AppCompatActivity {
         for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
             chooseSideRadioGroup.getChildAt(i).setEnabled(enable);
         }
+    }
+
+    private void disableFlipCoinBtn() {
+        isFlipCoinBtnDisabled = true;
+        flipBtn.setBackgroundColor(Color.parseColor("#787878"));
+    }
+
+    private void enableFlipCoinBtn() {
+        isFlipCoinBtnDisabled = false;
+        flipBtn.setBackgroundColor(Color.parseColor("#1565C0"));
+    }
+
+    private void disableHistoryBtn() {
+        isHistoryBtnDisabled = true;
+        historyBtn.setBackgroundColor(Color.parseColor("#787878"));
+    }
+
+    private void enableHistoryBtn() {
+        isHistoryBtnDisabled = false;
+        historyBtn.setBackgroundColor(Color.parseColor("#1565C0"));
     }
 
     protected static Intent makeIntent(Context context) {
