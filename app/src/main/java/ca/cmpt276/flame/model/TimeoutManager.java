@@ -27,7 +27,7 @@ public class TimeoutManager {
     }
 
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_TIMEOUT_MANAGER";
-    private static final int MIN_TO_MILLIS = 60 * 1000;
+    private static final int MILLIS_IN_MIN = 60000;
     private static TimeoutManager timeoutManager;
     private static SharedPreferences sharedPrefs;
     private TimerState timerState = TimerState.STOPPED;
@@ -88,7 +88,7 @@ public class TimeoutManager {
     }
 
     public void reset(Context context) {
-        timerOffsetMillis = minutesEntered * MIN_TO_MILLIS;
+        timerOffsetMillis = minutesEntered * MILLIS_IN_MIN;
         timerState = TimerState.STOPPED;
         cancelAlarm(context);
         persistToSharedPrefs();

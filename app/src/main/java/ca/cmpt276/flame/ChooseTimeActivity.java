@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,12 +32,19 @@ public class ChooseTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_time);
-        timeValueTxt = findViewById(R.id.chooseTime_inputTime);
 
         createNotificationChannel();
+        setUpTimeValueTxt();
         setupToolbar();
         createTimerOptions();
         setUpButtons();
+    }
+
+    private void setUpTimeValueTxt() {
+        final int MAX_INPUT_LENGTH = 3;
+        timeValueTxt = findViewById(R.id.chooseTime_inputTime);
+        timeValueTxt.setHint(R.string.chooseTimeActivity_timer_hint);
+        timeValueTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_INPUT_LENGTH)});
     }
 
     private void setupToolbar() {
@@ -47,10 +55,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
     private void setUpButtons() {
         Button startBtn = findViewById(R.id.chooseTime_btnStart);
-        Button cancelBtn = findViewById(R.id.chooseTime_btnCancel);
-
         startBtn.setOnClickListener(view -> {
-            final int MAX_MINUTES = 999;
             int minutes;
 
             try {
@@ -59,9 +64,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 minutes = 0;
             }
 
-            if(minutes <= 0 || minutes > MAX_MINUTES) {
-                String errorMsg = getResources().getQuantityString(R.plurals.choose_time_minutes_error, MAX_MINUTES, MAX_MINUTES);
-                Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+            if(minutes <= 0) {
+                Toast.makeText(this, R.string.choose_time_error, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -69,8 +73,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
             timeoutManager.start(getApplicationContext());
             startActivity(TimeoutActivity.makeIntent(this));
         });
-
-        cancelBtn.setOnClickListener(view -> finish());
     }
 
     private void createTimerOptions() {
