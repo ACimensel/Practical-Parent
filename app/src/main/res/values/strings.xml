@@ -33,12 +33,9 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
-    <plurals name="choose_time_minutes_error">
-        <item quantity="one">Please enter between 1 and %d minute</item>
-        <item quantity="other">Please enter between 1 and %d minutes</item>
-    </plurals>
+    <string name="choose_time_error">Please enter greater than 0 minutes</string>
     <string name="chooseTimeActivity_timer_hint">min</string>
-    <string name="aboutActivity_appUsageTitleTxt">How to use app:</string>
+    <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Author:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
 </resources>

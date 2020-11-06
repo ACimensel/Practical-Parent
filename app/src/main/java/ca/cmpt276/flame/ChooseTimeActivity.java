@@ -36,10 +36,10 @@ public class ChooseTimeActivity extends AppCompatActivity {
     }
 
     private void setUpTimeValueTxt() {
-        final int INPUT_LENGTH = 3;
+        final int MAX_INPUT_LENGTH = 3;
         timeValueTxt = findViewById(R.id.chooseTime_inputTime);
         timeValueTxt.setHint(R.string.chooseTimeActivity_timer_hint);
-        timeValueTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(INPUT_LENGTH)});
+        timeValueTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_INPUT_LENGTH)});
     }
 
     private void setupToolbar() {
@@ -52,7 +52,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
         Button startBtn = findViewById(R.id.chooseTime_btnStart);
 
         startBtn.setOnClickListener(view -> {
-            final int MAX_MINUTES = 999;
             int minutes;
 
             try {
@@ -61,9 +60,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 minutes = 0;
             }
 
-            if(minutes <= 0 || minutes > MAX_MINUTES) {
-                String errorMsg = getResources().getQuantityString(R.plurals.choose_time_minutes_error, MAX_MINUTES, MAX_MINUTES);
-                Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+            if(minutes <= 0) {
+                Toast.makeText(this, R.string.choose_time_error, Toast.LENGTH_SHORT).show();
                 return;
             }
 
