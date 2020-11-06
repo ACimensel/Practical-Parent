@@ -20,6 +20,12 @@ public class AboutActivity extends AppCompatActivity {
         setupToolbar();
         fillUsageInstruction();
         fillReferences();
+        fillAuthorDetails();
+    }
+
+    private void fillAuthorDetails() {
+        TextView authorDetails = findViewById(R.id.aboutActivity_authorBody);
+        authorDetails.setText(R.string.aboutActivity_author_details);
     }
 
     private void fillReferences() {
