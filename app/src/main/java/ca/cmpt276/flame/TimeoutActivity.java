@@ -45,12 +45,24 @@ public class TimeoutActivity extends AppCompatActivity {
         setupPauseButton();
         setUpResetButton();
         setupTimer();
-        updateCountdownTimeTxt();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUI();
         updateButtons();
 
         if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
             countDownTimer.start();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        countDownTimer.cancel();
     }
 
     private void updateButtons() {
@@ -70,7 +82,7 @@ public class TimeoutActivity extends AppCompatActivity {
         }
     }
 
-    private void updateCountdownTimeTxt() {
+    private void updateUI() {
         if(countdownTimeTxt == null) {
             countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
         }
@@ -85,6 +97,12 @@ public class TimeoutActivity extends AppCompatActivity {
         String timeStr = String.format(Locale.getDefault(), "%d:%02d", minRemaining, secRemaining);
 
         countdownTimeTxt.setText(timeStr);
+
+        if(timeoutManager.getMillisRemaining() == 0) {
+            countDownTimer.cancel();
+            countdownTimeTxt.setText(R.string.finished);
+            updateButtons();
+        }
     }
 
     private void setupPauseButton() {
@@ -116,28 +134,26 @@ public class TimeoutActivity extends AppCompatActivity {
         // reset button cancels the previous timer and sets remaining time to the starting time
         resetBtn.setOnClickListener(view -> {
             if (timeoutManager.getTimerState() == TimeoutManager.TimerState.STOPPED) {
+                timeoutManager.cancelAlarm(getApplicationContext());
                 finish();
             } else {
                 countDownTimer.cancel();
                 timeoutManager.reset(getApplicationContext());
-                updateCountdownTimeTxt();
+                updateUI();
                 updateButtons();
             }
         });
     }
 
     private void setupTimer() {
-        countDownTimer = new CountDownTimer(timeoutManager.getMillisRemaining(), COUNTDOWN_INTERVAL_MILLIS) {
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, COUNTDOWN_INTERVAL_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
-                updateCountdownTimeTxt();
+                updateUI();
             }
 
             @Override
-            public void onFinish() {
-                updateButtons();
-                countdownTimeTxt.setText(R.string.finished);
-            }
+            public void onFinish() { }
         };
     }
 

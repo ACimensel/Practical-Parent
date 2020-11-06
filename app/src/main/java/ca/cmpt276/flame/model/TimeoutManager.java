@@ -3,14 +3,14 @@ package ca.cmpt276.flame.model;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import androidx.core.app.AlarmManagerCompat;
 
 import com.google.gson.Gson;
 
-import ca.cmpt276.flame.TimerAlarmReceiver;
+import static ca.cmpt276.flame.TimerAlarmReceiver.cancelNotifications;
+import static ca.cmpt276.flame.TimerAlarmReceiver.getNotificationPendingIntent;
 
 /**
  * TimeoutManager is a singleton class that manages the current state of the timer:
@@ -74,6 +74,7 @@ public class TimeoutManager {
             return;
         }
 
+        cancelAlarm(context);
         timerFinishTime = System.currentTimeMillis() + timerOffsetMillis;
         timerState = TimerState.RUNNING;
         setAlarm(context);
@@ -100,18 +101,14 @@ public class TimeoutManager {
         AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, timerFinishTime, pendingIntent);
     }
 
-    private void cancelAlarm(Context context) {
+    public void cancelAlarm(Context context) {
         AlarmManager alarmManager = getAlarmManager(context);
         alarmManager.cancel(getNotificationPendingIntent(context));
+        cancelNotifications(context);
     }
 
     private AlarmManager getAlarmManager(Context context) {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    }
-
-    private PendingIntent getNotificationPendingIntent(Context context) {
-        Intent intent = new Intent(context, TimerAlarmReceiver.class);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public long getMillisRemaining() {
