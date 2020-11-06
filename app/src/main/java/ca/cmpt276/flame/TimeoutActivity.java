@@ -26,7 +26,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_SEC = 1000;
     private static final int VIBRATION_TIME_IN_MS = 5000;
     private static final int PROGRESS_BAR_STEPS = 1000;
-    private static final int COUNTDOWN_INTERVAL = 20;
+    private static final int COUNTDOWN_INTERVAL_MILLIS = 20;
 
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
@@ -76,9 +76,9 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void updateCountdownTimeTxt() {
         long millisRemaining = timeoutManager.getMillisRemaining();
-        int percentageTimeLeft = (int) (PROGRESS_BAR_STEPS * millisRemaining / millisEntered);
+        int progressBarStepsLeft = (int) (PROGRESS_BAR_STEPS * millisRemaining / millisEntered);
 
-        circularProgressBar.setProgress(percentageTimeLeft);
+        circularProgressBar.setProgress(progressBarStepsLeft);
 
         long minRemaining = millisRemaining / MILLIS_IN_MIN;
         long secRemaining = (millisRemaining % MILLIS_IN_MIN) / MILLIS_IN_SEC;
@@ -131,7 +131,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
         long timeInMillis = timeoutManager.getMillisRemaining();
 
-        return new CountDownTimer(timeInMillis, COUNTDOWN_INTERVAL) {
+        return new CountDownTimer(timeInMillis, COUNTDOWN_INTERVAL_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeoutManager.setMillisRemaining(millisUntilFinished);
