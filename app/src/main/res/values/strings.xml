@@ -23,7 +23,7 @@
     <string name="tails_radio_txt">Tails</string>
     <string name="flip_history">Flip History</string>
     <string name="shows_only_person_name">Shows only %1$s</string>
-    <string name="flip_result">%1$s flipped %2$s</string>
+    <string name="flip_result"><![CDATA[<b>%1$s</b> flipped <b>%2$s</b>]]></string>
     <string name="win">&#160; won</string>
     <string name="lost">&#160; lost</string>
     <string name="time_format">yyyy-MM-dd HH:mm:ss</string>
@@ -44,4 +44,5 @@
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Author:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
+    <string name="unknown">Unknown</string>
 </resources>

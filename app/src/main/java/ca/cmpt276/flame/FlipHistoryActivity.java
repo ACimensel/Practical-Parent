@@ -8,7 +8,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -67,13 +70,13 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 //show only turn child's history
                 for (FlipHistoryEntry history : flipManager) {
                     if (history.getChildUuid() != null && history.getChildUuid().equals(turnChild.getUuid())) {
-                        historyList.add(history);
+                        historyList.add(0, history);
                     }
                 }
             } else {
                 //show all history
                 for (FlipHistoryEntry history : flipManager) {
-                    historyList.add(history);
+                    historyList.add(0, history);
                 }
             }
             setupListView();
@@ -82,7 +85,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private void populateList() {
         for (FlipHistoryEntry history : flipManager) {
-            historyList.add(history);
+            historyList.add(0, history);
         }
     }
 
@@ -110,7 +113,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             FlipHistoryEntry currentHistory = historyList.get(position);
             Child child;
             if (currentHistory.getChildUuid() == null) {
-                child = new Child("Unknown");
+                child = new Child(getString(R.string.unknown));
             } else {
                 child = childrenManager.getChild(currentHistory.getChildUuid());
             }
@@ -119,7 +122,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             //setup name text
             TextView txtName = itemView.findViewById(R.id.flip_history_txtName);
             String flipResult = getString(R.string.flip_result, child.getName(), currentHistory.getResult());
-            txtName.setText(flipResult);
+            txtName.setText(getSpannedText(flipResult));
 
             //set up win text
             TextView txtWin = itemView.findViewById(R.id.flip_history_txtWin);
@@ -155,4 +158,12 @@ public class FlipHistoryActivity extends AppCompatActivity {
         return new Intent(context, FlipHistoryActivity.class);
     }
 
+    //https://stackoverflow.com/questions/10766492/what-is-the-simplest-way-to-reverse-an-arraylist
+    private Spanned getSpannedText(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
+        } else {
+            return Html.fromHtml(text);
+        }
+    }
 }
