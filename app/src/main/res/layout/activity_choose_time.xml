@@ -66,7 +66,7 @@
         android:importantForAutofill="no"
         android:inputType="time"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/chooseTime_txtTitle"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/chooseTime_txtTitle"
