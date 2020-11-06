@@ -10,6 +10,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".FlipHistoryActivity"
             android:screenOrientation="portrait" />
         <activity

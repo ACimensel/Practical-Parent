@@ -144,7 +144,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             //setup time text
             TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
             //change the data format
-            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.time_format), Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
             String time = format.format(currentHistory.getDate());
             txtTime.setText(time);
 
