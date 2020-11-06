@@ -60,16 +60,16 @@ public class TimeoutActivity extends AppCompatActivity {
     private void updateButtons() {
         switch(timeoutManager.getTimerState()) {
             case RUNNING:
-                pauseTimerBtn.setText(R.string.pause_btn_text);
-                resetBtn.setText(R.string.reset_btn_text);
+                pauseTimerBtn.setText(R.string.pause);
+                resetBtn.setText(R.string.reset);
                 break;
             case PAUSED:
-                pauseTimerBtn.setText(R.string.resume_btn_text);
-                resetBtn.setText(R.string.reset_btn_text);
+                pauseTimerBtn.setText(R.string.resume);
+                resetBtn.setText(R.string.reset);
                 break;
             case STOPPED:
-                pauseTimerBtn.setText(R.string.start_btn_text);
-                resetBtn.setText(R.string.cancel_btn_text);
+                pauseTimerBtn.setText(R.string.start);
+                resetBtn.setText(R.string.cancel);
                 break;
         }
     }
