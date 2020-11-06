@@ -12,7 +12,7 @@ import ca.cmpt276.flame.R;
  */
 public class BGMusicPlayer {
     private static MediaPlayer bgMusic;
-    private static final float MUSIC_VOLUME = 0.4f;
+    private static final float MUSIC_VOLUME = 0.8f;
 
     private BGMusicPlayer() {
         // static class: prevent other classes from creating new ones

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.UUID;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 
@@ -106,16 +107,22 @@ public class ChildEditActivity extends AppCompatActivity {
     private void setupDeleteButton() {
         Button btn = findViewById(R.id.childEdit_btnDelete);
         btn.setVisibility(View.VISIBLE);
-        btn.setOnClickListener(v -> {
-            new AlertDialog.Builder(ChildEditActivity.this)
-                    .setTitle(R.string.confirm)
-                    .setMessage(R.string.childEditActivity_confirmDeleteMsg)
-                    .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
-                        childrenManager.removeChild(clickedChild.getUuid());
-                        finish();
-                    }))
-                    .setNegativeButton(R.string.cancel, null).show();
-        });
+        btn.setOnClickListener(v -> new AlertDialog.Builder(ChildEditActivity.this)
+                .setTitle(R.string.confirm)
+                .setMessage(R.string.childEditActivity_confirmDeleteMsg)
+                .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
+                    childrenManager.removeChild(clickedChild.getUuid());
+                    finish();
+                }))
+                .setNegativeButton(R.string.cancel, null).show());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MainActivity.isMusicEnabled) {
+            BGMusicPlayer.resumeBgMusic();
+        }
     }
 
     protected static Intent makeIntent(Context context, Child child) {

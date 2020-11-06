@@ -33,13 +33,6 @@ public class ChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_children);
         setupToolbar();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BGMusicPlayer.resumeBgMusic();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -96,6 +89,14 @@ public class ChildrenActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.children);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MainActivity.isMusicEnabled) {
+            BGMusicPlayer.resumeBgMusic();
+        }
     }
 
     protected static Intent makeIntent(Context context) {

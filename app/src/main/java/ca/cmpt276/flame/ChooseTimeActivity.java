@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
@@ -86,6 +87,14 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 timerBtn.setChecked(true);
                 timeValueTxt.setText(numMinutesStr);
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MainActivity.isMusicEnabled) {
+            BGMusicPlayer.resumeBgMusic();
         }
     }
 

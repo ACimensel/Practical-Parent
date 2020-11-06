@@ -160,16 +160,18 @@ public class TimeoutActivity extends AppCompatActivity {
         }.start();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BGMusicPlayer.resumeBgMusic();
-    }
-
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.timeout);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MainActivity.isMusicEnabled) {
+            BGMusicPlayer.resumeBgMusic();
+        }
     }
 
     protected static Intent makeIntent(Context context) {

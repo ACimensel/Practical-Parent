@@ -61,12 +61,6 @@ public class FlipCoinActivity extends AppCompatActivity {
         setUpHistoryButton();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BGMusicPlayer.resumeBgMusic();
-    }
-
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.flip_coin);
@@ -209,6 +203,14 @@ public class FlipCoinActivity extends AppCompatActivity {
     private void enableHistoryBtn() {
         historyBtn.setEnabled(true);
         historyBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MainActivity.isMusicEnabled) {
+            BGMusicPlayer.resumeBgMusic();
+        }
     }
 
     protected static Intent makeIntent(Context context) {
