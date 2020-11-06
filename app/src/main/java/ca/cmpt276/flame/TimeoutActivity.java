@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -21,21 +22,29 @@ import ca.cmpt276.flame.model.TimeoutManager;
  * to pause, reset, resume or cancel the timer
  */
 public class TimeoutActivity extends AppCompatActivity {
-
     private static final int MILLIS_IN_MIN = 60000;
     private static final int MILLIS_IN_SEC = 1000;
     private static final int VIBRATION_TIME_IN_MS = 5000;
+    private static final int PROGRESS_BAR_STEPS = 1000;
+    private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
 
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
     private Button resetBtn;
     private TextView countdownTimeTxt;
+    private ProgressBar circularProgressBar;
+    private float millisEntered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
+
+        millisEntered = timeoutManager.getMinutesEntered() * MILLIS_IN_MIN;
+        circularProgressBar = findViewById(R.id.timeout_progressBar);
+        circularProgressBar.setMax(PROGRESS_BAR_STEPS);
+
         setupToolbar();
         setupPauseButton();
         setUpResetButton();
@@ -66,11 +75,15 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void updateCountdownTimeTxt() {
-        long timeInMillis = timeoutManager.getMillisRemaining();
+        long millisRemaining = timeoutManager.getMillisRemaining();
+        int progressBarStepsLeft = (int) (PROGRESS_BAR_STEPS * millisRemaining / millisEntered);
 
-        long minRemaining = timeInMillis / MILLIS_IN_MIN;
-        long secRemaining = (timeInMillis % MILLIS_IN_MIN) / MILLIS_IN_SEC;
+        circularProgressBar.setProgress(progressBarStepsLeft);
+
+        long minRemaining = millisRemaining / MILLIS_IN_MIN;
+        long secRemaining = (millisRemaining % MILLIS_IN_MIN) / MILLIS_IN_SEC;
         String timeStr = String.format(Locale.getDefault(), "%d:%02d", minRemaining, secRemaining);
+
         countdownTimeTxt.setText(timeStr);
     }
 
@@ -118,7 +131,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
         long timeInMillis = timeoutManager.getMillisRemaining();
 
-        return new CountDownTimer(timeInMillis, MILLIS_IN_SEC) {
+        return new CountDownTimer(timeInMillis, COUNTDOWN_INTERVAL_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeoutManager.setMillisRemaining(millisUntilFinished);
@@ -131,6 +144,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeoutManager.resetMillisRemaining();
                 updateButtons();
                 countdownTimeTxt.setText(R.string.finished);
+                circularProgressBar.setProgress(0);
 
                 // code from  https://stackoverflow.com/a/13950364
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);

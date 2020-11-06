@@ -50,7 +50,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
     private void setUpButtons() {
         Button startBtn = findViewById(R.id.chooseTime_btnStart);
-
         startBtn.setOnClickListener(view -> {
             int minutes;
 
