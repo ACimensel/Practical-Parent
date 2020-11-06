@@ -53,9 +53,20 @@ public class MainActivity extends AppCompatActivity {
         Button childrenBtn = findViewById(R.id.main_btnChildren);
         Button aboutBtn = findViewById(R.id.main_btnAbout);
 
-        flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
-        timeoutBtn.setOnClickListener(view -> startActivity(TimeoutActivity.makeIntent(this)));
-        childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
-        aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
+        flipCoinBtn.setOnClickListener(view -> {
+            startActivity(FlipCoinActivity.makeIntent(this));
+        });
+
+        timeoutBtn.setOnClickListener(view -> {
+            startActivity(ChooseTimeActivity.makeIntent(this));
+        });
+
+        childrenBtn.setOnClickListener(view -> {
+            startActivity(ChildrenActivity.makeIntent(this));
+        });
+
+        aboutBtn.setOnClickListener(view -> {
+            startActivity(AboutActivity.makeIntent(this));
+        });
     }
 }

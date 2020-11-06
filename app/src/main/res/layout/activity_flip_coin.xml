@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineH"
+        android:id="@+id/childUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -24,7 +24,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH" />
+        app:layout_constraintTop_toTopOf="@+id/childUpper" />
 
     <RadioGroup
         android:id="@+id/flipCoin_radioGroup"
@@ -37,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/flipCoin_txtChildturn">
 
         <RadioButton
+            android:id="@+id/flipCoin_headsBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -51,6 +52,7 @@
             android:textColor="@drawable/radio_text_color" />
 
         <RadioButton
+            android:id="@+id/flipCoin_tailsBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -74,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH"
+        app:layout_constraintTop_toTopOf="@+id/childUpper"
         app:layout_constraintVertical_bias=".35" />
 
     <ImageView
@@ -84,7 +86,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH"
+        app:layout_constraintTop_toTopOf="@+id/childUpper"
         app:layout_constraintVertical_bias=".35"
         app:srcCompat="@drawable/coin_frame_head" />
 
@@ -104,6 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
             android:text="@string/flip_coin"
             app:layout_constraintBottom_toTopOf="@+id/flipCoin_btnHistory"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,6 +117,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
+            android:background="@color/colorPrimary"
             android:text="@string/history"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
