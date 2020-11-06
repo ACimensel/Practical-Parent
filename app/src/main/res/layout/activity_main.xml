@@ -4,68 +4,140 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_bg_gradient"
     tools:context=".MainActivity">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/titleUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/titleLower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/childUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineV_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineV_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".8" />
 
     <TextView
         android:id="@+id/main_txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/app_name_long"
-        android:textSize="30sp"
         android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/titleLower"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/titleUpper" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/main_containerButtons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxWidth="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_txtTitle"
-        app:layout_constraintVertical_bias="0.3">
+        android:orientation="vertical"
+        android:weightSum="4"
+        app:layout_constraintBottom_toTopOf="@+id/childUpper"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineV_R"
+        app:layout_constraintStart_toStartOf="@+id/guidelineV_L"
+        app:layout_constraintTop_toTopOf="@+id/titleLower">
 
         <Button
             android:id="@+id/main_btnFlipCoin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="14dp"
             android:text="@string/flip_coin"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_containerButtons"
-            app:layout_constraintStart_toStartOf="@+id/main_containerButtons"
-            app:layout_constraintTop_toTopOf="@+id/main_containerButtons" />
+            app:layout_constraintStart_toStartOf="@+id/main_containerButtons"/>
 
         <Button
             android:id="@+id/main_btnTimeout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:padding="14dp"
             android:text="@string/timeout"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_btnFlipCoin"
             app:layout_constraintStart_toStartOf="@+id/main_btnFlipCoin"
             app:layout_constraintTop_toBottomOf="@+id/main_btnFlipCoin" />
 
         <Button
             android:id="@+id/main_btnChildren"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:padding="14dp"
             android:text="@string/children"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_btnTimeout"
             app:layout_constraintStart_toStartOf="@+id/main_btnTimeout"
             app:layout_constraintTop_toBottomOf="@+id/main_btnTimeout" />
 
         <Button
             android:id="@+id/main_btnAbout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:padding="14dp"
             android:text="@string/about"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_btnChildren"
             app:layout_constraintStart_toStartOf="@+id/main_btnChildren"
             app:layout_constraintTop_toBottomOf="@+id/main_btnChildren" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/main_imgGrass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@+id/main_imgChildren"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/main_imgChildren"
+        app:srcCompat="@drawable/cartoon_grass" />
+
+    <ImageView
+        android:id="@+id/main_imgChildren"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/childUpper"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/children" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
