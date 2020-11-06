@@ -23,11 +23,10 @@
     <string name="tails_radio_txt">Tails</string>
     <string name="start_timer">Start Timer</string>
     <string name="choose_or_enter_the_time">Choose or Enter the Time</string>
-    <string name="start_btn_text">Start</string>
-    <string name="cancel_btn_text">Cancel</string>
-    <string name="resume_btn_text">Resume</string>
-    <string name="pause_btn_text">Pause</string>
-    <string name="reset_btn_text">Reset</string>
+    <string name="start">Start</string>
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
+    <string name="reset">Reset</string>
     <string name="finished">Finished</string>
     <plurals name="minute">
         <item quantity="one">%d minute</item>
@@ -38,4 +37,7 @@
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Author:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
 </resources>
