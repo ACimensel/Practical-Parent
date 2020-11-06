@@ -38,4 +38,39 @@
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Author:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
+    <string name="aboutActivity_coinFlipUsage">Coin Flip: Click on \"Flip Coin\" button in the main menu. If there are children configured,
+        the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.
+        Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.
+        The app will show the result of flip which is automatically saved in the flip history that user can view anytime.
+    </string>
+    <string name="aboutActivity_timeoutUsage">Timeout: Click on \"Timeout\" button in the main menu.App asks for user input for timer.
+        User can select one of the timer options or create a custom timer by entering time(only positive integers allowed)
+        and click on \"Start Timer\" button, starts the timer. User can pause, resume or reset(allows to start again or cancel) the timer.
+        User can close the app, while timer runs in the background. When timer is done, app will show a notification from where the user can stop the alarm sound.
+    </string>
+    <string name="aboutActivity_configureChildUsage">Configure Child: Click on \"Children\" button in main menu.
+        If there are children already configured the app will show the list of children.
+        To add a new child, click on the \"\+\" icon in the toolbar. Enter the name of the child and click on \"Save\" button to save it.
+        User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.
+    </string>
+    <string name="aboutActivity_author_details">by
+
+    </string>
+    <string name="aboutActivity_references_data">Images:\n
+        \t[One Euro Coin]. (n.d.). https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519
+        \n\t[Initial Letter PP Linked Rounded Design Logo]. (n.d.). https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755
+        \n\tApp Icon Background from https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png
+        \n\t[Iphone Aesthetics]. (n.d.). https://www.pinterest.ca/pin/528258231271496359/
+        \n\t[Happy Kids Clip Art]. (n.d.). https://www.pinterest.ca/pin/271693789999529311/
+        \n\tClip Arts Related To : Green Grasses Illustration - Cartoon green background png. (n.d.).Clipart Library. Retrieved Nov 5,2020 from
+        http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm
+        \n\\seconds background
+        \n\t[Iphone Remind Me Icon].(n.d.). https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/
+
+        \n\nSounds:\n
+        \tFree Sound Stock. (2017,Feb 9). Spinning Coin Sound Effect[Video]. YouTube. https://www.youtube.com/watch?v=GCE0MQK2Sww
+        \n\tRenda David. (n.d.). Serenity. On Ambient Chill(2020).  https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897
+
+    </string>
+
 </resources>

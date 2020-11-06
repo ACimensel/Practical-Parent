@@ -10,7 +10,7 @@
         layout="@layout/toolbar" />
 
     <TextView
-        android:id="@+id/aboutActivity_subtitle1_text"
+        android:id="@+id/aboutActivity_usage_instruction_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
@@ -21,23 +21,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/aboutActivity_userManual_text"
+        android:id="@+id/aboutActivity_coin_flip_instructions_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_subtitle1_text" />
+        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_usage_instruction_title"
+       />
 
     <TextView
         android:id="@+id/aboutActivity_author_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="@string/aboutActivity_authorTitle"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_userManual_text" />
+        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_configure_child_instructions_text" />
 
     <TextView
         android:id="@+id/aboutActivity_authorBody"
@@ -52,7 +53,7 @@
         android:id="@+id/aboutActivity_references_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="@string/aboutActivity_referencesTitle"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,5 +67,21 @@
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aboutActivity_references_title" />
+
+    <TextView
+        android:id="@+id/aboutActivity_timeout_instructions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_coin_flip_instructions_text" />
+
+    <TextView
+        android:id="@+id/aboutActivity_configure_child_instructions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_timeout_instructions_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
