@@ -26,7 +26,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_SEC = 1000;
     private static final int VIBRATION_TIME_IN_MS = 5000;
     private static final int PROGRESS_BAR_STEPS = 1000;
-    private static final int COUNTDOWN_INTERVAL_MILLIS = 20;
+    private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
 
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
