@@ -53,25 +53,26 @@
     <string name="aboutActivity_appUsageInstructions">
         Configure Child:\n
         1. Click on \"Children\" button in main menu.\n
-        2. If there are children already configured the app will show the list of children.\n
+        2. If there are children already configured, the app will show the list of children.\n
         3. To add a new child, click on the \"\+\" icon in the toolbar.\n
         4. Enter the name of the child and click on \"Save\" button to save it.\n
-        5. User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.\n
+        5. Click on the child\'s name to edit or delete it. If a child is deleted, their coin flip history will also be removed.\n
+        \n
         Coin Flip:\n
         1. Click on \"Flip Coin\" button in the main menu.\n
-        2. If there are children configured, the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.\n
-        3. Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.\n
-        4. The app will show the result of flip which is automatically saved in the flip history that user can view anytime.\n
+        2. If there are children configured, the app will show the child\'s name whose turn it is and allow the child to select heads or tails.\n
+        3. Tap the \"Flip Coin\" button to flip.\n
+        4. The app will show the result of flip which is automatically saved in the flip history.\n
         \n
         Timeout:\n
-        1. Click on \"Timeout\" button in the main menu.App asks for user input for timer.\n
-        2. User can select one of the timer options or create a custom timer by entering time(only positive integers allowed) and click on \"Start Timer\" button, starts the timer.\n
-        3. User can pause, resume or reset(allows to start again or cancel) the timer.\n
-        4. User can close the app, while timer runs in the background.\n
-        5. When timer is done, app will show a notification from where the user can stop the alarm sound.
+        1. Click on \"Timeout\" button in the main menu.\n
+        2. Select one of the timer options or create a custom timer by entering a number of minutes and then click on \"Start Timer\" button to start the timer.\n
+        3. Optionally pause, resume or reset the timer. If it is reset, it can either be started again or cancelled.\n
+        4. If the app is closed, the timer will continue to run in the background.\n
+        5. When timer is done, app will show a notification with an alarm and vibration. Tap the notification to dismiss it.
     </string>
     <string name="aboutActivity_authorTitle">Scrum Team</string>
-    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner)\nArtun Cimensel(Scrum Master)\nEthan(Repository manager)\nRyan(Team member)</string>
+    <string name="aboutActivity_author_details">Jasmeen (Project Owner)\nArtun (Scrum Master)\nEthan (Repository Manager)\nRyan (Team Member)</string>
     <string name="aboutActivity_referencesTitle">References</string>
     <string name="aboutActivity_references_data">
         Images:\n
