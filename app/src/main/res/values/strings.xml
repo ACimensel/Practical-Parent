@@ -5,7 +5,6 @@
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
-    <string name="time_left">Time left</string>
     <string name="add">Add</string>
     <string name="child_name_empty_error">Please enter a non-empty name</string>
     <string name="name">Name</string>
@@ -47,7 +46,7 @@
     <string name="choose_time_error">Please enter greater than 0 minutes</string>
     <string name="chooseTimeActivity_timer_hint">min</string>
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
-    <string name="aboutActivity_authorTitle">Developer Team:</string>
+    <string name="aboutActivity_authorTitle">Scrum Team:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
@@ -71,8 +70,7 @@
         \n4. Enter the name of the child and click on \"Save\" button to save it.
         \n5. User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.
     </string>
-    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner), Artun(Scrum Master), Ethan(Repository manager), Ryan(Team member)
-
+    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner), Artun Cimensel(Scrum Master), Ethan(Repository manager), Ryan(Team member)
     </string>
     <string name="aboutActivity_references_data">Images:\n
         \t\tOne Euro Coin from <a href = "https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519</a>
@@ -82,12 +80,11 @@
         \n\t\tHappy Kids Clip Art for Main Activity from <a href = "https://www.pinterest.ca/pin/271693789999529311/">https://www.pinterest.ca/pin/271693789999529311/</a>
         \n\t\tGreen Grasses for Main Activity from <a href = "http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm">http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm</a>
         \n\t\tClock Icon for alarm notification from <a href = "https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/</a>
-        \n\t\tSound Off Icon from <a href = " https://www.pikpng.com/transpng/xRToRx/"> https://www.pikpng.com/transpng/xRToRx/</a>
+        \n\t\tSound Off Icon from <a href = "https://www.pikpng.com/transpng/xRToRx/"> https://www.pikpng.com/transpng/xRToRx/</a>
         \n\t\tSound On Icon from <a href = "https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui</a>
         \n\nSounds:\n
         \t\tCoin sound from <a href = "https://www.youtube.com/watch?v=GCE0MQK2Sww">https://www.youtube.com/watch?v=GCE0MQK2Sww</a>
         \n\t\tApp music from <a href = "https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897</a>
-
     </string>
 
 </resources>
