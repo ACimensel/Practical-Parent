@@ -50,18 +50,6 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        updateUI();
-        updateButtons();
-
-        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
-            countDownTimer.start();
-        }
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         countDownTimer.cancel();
@@ -171,6 +159,14 @@ public class TimeoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        updateUI();
+        updateButtons();
+
+        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
+            countDownTimer.start();
+        }
+
         if(BGMusicPlayer.isMusicEnabled()) {
             BGMusicPlayer.resumeBgMusic();
         }
