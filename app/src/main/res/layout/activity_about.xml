@@ -7,64 +7,82 @@
     tools:context=".AboutActivity">
 
     <include
+        android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/aboutActivity_subtitle1_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:text="@string/aboutActivity_appUsageTitleTxt"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    <TextView
-        android:id="@+id/aboutActivity_userManual_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_subtitle1_text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-    <TextView
-        android:id="@+id/aboutActivity_author_title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/aboutActivity_authorTitle"
-        android:textColor="@android:color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_userManual_text" />
+            <TextView
+                android:id="@+id/aboutActivity_usage_instruction_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/aboutActivity_appUsageTitleTxt"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/aboutActivity_authorBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_author_title_text" />
+            <TextView
+                android:id="@+id/aboutActivity_coin_flip_instructions_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/aboutActivity_appUsageInstructions"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/aboutActivity_references_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/aboutActivity_referencesTitle"
-        android:textColor="@android:color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_authorBody" />
+            <TextView
+                android:id="@+id/aboutActivity_author_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/aboutActivity_authorTitle"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/aboutActivity_reference_body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aboutActivity_references_title" />
+            <TextView
+                android:id="@+id/aboutActivity_authorBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/aboutActivity_author_details"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/aboutActivity_references_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/aboutActivity_referencesTitle"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/aboutActivity_reference_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/aboutActivity_references_data"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
