@@ -92,7 +92,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
     private void setupListView() {
         TextView noCoinsFlipped = findViewById(R.id.flipHistory_txtNoCoinsFlipped);
 
-        if(historyList.isEmpty()) {
+        if (historyList.isEmpty()) {
             noCoinsFlipped.setVisibility(View.VISIBLE);
         } else {
             noCoinsFlipped.setVisibility(View.GONE);
@@ -105,7 +105,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class HistoryListAdapter extends ArrayAdapter<FlipHistoryEntry> {
         HistoryListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.list_view_filp_history, historyList);
+            super(FlipHistoryActivity.this, R.layout.list_view_flip_history, historyList);
         }
 
         @NonNull
@@ -114,7 +114,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             //make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_view_filp_history, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.list_view_flip_history, parent, false);
             }
 
             //find the history to work with
@@ -123,7 +123,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             TextView txtName = itemView.findViewById(R.id.flip_history_txtMain);
 
             String coinSideResult;
-            if(currentHistory.getResult() == FlipManager.CoinSide.HEADS) {
+            if (currentHistory.getResult() == FlipManager.CoinSide.HEADS) {
                 coinSideResult = getString(R.string.heads);
             } else {
                 coinSideResult = getString(R.string.tails);
@@ -133,15 +133,15 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             if (currentHistory.getChildUuid() != null) {
                 Child child = childrenManager.getChild(currentHistory.getChildUuid());
-                String won;
+                String wonOrLost;
 
-                if(currentHistory.wasWon()) {
-                    won = getString(R.string.won_green);
+                if (currentHistory.wasWon()) {
+                    wonOrLost = getString(R.string.won_green);
                 } else {
-                    won = getString(R.string.lost_red);
+                    wonOrLost = getString(R.string.lost_red);
                 }
 
-                flipResult = getString(R.string.flip_result_child, child.getName(), coinSideResult, won);
+                flipResult = getString(R.string.flip_result_child, child.getName(), coinSideResult, wonOrLost);
             } else {
                 flipResult = getString(R.string.flip_result, coinSideResult);
             }
