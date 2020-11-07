@@ -153,7 +153,10 @@ public class TimeoutActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFinish() { }
+            public void onFinish() {
+                // method is required but nothing needs to happen here
+                // instead, the TimeoutManager manages what happens when the timer finishes
+            }
         };
     }
 
