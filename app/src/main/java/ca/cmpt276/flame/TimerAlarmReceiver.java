@@ -19,7 +19,7 @@ import static androidx.core.app.NotificationCompat.FLAG_INSISTENT;
 public class TimerAlarmReceiver extends BroadcastReceiver {
     public static final String NOTIFICATION_CHANNEL_ID = "NOTIFICATION_CHANNEL_TIMER_ALARM";
     public static final String EXTRA_CANCEL_NOTIFICATION = "CANCEL_NOTIFICATION";
-    public static final long[] VIBRATION_PATTERN = {500, 1000, 500, 1000, 500, 1000};
+    private static final long[] VIBRATION_PATTERN = {500, 1000, 500, 1000, 500, 1000};
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -57,7 +57,7 @@ public class TimerAlarmReceiver extends BroadcastReceiver {
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
-    public static PendingIntent getCancelNotificationPendingIntent(Context context) {
+    private static PendingIntent getCancelNotificationPendingIntent(Context context) {
         Intent intent = new Intent(context, TimerAlarmReceiver.class);
         intent.putExtra(EXTRA_CANCEL_NOTIFICATION, true);
         return PendingIntent.getBroadcast(context, 1, intent, 0);
