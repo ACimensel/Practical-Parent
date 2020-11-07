@@ -9,20 +9,25 @@
         android:label="@string/app_name_short"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
+        <receiver android:name=".TimerAlarmReceiver" />
         <activity
             android:name=".AboutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChooseTimeActivity"
+            android:name=".FlipHistoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChildEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChooseTimeActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
         <activity
             android:name=".TimeoutActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChildrenActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChildEditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FlipCoinActivity"

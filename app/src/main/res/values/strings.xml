@@ -21,14 +21,25 @@
     <string name="tails_result">TAILS!</string>
     <string name="heads_radio_txt">Heads</string>
     <string name="tails_radio_txt">Tails</string>
+    <string name="flip_history">Flip History</string>
+    <string name="shows_only_person_name">Show only %1$s</string>
+    <string name="flip_result_child"><![CDATA[<b>%1$s</b> flipped <b>%2$s</b> and <b>%3$s</b>]]></string>
+    <string name="won_green"><![CDATA[<font color="#00C853">won</font>]]></string>
+    <string name="lost_red"><![CDATA[<font color="#CC304F">lost</font>]]></string>
+    <string name="flip_result"><![CDATA[Flipped <b>%1$s</b>]]></string>
+    <string name="heads">heads</string>
+    <string name="tails">tails</string>
     <string name="start_timer">Start Timer</string>
     <string name="choose_or_enter_the_time">Choose or Enter the Time</string>
-    <string name="start_btn_text">Start</string>
-    <string name="cancel_btn_text">Cancel</string>
-    <string name="resume_btn_text">Resume</string>
-    <string name="pause_btn_text">Pause</string>
-    <string name="reset_btn_text">Reset</string>
+    <string name="start">Start</string>
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
+    <string name="reset">Reset</string>
     <string name="finished">Finished</string>
+    <string name="timer_notification_channel_name">Timer Alarm</string>
+    <string name="timer_notification_channel_desc">Notifications when the timer finishes.</string>
+    <string name="timer_notification_title">Timer Finished!</string>
+    <string name="timer_notification_desc">Tap to turn off alarm and dismiss.</string>
     <plurals name="minute">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
@@ -38,6 +49,10 @@
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Developer Team:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
+    <string name="no_history_entries">No history entries.</string>
     <string name="aboutActivity_coinFlipUsage">Coin Flip: \n1. Click on \"Flip Coin\" button in the main menu. \n2. If there are children configured,
         the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.
         \n3. Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.

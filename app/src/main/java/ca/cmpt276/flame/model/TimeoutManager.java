@@ -1,5 +1,17 @@
 package ca.cmpt276.flame.model;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.core.app.AlarmManagerCompat;
+
+import com.google.gson.Gson;
+
+import static ca.cmpt276.flame.TimerAlarmReceiver.cancelNotifications;
+import static ca.cmpt276.flame.TimerAlarmReceiver.getNotificationPendingIntent;
+
 /**
  * TimeoutManager is a singleton class that manages the current state of the timer:
  * - the number of minutes entered by the user
@@ -14,49 +26,112 @@ public class TimeoutManager {
         PAUSED
     }
 
-    private static TimeoutManager timeoutManager;
+    private static final String SHARED_PREFS_KEY = "SHARED_PREFS_TIMEOUT_MANAGER";
     private static final int MILLIS_IN_MIN = 60000;
+    private static TimeoutManager timeoutManager;
+    private static SharedPreferences sharedPrefs;
+    private TimerState timerState = TimerState.STOPPED;
     private int minutesEntered;
-    private long millisRemaining;
-    private TimerState timerState;
+    private long timerFinishTime;
+    private long timerOffsetMillis;
+
+    public static void init(SharedPreferences sharedPrefs) {
+        if(timeoutManager != null) {
+            return;
+        }
+
+        TimeoutManager.sharedPrefs = sharedPrefs;
+        String json = sharedPrefs.getString(SHARED_PREFS_KEY, "");
+
+        if(json != null && !json.isEmpty()) {
+            timeoutManager = (new Gson()).fromJson(json, TimeoutManager.class);
+        } else {
+            timeoutManager = new TimeoutManager();
+        }
+    }
 
     public static TimeoutManager getInstance() {
         if(timeoutManager == null) {
-            timeoutManager = new TimeoutManager();
+            throw new IllegalStateException("TimeoutManager must be initialized before use");
         }
         return timeoutManager;
     }
 
     private TimeoutManager() {
-        setTimerState(TimerState.STOPPED);
     }
 
     public int getMinutesEntered() {
         return minutesEntered;
     }
 
-    public void setMinutesEntered(int minutes) {
+    public void setMinutesEntered(Context context, int minutes) {
         minutesEntered = minutes;
-        resetMillisRemaining();
+        reset(context);
     }
 
-    public void resetMillisRemaining() {
-        millisRemaining = minutesEntered * MILLIS_IN_MIN;
+    public void start(Context context) {
+        if(getTimerState() == TimerState.RUNNING) {
+            return;
+        }
+
+        cancelAlarm(context);
+        timerFinishTime = System.currentTimeMillis() + timerOffsetMillis;
+        timerState = TimerState.RUNNING;
+        setAlarm(context);
+        persistToSharedPrefs();
+    }
+
+    public void pause(Context context) {
+        timerOffsetMillis = getMillisRemaining();
+        timerState = TimerState.PAUSED;
+        cancelAlarm(context);
+        persistToSharedPrefs();
+    }
+
+    public void reset(Context context) {
+        timerOffsetMillis = minutesEntered * MILLIS_IN_MIN;
+        timerState = TimerState.STOPPED;
+        cancelAlarm(context);
+        persistToSharedPrefs();
+    }
+
+    private void setAlarm(Context context) {
+        AlarmManager alarmManager = getAlarmManager(context);
+        PendingIntent pendingIntent = getNotificationPendingIntent(context);
+        AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, timerFinishTime, pendingIntent);
+    }
+
+    public void cancelAlarm(Context context) {
+        AlarmManager alarmManager = getAlarmManager(context);
+        alarmManager.cancel(getNotificationPendingIntent(context));
+        cancelNotifications(context);
+    }
+
+    private AlarmManager getAlarmManager(Context context) {
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
     public long getMillisRemaining() {
-        return millisRemaining;
-    }
-
-    public void setMillisRemaining(long millisRemaining) {
-        this.millisRemaining = millisRemaining;
+        if(timerState == TimerState.RUNNING) {
+            long offset = timerFinishTime - System.currentTimeMillis();
+            return offset > 0 ? offset : 0;
+        } else {
+            return timerOffsetMillis;
+        }
     }
 
     public TimerState getTimerState() {
+        if(timerState == TimerState.RUNNING && getMillisRemaining() == 0) {
+            timerState = TimerState.STOPPED;
+        }
+
         return timerState;
     }
 
-    public void setTimerState(TimerState timerState) {
-        this.timerState = timerState;
+    private void persistToSharedPrefs() {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        String json = (new Gson()).toJson(this);
+        editor.putString(SHARED_PREFS_KEY, json);
+        editor.apply();
     }
 }
