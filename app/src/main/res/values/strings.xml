@@ -45,46 +45,48 @@
     </plurals>
     <string name="choose_time_error">Please enter greater than 0 minutes</string>
     <string name="chooseTimeActivity_timer_hint">min</string>
-    <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
-    <string name="aboutActivity_authorTitle">Scrum Team:</string>
-    <string name="aboutActivity_referencesTitle">References:</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
     <string name="no_history_entries">No history entries.</string>
-    <string name="aboutActivity_coinFlipUsage">Coin Flip: \n1. Click on \"Flip Coin\" button in the main menu. \n2. If there are children configured,
-        the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.
-        \n3. Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.
-        \n4. The app will show the result of flip which is automatically saved in the flip history that user can view anytime.
+    <string name="aboutActivity_appUsageTitleTxt">Usage Instructions</string>
+    <string name="aboutActivity_appUsageInstructions">
+        Configure Child:\n
+        1. Click on \"Children\" button in main menu.\n
+        2. If there are children already configured the app will show the list of children.\n
+        3. To add a new child, click on the \"\+\" icon in the toolbar.\n
+        4. Enter the name of the child and click on \"Save\" button to save it.\n
+        5. User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.\n
+        Coin Flip:\n
+        1. Click on \"Flip Coin\" button in the main menu.\n
+        2. If there are children configured, the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.\n
+        3. Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.\n
+        4. The app will show the result of flip which is automatically saved in the flip history that user can view anytime.\n
+        \n
+        Timeout:\n
+        1. Click on \"Timeout\" button in the main menu.App asks for user input for timer.\n
+        2. User can select one of the timer options or create a custom timer by entering time(only positive integers allowed) and click on \"Start Timer\" button, starts the timer.\n
+        3. User can pause, resume or reset(allows to start again or cancel) the timer.\n
+        4. User can close the app, while timer runs in the background.\n
+        5. When timer is done, app will show a notification from where the user can stop the alarm sound.
     </string>
-    <string name="aboutActivity_timeoutUsage">Timeout: \n1. Click on \"Timeout\" button in the main menu.App asks for user input for timer.
-        \n2. User can select one of the timer options or create a custom timer by entering time(only positive integers allowed)
-        and click on \"Start Timer\" button, starts the timer.
-        \n3. User can pause, resume or reset(allows to start again or cancel) the timer.
-        \n4. User can close the app, while timer runs in the background.
-        \n5. When timer is done, app will show a notification from where the user can stop the alarm sound.
-    </string>
-    <string name="aboutActivity_configureChildUsage">Configure Child:\n1. Click on \"Children\" button in main menu.
-        \n2. If there are children already configured the app will show the list of children.
-        \n3. To add a new child, click on the \"\+\" icon in the toolbar.
-        \n4. Enter the name of the child and click on \"Save\" button to save it.
-        \n5. User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.
-    </string>
-    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner), Artun Cimensel(Scrum Master), Ethan(Repository manager), Ryan(Team member)
-    </string>
-    <string name="aboutActivity_references_data">Images:\n
-        \t\tOne Euro Coin from <a href = "https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519</a>
-        \n\t\tPP Linked Rounded Design Logo from <a href = "https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755">https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755</a>
-        \n\t\tApp Icon Background from <a href = "https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png">https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png</a>
-        \n\t\tBackground Timeout Activity from <a href = "https://www.pinterest.ca/pin/528258231271496359/">https://www.pinterest.ca/pin/528258231271496359/</a>
-        \n\t\tHappy Kids Clip Art for Main Activity from <a href = "https://www.pinterest.ca/pin/271693789999529311/">https://www.pinterest.ca/pin/271693789999529311/</a>
-        \n\t\tGreen Grasses for Main Activity from <a href = "http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm">http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm</a>
-        \n\t\tClock Icon for alarm notification from <a href = "https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/</a>
-        \n\t\tSound Off Icon from <a href = "https://www.pikpng.com/transpng/xRToRx/"> https://www.pikpng.com/transpng/xRToRx/</a>
-        \n\t\tSound On Icon from <a href = "https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui</a>
-        \n\nSounds:\n
-        \t\tCoin sound from <a href = "https://www.youtube.com/watch?v=GCE0MQK2Sww">https://www.youtube.com/watch?v=GCE0MQK2Sww</a>
-        \n\t\tApp music from <a href = "https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897</a>
+    <string name="aboutActivity_authorTitle">Scrum Team</string>
+    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner)\nArtun Cimensel(Scrum Master)\nEthan(Repository manager)\nRyan(Team member)</string>
+    <string name="aboutActivity_referencesTitle">References</string>
+    <string name="aboutActivity_references_data">
+        Images:\n
+        \t\t<a href = "https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">Euro Coin 3d Model</a>\n
+        \t\t<a href = "https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755">PP Initials App Icon Image</a>\n
+        \t\t<a href = "https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png">App Icon Background</a>\n
+        \t\t<a href = "https://wallpaperaccess.com/gradient">Timeout Gradient BG Image</a>\n
+        \t\t<a href = "https://www.pinterest.ca/pin/271693789999529311/">Main Activity Children BG</a>\n
+        \t\t<a href = "http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm">Main Activity Grass BG</a>\n
+        \t\t<a href = "https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">Clock Alarm Icon</a>\n
+        \t\t<a href = "https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">Sound On Icon</a>\n
+        \t\t<a href = "https://www.pikpng.com/transpng/xRToRx/">Sound Off Icon</a>\n\n
+        Sounds:\n
+        \t\t<a href = "https://www.youtube.com/watch?v=GCE0MQK2Sww">Spinning Coin Sound</a>\n
+        \t\t<a href = "https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">App BG Music</a>
     </string>
 
 </resources>
