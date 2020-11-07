@@ -29,6 +29,7 @@
                 android:text="@string/aboutActivity_appUsageTitleTxt"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="5dp"
                 android:text=""
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_usage_instruction_title" />
 
@@ -46,6 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="5dp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_coin_flip_instructions_text" />
 
@@ -54,6 +61,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="5dp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_timeout_instructions_text" />
 
@@ -64,6 +74,7 @@
                 android:layout_marginTop="64dp"
                 android:text="@string/aboutActivity_authorTitle"
                 android:textColor="@android:color/black"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_configure_child_instructions_text" />
 
@@ -72,7 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="5dp"
                 android:text=""
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_author_title_text" />
 
@@ -83,6 +97,7 @@
                 android:layout_marginTop="64dp"
                 android:text="@string/aboutActivity_referencesTitle"
                 android:textColor="@android:color/black"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_authorBody" />
 
@@ -91,7 +106,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="5dp"
                 android:text=""
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutActivity_references_title" />
 

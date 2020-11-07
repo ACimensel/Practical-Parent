@@ -36,40 +36,42 @@
     <string name="choose_time_error">Please enter greater than 0 minutes</string>
     <string name="chooseTimeActivity_timer_hint">min</string>
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
-    <string name="aboutActivity_authorTitle">Author:</string>
+    <string name="aboutActivity_authorTitle">Developer Team:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
-    <string name="aboutActivity_coinFlipUsage">Coin Flip: Click on \"Flip Coin\" button in the main menu. If there are children configured,
+    <string name="aboutActivity_coinFlipUsage">Coin Flip: \n1. Click on \"Flip Coin\" button in the main menu. \n2. If there are children configured,
         the app will show the child\'s name whose turn it is or user can do a random flip if no child is configured.
-        Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.
-        The app will show the result of flip which is automatically saved in the flip history that user can view anytime.
+        \n3. Then the user selects either heads or tails and click the \"Flip Coin\" button to flip.
+        \n4. The app will show the result of flip which is automatically saved in the flip history that user can view anytime.
     </string>
-    <string name="aboutActivity_timeoutUsage">Timeout: Click on \"Timeout\" button in the main menu.App asks for user input for timer.
-        User can select one of the timer options or create a custom timer by entering time(only positive integers allowed)
-        and click on \"Start Timer\" button, starts the timer. User can pause, resume or reset(allows to start again or cancel) the timer.
-        User can close the app, while timer runs in the background. When timer is done, app will show a notification from where the user can stop the alarm sound.
+    <string name="aboutActivity_timeoutUsage">Timeout: \n1. Click on \"Timeout\" button in the main menu.App asks for user input for timer.
+        \n2. User can select one of the timer options or create a custom timer by entering time(only positive integers allowed)
+        and click on \"Start Timer\" button, starts the timer.
+        \n3. User can pause, resume or reset(allows to start again or cancel) the timer.
+        \n4. User can close the app, while timer runs in the background.
+        \n5. When timer is done, app will show a notification from where the user can stop the alarm sound.
     </string>
-    <string name="aboutActivity_configureChildUsage">Configure Child: Click on \"Children\" button in main menu.
-        If there are children already configured the app will show the list of children.
-        To add a new child, click on the \"\+\" icon in the toolbar. Enter the name of the child and click on \"Save\" button to save it.
-        User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.
+    <string name="aboutActivity_configureChildUsage">Configure Child:\n1. Click on \"Children\" button in main menu.
+        \n2. If there are children already configured the app will show the list of children.
+        \n3. To add a new child, click on the \"\+\" icon in the toolbar.
+        \n4. Enter the name of the child and click on \"Save\" button to save it.
+        \n5. User can click on the child\'s name to edit or delete it. History related to the deleted child will be removed.
     </string>
-    <string name="aboutActivity_author_details">by
+    <string name="aboutActivity_author_details">Jasmeen Kaur(Project Owner), Artun(Scrum Master), Ethan(Repository manager), Ryan(Team member)
 
     </string>
     <string name="aboutActivity_references_data">Images:\n
-        \t[One Euro Coin]. (n.d.). https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519
-        \n\t[Initial Letter PP Linked Rounded Design Logo]. (n.d.). https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755
-        \n\tApp Icon Background from https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png
-        \n\t[Iphone Aesthetics]. (n.d.). https://www.pinterest.ca/pin/528258231271496359/
-        \n\t[Happy Kids Clip Art]. (n.d.). https://www.pinterest.ca/pin/271693789999529311/
-        \n\tClip Arts Related To : Green Grasses Illustration - Cartoon green background png. (n.d.).Clipart Library. Retrieved Nov 5,2020 from
-        http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm
-        \n\\seconds background
-        \n\t[Iphone Remind Me Icon].(n.d.). https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/
-
+        \t\tOne Euro Coin from <a href = "https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519</a>
+        \n\t\tPP Linked Rounded Design Logo from <a href = "https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755">https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755</a>
+        \n\t\tApp Icon Background from <a href = "https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png">https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png</a>
+        \n\t\tBackground Timeout Activity from <a href = "https://www.pinterest.ca/pin/528258231271496359/">https://www.pinterest.ca/pin/528258231271496359/</a>
+        \n\t\tHappy Kids Clip Art for Main Activity from <a href = "https://www.pinterest.ca/pin/271693789999529311/">https://www.pinterest.ca/pin/271693789999529311/</a>
+        \n\t\tGreen Grasses for Main Activity from <a href = "http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm">http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm</a>
+        \n\t\tClock Icon for alarm notification from <a href = "https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/</a>
+        \n\t\tSound Off Icon from <a href = " https://www.pikpng.com/transpng/xRToRx/"> https://www.pikpng.com/transpng/xRToRx/</a>
+        \n\t\tSound On Icon from <a href = "https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui</a>
         \n\nSounds:\n
-        \tFree Sound Stock. (2017,Feb 9). Spinning Coin Sound Effect[Video]. YouTube. https://www.youtube.com/watch?v=GCE0MQK2Sww
-        \n\tRenda David. (n.d.). Serenity. On Ambient Chill(2020).  https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897
+        \t\tCoin sound from <a href = "https://www.youtube.com/watch?v=GCE0MQK2Sww">https://www.youtube.com/watch?v=GCE0MQK2Sww</a>
+        \n\t\tApp music from <a href = "https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897</a>
 
     </string>
 
