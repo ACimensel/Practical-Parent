@@ -14,6 +14,12 @@
             android:name=".AboutActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".FlipHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChildEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ChooseTimeActivity"
             android:screenOrientation="portrait"
             android:noHistory="true" />
@@ -22,9 +28,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChildrenActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChildEditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FlipCoinActivity"
