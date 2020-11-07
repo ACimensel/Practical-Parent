@@ -10,11 +10,11 @@
         android:id="@+id/toolbar_flipHistory"/>
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/flip_history_switch"
+        android:id="@+id/flipHistory_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_flipHistory" />
 
@@ -22,9 +22,20 @@
         android:id="@+id/flipHistory_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flip_history_switch" />
+        app:layout_constraintTop_toBottomOf="@+id/flipHistory_switch" />
+
+    <TextView
+        android:id="@+id/flipHistory_txtNoCoinsFlipped"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/no_history_entries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flipHistory_switch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,7 +56,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
     }
 
     private void setupSwitchButton() {
-        SwitchCompat switchCompat = findViewById(R.id.flip_history_switch);
+        SwitchCompat switchCompat = findViewById(R.id.flipHistory_switch);
         //check if there is no child has been added
         if (turnChild != null) {
             switchCompat.setText(getString(R.string.shows_only_person_name, turnChild.getName()));
@@ -90,13 +90,21 @@ public class FlipHistoryActivity extends AppCompatActivity {
     }
 
     private void setupListView() {
-        ArrayAdapter<FlipHistoryEntry> adapter = new MyListAdapter();
+        TextView noCoinsFlipped = findViewById(R.id.flipHistory_txtNoCoinsFlipped);
+
+        if(historyList.isEmpty()) {
+            noCoinsFlipped.setVisibility(View.VISIBLE);
+        } else {
+            noCoinsFlipped.setVisibility(View.GONE);
+        }
+
+        ArrayAdapter<FlipHistoryEntry> adapter = new HistoryListAdapter();
         ListView list = findViewById(R.id.flipHistory_listView);
         list.setAdapter(adapter);
     }
 
-    private class MyListAdapter extends ArrayAdapter<FlipHistoryEntry> {
-        MyListAdapter() {
+    private class HistoryListAdapter extends ArrayAdapter<FlipHistoryEntry> {
+        HistoryListAdapter() {
             super(FlipHistoryActivity.this, R.layout.list_view_filp_history, historyList);
         }
 
@@ -111,43 +119,40 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             //find the history to work with
             FlipHistoryEntry currentHistory = historyList.get(position);
-            Child child;
-            if (currentHistory.getChildUuid() == null) {
-                child = new Child(getString(R.string.unknown));
+
+            TextView txtName = itemView.findViewById(R.id.flip_history_txtMain);
+
+            String coinSideResult;
+            if(currentHistory.getResult() == FlipManager.CoinSide.HEADS) {
+                coinSideResult = getString(R.string.heads);
             } else {
-                child = childrenManager.getChild(currentHistory.getChildUuid());
+                coinSideResult = getString(R.string.tails);
             }
 
-            //Fill the view
-            //setup name text
-            TextView txtName = itemView.findViewById(R.id.flip_history_txtName);
-            String flipResult = getString(R.string.flip_result, child.getName(), currentHistory.getResult());
-            txtName.setText(getSpannedText(flipResult));
+            String flipResult;
 
-            //set up win text
-            TextView txtWin = itemView.findViewById(R.id.flip_history_txtWin);
-            //do not show the result when coin flipped by nobody
-            if (!child.getName().equals("Unknown")) {
-                String win;
-                if (currentHistory.wasWon()) {
-                    win = getString(R.string.win);
-                    txtWin.setTextColor(getResources().getColor(R.color.colorAccent));
+            if (currentHistory.getChildUuid() != null) {
+                Child child = childrenManager.getChild(currentHistory.getChildUuid());
+                String won;
+
+                if(currentHistory.wasWon()) {
+                    won = getString(R.string.won_green);
                 } else {
-                    win = getString(R.string.lost);
-                    txtWin.setTextColor(getResources().getColor(R.color.colorRed));
+                    won = getString(R.string.lost_red);
                 }
-                txtWin.setText(win);
+
+                flipResult = getString(R.string.flip_result_child, child.getName(), coinSideResult, won);
             } else {
-                txtWin.setText("");
+                flipResult = getString(R.string.flip_result, coinSideResult);
             }
 
-            //setup time text
+            txtName.setText(getTextFromHtml(flipResult));
+
             TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
-            //change the data format
-            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.time_format), Locale.getDefault());
+            // change the data format
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
             String time = format.format(currentHistory.getDate());
             txtTime.setText(time);
-
 
             return itemView;
         }
@@ -158,8 +163,8 @@ public class FlipHistoryActivity extends AppCompatActivity {
         return new Intent(context, FlipHistoryActivity.class);
     }
 
-    //https://stackoverflow.com/questions/10766492/what-is-the-simplest-way-to-reverse-an-arraylist
-    private Spanned getSpannedText(String text) {
+    // https://stackoverflow.com/questions/7130619/bold-words-in-a-string-of-strings-xml-in-android
+    private Spanned getTextFromHtml(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
         } else {

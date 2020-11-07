@@ -21,11 +21,13 @@
     <string name="heads_radio_txt">Heads</string>
     <string name="tails_radio_txt">Tails</string>
     <string name="flip_history">Flip History</string>
-    <string name="shows_only_person_name">Shows only %1$s</string>
-    <string name="flip_result"><![CDATA[<b>%1$s</b> flipped <b>%2$s</b>]]></string>
-    <string name="win">&#160; won</string>
-    <string name="lost">&#160; lost</string>
-    <string name="time_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="shows_only_person_name">Show only %1$s</string>
+    <string name="flip_result_child"><![CDATA[<b>%1$s</b> flipped <b>%2$s</b> and <b>%3$s</b>]]></string>
+    <string name="won_green"><![CDATA[<font color="#00C853">won</font>]]></string>
+    <string name="lost_red"><![CDATA[<font color="#CC304F">lost</font>]]></string>
+    <string name="flip_result"><![CDATA[Flipped <b>%1$s</b>]]></string>
+    <string name="heads">heads</string>
+    <string name="tails">tails</string>
     <string name="start_timer">Start Timer</string>
     <string name="choose_or_enter_the_time">Choose or Enter the Time</string>
     <string name="start">Start</string>
@@ -42,8 +44,8 @@
     <string name="aboutActivity_appUsageTitleTxt">Usage instructions:</string>
     <string name="aboutActivity_authorTitle">Author:</string>
     <string name="aboutActivity_referencesTitle">References:</string>
-    <string name="unknown">Unknown</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
+    <string name="no_history_entries">No history entries.</string>
 </resources>
