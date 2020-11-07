@@ -3,8 +3,11 @@ package ca.cmpt276.flame;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.widget.Button;
@@ -29,6 +32,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_time);
+
+        createNotificationChannel();
         setUpTimeValueTxt();
         setupToolbar();
         createTimerOptions();
@@ -64,7 +69,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 return;
             }
 
-            timeoutManager.setMinutesEntered(minutes);
+            timeoutManager.setMinutesEntered(getApplicationContext(), minutes);
+            timeoutManager.start(getApplicationContext());
             startActivity(TimeoutActivity.makeIntent(this));
         });
     }
@@ -86,6 +92,21 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 timerBtn.setChecked(true);
                 timeValueTxt.setText(numMinutesStr);
             }
+        }
+    }
+
+    // inspired by code from: https://developer.android.com/training/notify-user/channels
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            String name = getString(R.string.timer_notification_channel_name);
+            String description = getString(R.string.timer_notification_channel_desc);
+
+            NotificationChannel channel = new NotificationChannel(TimerAlarmReceiver.NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 
