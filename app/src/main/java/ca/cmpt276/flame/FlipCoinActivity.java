@@ -104,9 +104,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setUpHistoryButton() {
-        historyBtn.setOnClickListener(v -> {
-            // TODO: DO SOMETHING ON CLICK ONCE HISTORY MANAGER IS IMPLEMENTED
-        });
+        historyBtn.setOnClickListener(v -> startActivity(FlipHistoryActivity.makeIntent(this)));
     }
 
     private void flipCoin() {

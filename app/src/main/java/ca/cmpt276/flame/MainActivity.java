@@ -16,6 +16,8 @@ import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.TimeoutManager;
 
+import static ca.cmpt276.flame.model.BGMusicPlayer.playBgMusic;
+
 /**
  * Main Activity: displays a menu to the user, allowing them to open
  * the FlipCoinActivity, the TimeoutActivity, the ChildrenActivity and
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         listenForScreenTurningOff();
 
         if (BGMusicPlayer.isMusicEnabled()) {
-            BGMusicPlayer.playBgMusic(this);
+            playBgMusic();
         }
     }
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         ChildrenManager.init(sharedPrefs);
         FlipManager.init(sharedPrefs);
         TimeoutManager.init(sharedPrefs);
+        BGMusicPlayer.init(sharedPrefs, this);
     }
 
     private void setupButtons() {
@@ -53,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         Button aboutBtn = findViewById(R.id.main_btnAbout);
         ImageButton musicOnOffBtn = findViewById(R.id.main_btnMusicOnOff);
 
+        if(BGMusicPlayer.isMusicEnabled()) {
+            musicOnOffBtn.setImageResource(R.drawable.music_on);
+        } else {
+            musicOnOffBtn.setImageResource(R.drawable.music_off);
+        }
+
+        // Set up OnClickListeners for the buttons
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
@@ -70,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             BGMusicPlayer.setIsMusicEnabled(isMusicEnabled);
 
             if (isMusicEnabled) {
-                BGMusicPlayer.playBgMusic(MainActivity.this);
+                BGMusicPlayer.playBgMusic();
                 musicOnOffBtn.setImageResource(R.drawable.music_on);
             } else {
                 BGMusicPlayer.pauseBgMusic();
