@@ -11,8 +11,9 @@ import ca.cmpt276.flame.R;
  * and chirping upon timeout timer finishing
  */
 public class BGMusicPlayer {
-    private static MediaPlayer bgMusic;
     private static final float MUSIC_VOLUME = 0.8f;
+    private static MediaPlayer bgMusic;
+    private static boolean isMusicEnabled = true;
 
     private BGMusicPlayer() {
         // static class: prevent other classes from creating new ones
@@ -24,6 +25,9 @@ public class BGMusicPlayer {
             bgMusic.setVolume(MUSIC_VOLUME, MUSIC_VOLUME);
             bgMusic.start();
             bgMusic.setLooping(true);
+        } else {
+            bgMusic.seekTo(0);
+            bgMusic.start();
         }
     }
 
@@ -37,5 +41,13 @@ public class BGMusicPlayer {
         if (bgMusic != null) {
             bgMusic.start();
         }
+    }
+
+    public static boolean isMusicEnabled() {
+        return isMusicEnabled;
+    }
+
+    public static void setIsMusicEnabled(boolean isMusicEnabled) {
+        BGMusicPlayer.isMusicEnabled = isMusicEnabled;
     }
 }

@@ -39,4 +39,5 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
+    <string name="bg_music">BG Music:</string>
 </resources>

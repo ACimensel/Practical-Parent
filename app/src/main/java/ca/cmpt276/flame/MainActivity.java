@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipManager;
@@ -18,13 +19,11 @@ import ca.cmpt276.flame.model.BGMusicPlayer;
  * Main Activity: displays a menu to the user, allowing them to open
  * the FlipCoinActivity, the TimeoutActivity, the ChildrenActivity and
  * the AboutActivity
- *
+ * <p>
  * onTrimMemory() and listenForScreenTurningOff() code inspired from:
  * http://www.developerphil.com/no-you-can-not-override-the-home-button-but-you-dont-have-to/
  */
 public class MainActivity extends AppCompatActivity {
-    public static boolean isMusicEnabled = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setupButtons();
         listenForScreenTurningOff();
 
-        if(isMusicEnabled) {
+        if (BGMusicPlayer.isMusicEnabled()) {
             BGMusicPlayer.playBgMusic(this);
         }
     }
@@ -50,17 +49,31 @@ public class MainActivity extends AppCompatActivity {
         Button timeoutBtn = findViewById(R.id.main_btnTimeout);
         Button childrenBtn = findViewById(R.id.main_btnChildren);
         Button aboutBtn = findViewById(R.id.main_btnAbout);
+        ImageButton musicOnOffBtn = findViewById(R.id.main_btnMusicOnOff);
 
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
         timeoutBtn.setOnClickListener(view -> startActivity(ChooseTimeActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
+
+        musicOnOffBtn.setOnClickListener(v -> {
+            boolean isMusicEnabled = !BGMusicPlayer.isMusicEnabled();
+            BGMusicPlayer.setIsMusicEnabled(isMusicEnabled);
+
+            if (isMusicEnabled) {
+                BGMusicPlayer.playBgMusic(MainActivity.this);
+                musicOnOffBtn.setImageResource(R.drawable.music_on);
+            } else {
+                BGMusicPlayer.pauseBgMusic();
+                musicOnOffBtn.setImageResource(R.drawable.music_off);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(isMusicEnabled) {
+        if (BGMusicPlayer.isMusicEnabled()) {
             BGMusicPlayer.resumeBgMusic();
         }
     }

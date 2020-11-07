@@ -93,7 +93,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(MainActivity.isMusicEnabled) {
+        if(BGMusicPlayer.isMusicEnabled()) {
             BGMusicPlayer.resumeBgMusic();
         }
     }
