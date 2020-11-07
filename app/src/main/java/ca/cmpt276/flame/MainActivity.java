@@ -22,7 +22,7 @@ import static ca.cmpt276.flame.model.BGMusicPlayer.playBgMusic;
  * Main Activity: displays a menu to the user, allowing them to open
  * the FlipCoinActivity, the TimeoutActivity, the ChildrenActivity and
  * the AboutActivity
- * <p>
+ *
  * onTrimMemory() and listenForScreenTurningOff() code inspired from:
  * http://www.developerphil.com/no-you-can-not-override-the-home-button-but-you-dont-have-to/
  */
@@ -92,9 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (BGMusicPlayer.isMusicEnabled()) {
-            BGMusicPlayer.resumeBgMusic();
-        }
+        BGMusicPlayer.resumeBgMusic();
     }
 
     @Override

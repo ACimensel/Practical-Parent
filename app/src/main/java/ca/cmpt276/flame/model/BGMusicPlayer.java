@@ -50,7 +50,7 @@ public class BGMusicPlayer {
     }
 
     public static void resumeBgMusic() {
-        if (bgMusic != null) {
+        if (bgMusic != null && isMusicEnabled) {
             bgMusic.start();
         }
     }

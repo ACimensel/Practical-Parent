@@ -167,9 +167,7 @@ public class TimeoutActivity extends AppCompatActivity {
             countDownTimer.start();
         }
 
-        if(BGMusicPlayer.isMusicEnabled()) {
-            BGMusicPlayer.resumeBgMusic();
-        }
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {

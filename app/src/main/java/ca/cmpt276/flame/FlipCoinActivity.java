@@ -206,9 +206,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(BGMusicPlayer.isMusicEnabled()) {
-            BGMusicPlayer.resumeBgMusic();
-        }
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {
