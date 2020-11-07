@@ -1,5 +1,6 @@
 package ca.cmpt276.flame;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -106,8 +107,14 @@ public class ChildEditActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.childEdit_btnDelete);
         btn.setVisibility(View.VISIBLE);
         btn.setOnClickListener(v -> {
-            childrenManager.removeChild(clickedChild.getUuid());
-            finish();
+            new AlertDialog.Builder(ChildEditActivity.this)
+                    .setTitle(R.string.confirm)
+                    .setMessage(R.string.childEditActivity_confirmDeleteMsg)
+                    .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
+                        childrenManager.removeChild(clickedChild.getUuid());
+                        finish();
+                    }))
+                    .setNegativeButton(R.string.cancel, null).show();
         });
     }
 
