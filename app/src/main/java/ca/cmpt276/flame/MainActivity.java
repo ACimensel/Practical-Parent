@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipManager;
+import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
  * Main Activity: displays a menu to the user, allowing them to open
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
         ChildrenManager.init(sharedPrefs);
         FlipManager.init(sharedPrefs);
+        TimeoutManager.init(sharedPrefs);
     }
 
     private void setupButtons() {
@@ -41,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         timeoutBtn.setOnClickListener(view -> {
-            startActivity(ChooseTimeActivity.makeIntent(this));
+            if(TimeoutManager.getInstance().getTimerState() == TimeoutManager.TimerState.STOPPED) {
+                startActivity(ChooseTimeActivity.makeIntent(this));
+            } else {
+                startActivity(TimeoutActivity.makeIntent(this));
+            }
         });
 
         childrenBtn.setOnClickListener(view -> {

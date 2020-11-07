@@ -35,6 +35,10 @@
     <string name="pause">Pause</string>
     <string name="reset">Reset</string>
     <string name="finished">Finished</string>
+    <string name="timer_notification_channel_name">Timer Alarm</string>
+    <string name="timer_notification_channel_desc">Notifications when the timer finishes.</string>
+    <string name="timer_notification_title">Timer Finished!</string>
+    <string name="timer_notification_desc">Tap to turn off alarm and dismiss.</string>
     <plurals name="minute">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
