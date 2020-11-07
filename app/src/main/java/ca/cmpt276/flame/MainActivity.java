@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.BGMusicPlayer;
+import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
  * Main Activity: displays a menu to the user, allowing them to open
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
         ChildrenManager.init(sharedPrefs);
         FlipManager.init(sharedPrefs);
+        TimeoutManager.init(sharedPrefs);
     }
 
     private void setupButtons() {
@@ -52,9 +54,16 @@ public class MainActivity extends AppCompatActivity {
         ImageButton musicOnOffBtn = findViewById(R.id.main_btnMusicOnOff);
 
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
-        timeoutBtn.setOnClickListener(view -> startActivity(ChooseTimeActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
+
+        timeoutBtn.setOnClickListener(view -> {
+            if(TimeoutManager.getInstance().getTimerState() == TimeoutManager.TimerState.STOPPED) {
+                startActivity(ChooseTimeActivity.makeIntent(this));
+            } else {
+                startActivity(TimeoutActivity.makeIntent(this));
+            }
+        });
 
         musicOnOffBtn.setOnClickListener(v -> {
             boolean isMusicEnabled = !BGMusicPlayer.isMusicEnabled();

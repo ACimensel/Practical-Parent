@@ -2,13 +2,10 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,7 +23,6 @@ import ca.cmpt276.flame.model.BGMusicPlayer;
 public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_MIN = 60000;
     private static final int MILLIS_IN_SEC = 1000;
-    private static final int VIBRATION_TIME_IN_MS = 5000;
     private static final int PROGRESS_BAR_STEPS = 1000;
     private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
 
@@ -53,10 +49,22 @@ public class TimeoutActivity extends AppCompatActivity {
         setupTimer();
     }
 
-    private void setupTimer() {
-        countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
-        updateCountdownTimeTxt();
-        countDownTimer = startTimer();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUI();
+        updateButtons();
+
+        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
+            countDownTimer.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        countDownTimer.cancel();
     }
 
     private void updateButtons() {
@@ -76,7 +84,11 @@ public class TimeoutActivity extends AppCompatActivity {
         }
     }
 
-    private void updateCountdownTimeTxt() {
+    private void updateUI() {
+        if(countdownTimeTxt == null) {
+            countdownTimeTxt = findViewById(R.id.timeout_txtTimeRemaining);
+        }
+
         long millisRemaining = timeoutManager.getMillisRemaining();
         int progressBarStepsLeft = (int) (PROGRESS_BAR_STEPS * millisRemaining / millisEntered);
 
@@ -87,26 +99,34 @@ public class TimeoutActivity extends AppCompatActivity {
         String timeStr = String.format(Locale.getDefault(), "%d:%02d", minRemaining, secRemaining);
 
         countdownTimeTxt.setText(timeStr);
+
+        if(timeoutManager.getMillisRemaining() == 0) {
+            countDownTimer.cancel();
+            countdownTimeTxt.setText(R.string.finished);
+            updateButtons();
+        }
     }
 
     private void setupPauseButton() {
         pauseTimerBtn = findViewById(R.id.timeout_btnPause);
 
-        // pause button which also act as resume or start button
         pauseTimerBtn.setOnClickListener(view -> {
             switch (timeoutManager.getTimerState()) {
                 case RUNNING:
-                    timeoutManager.setTimerState(TimeoutManager.TimerState.PAUSED);
+                    // "Pause" button
                     countDownTimer.cancel();
-                    updateButtons();
+                    timeoutManager.pause(getApplicationContext());
                     break;
                 case PAUSED:
-                    // same behaviour for both buttons
+                    // "Resume" button if timer is paused, fall through
                 case STOPPED:
-                    // As a resume or start button, start the timer
-                    countDownTimer = startTimer();
+                    // "Start" button if timer is stopped
+                    countDownTimer.start();
+                    timeoutManager.start(getApplicationContext());
                     break;
             }
+
+            updateButtons();
         });
     }
 
@@ -116,48 +136,30 @@ public class TimeoutActivity extends AppCompatActivity {
         // reset button cancels the previous timer and sets remaining time to the starting time
         resetBtn.setOnClickListener(view -> {
             if (timeoutManager.getTimerState() == TimeoutManager.TimerState.STOPPED) {
+                timeoutManager.cancelAlarm(getApplicationContext());
                 finish();
             } else {
                 countDownTimer.cancel();
-                timeoutManager.resetMillisRemaining();
-                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
-                updateCountdownTimeTxt();
+                timeoutManager.reset(getApplicationContext());
+                updateUI();
                 updateButtons();
             }
         });
     }
 
-    private CountDownTimer startTimer() {
-        timeoutManager.setTimerState(TimeoutManager.TimerState.RUNNING);
-        updateButtons();
-
-        long timeInMillis = timeoutManager.getMillisRemaining();
-
-        return new CountDownTimer(timeInMillis, COUNTDOWN_INTERVAL_MILLIS) {
+    private void setupTimer() {
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, COUNTDOWN_INTERVAL_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeoutManager.setMillisRemaining(millisUntilFinished);
-                updateCountdownTimeTxt();
+                updateUI();
             }
 
             @Override
             public void onFinish() {
-                timeoutManager.setTimerState(TimeoutManager.TimerState.STOPPED);
-                timeoutManager.resetMillisRemaining();
-                updateButtons();
-                countdownTimeTxt.setText(R.string.finished);
-                circularProgressBar.setProgress(0);
-
-                // code from  https://stackoverflow.com/a/13950364
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(VIBRATION_TIME_IN_MS, VibrationEffect.DEFAULT_AMPLITUDE));
-
-                } else {
-                    vibrator.vibrate(VIBRATION_TIME_IN_MS);
-                }
+                // method is required but nothing needs to happen here
+                // instead, the TimeoutManager manages what happens when the timer finishes
             }
-        }.start();
+        };
     }
 
     private void setupToolbar() {
