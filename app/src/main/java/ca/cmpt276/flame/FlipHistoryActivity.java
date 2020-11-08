@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipHistoryEntry;
@@ -158,6 +159,11 @@ public class FlipHistoryActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
+    }
 
     protected static Intent makeIntent(Context context) {
         return new Intent(context, FlipHistoryActivity.class);

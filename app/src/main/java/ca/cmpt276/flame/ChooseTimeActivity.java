@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
@@ -108,6 +109,12 @@ public class ChooseTimeActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {

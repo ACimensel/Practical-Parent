@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -12,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.FlipManager;
-import ca.cmpt276.flame.model.SoundPlayer;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -35,6 +36,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     private Button flipBtn;
     private Button historyBtn;
     private RadioGroup chooseSideRadioGroup;
+    private MediaPlayer coinSpinSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
         historyBtn = findViewById(R.id.flipCoin_btnHistory);
         chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
+        coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
 
         coinResultTxt.setText("");
         updateChildTurnText();
@@ -101,9 +104,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setUpHistoryButton() {
-        historyBtn.setOnClickListener(v -> {
-            startActivity(FlipHistoryActivity.makeIntent(this));
-        });
+        historyBtn.setOnClickListener(v -> startActivity(FlipHistoryActivity.makeIntent(this)));
     }
 
     private void flipCoin() {
@@ -113,7 +114,6 @@ public class FlipCoinActivity extends AppCompatActivity {
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
         setRadioGroupButtons(false);
-        SoundPlayer.playCoinSpinSound(this);
 
         int chosenCoinSide = chooseSideRadioGroup.getCheckedRadioButtonId();
         FlipManager.CoinSide coinSideBeforeSpin = flipManager.getLastCoinValue();
@@ -128,6 +128,7 @@ public class FlipCoinActivity extends AppCompatActivity {
             flipResult = flipManager.doFlip(null);
         }
 
+        playCoinSpinSound();
         playCoinAnimation(coinSideBeforeSpin, flipResult);
 
         // After animation ends:
@@ -150,6 +151,13 @@ public class FlipCoinActivity extends AppCompatActivity {
                 enableFlipCoinBtn();
             }
         }, DELAY_IN_MS);
+    }
+
+    private void playCoinSpinSound() {
+        if(coinSpinSound != null) {
+            coinSpinSound.seekTo(0);
+            coinSpinSound.start();
+        }
     }
 
     private void playCoinAnimation(FlipManager.CoinSide coinSideBeforeSpin, FlipManager.CoinSide flipResult) {
@@ -193,6 +201,12 @@ public class FlipCoinActivity extends AppCompatActivity {
     private void enableHistoryBtn() {
         historyBtn.setEnabled(true);
         historyBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {

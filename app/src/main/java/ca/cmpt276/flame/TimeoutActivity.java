@@ -14,6 +14,8 @@ import java.util.Locale;
 
 import ca.cmpt276.flame.model.TimeoutManager;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
+
 /**
  * TimeoutActivity shows the currently running timer, and allows the user
  * to pause, reset, resume or cancel the timer
@@ -45,18 +47,6 @@ public class TimeoutActivity extends AppCompatActivity {
         setupPauseButton();
         setUpResetButton();
         setupTimer();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        updateUI();
-        updateButtons();
-
-        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
-            countDownTimer.start();
-        }
     }
 
     @Override
@@ -164,6 +154,20 @@ public class TimeoutActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.timeout);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUI();
+        updateButtons();
+
+        if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
+            countDownTimer.start();
+        }
+
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.UUID;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 
@@ -116,6 +117,12 @@ public class ChildEditActivity extends AppCompatActivity {
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context, Child child) {

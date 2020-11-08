@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
+
 /**
  * ChildrenActivity: allow users to view a list of children
  * Users may click 'add' button on the top right to add a new child
@@ -31,7 +33,6 @@ public class ChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_children);
         setupToolbar();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -88,6 +89,12 @@ public class ChildrenActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.children);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BGMusicPlayer.resumeBgMusic();
     }
 
     protected static Intent makeIntent(Context context) {

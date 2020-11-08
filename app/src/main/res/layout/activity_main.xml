@@ -7,7 +7,6 @@
     android:background="@drawable/main_bg_gradient"
     tools:context=".MainActivity">
 
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/titleUpper"
         android:layout_width="wrap_content"
@@ -28,6 +27,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/soundBtnUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.71" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineV_L"
@@ -74,11 +80,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/colorMainRed"
             android:padding="14dp"
             android:text="@string/flip_coin"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_containerButtons"
-            app:layout_constraintStart_toStartOf="@+id/main_containerButtons"/>
+            app:layout_constraintStart_toStartOf="@+id/main_containerButtons" />
 
         <Button
             android:id="@+id/main_btnTimeout"
@@ -86,6 +93,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
+            android:background="@color/colorMainYellow"
             android:padding="14dp"
             android:text="@string/timeout"
             app:autoSizeTextType="uniform"
@@ -99,6 +107,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
+            android:background="@color/colorMainGreen"
             android:padding="14dp"
             android:text="@string/children"
             app:autoSizeTextType="uniform"
@@ -112,6 +121,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
+            android:background="@color/colorAccentSky"
             android:padding="14dp"
             android:text="@string/about"
             app:autoSizeTextType="uniform"
@@ -141,5 +151,50 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/children" />
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/childUpper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/soundBtnUpper">
+
+        <TextView
+            android:id="@+id/main_txtMusicOnOff"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="55"
+            android:alpha=".8"
+            android:gravity="right"
+            android:text="@string/bg_music"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/childUpper"
+            app:layout_constraintTop_toTopOf="@+id/soundBtnUpper" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+
+        <ImageButton
+            android:id="@+id/main_btnMusicOnOff"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:adjustViewBounds="true"
+            android:alpha="0.5"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/music_on" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="32" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
