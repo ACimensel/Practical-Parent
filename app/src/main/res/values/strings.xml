@@ -72,8 +72,8 @@
         4. If the app is closed, the timer will continue to run in the background.\n
         5. When timer is done, app will show a notification with an alarm and vibration. Tap the notification to dismiss it.
     </string>
-    <string name="aboutActivity_authorTitle">Scrum Team</string>
-    <string name="aboutActivity_author_details">Jasmeen (Project Owner)\nArtun (Scrum Master)\nEthan (Repository Manager)\nRyan (Team Member)</string>
+    <string name="aboutActivity_authorTitle">Scrum Team - Flame</string>
+    <string name="aboutActivity_author_details">Jasmeen (Product Owner)\nArtun (Scrum Master)\nEthan (Repository Manager)\nRyan (Team Member)</string>
     <string name="aboutActivity_referencesTitle">References</string>
     <string name="aboutActivity_references_data">
         Images:\n
