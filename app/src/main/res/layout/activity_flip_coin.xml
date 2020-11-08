@@ -89,7 +89,6 @@
         android:id="@+id/flipCoin_gifCoin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/h2t_2000ms"
         app:layout_constraintBottom_toTopOf="@+id/coinLower"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
