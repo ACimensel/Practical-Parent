@@ -18,7 +18,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/name"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_edit" />
 
@@ -29,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:inputType="textPersonName"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:hint="@string/enter_a_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/childEdit_txtTitle"
@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/save"
-        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toBottomOf="@+id/childEdit_editTxtChildName" />
 
@@ -51,7 +50,6 @@
         android:layout_height="wrap_content"
         android:background="@android:color/holo_red_dark"
         android:text="@string/delete"
-        android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toTopOf="@+id/childEdit_btnSave"
