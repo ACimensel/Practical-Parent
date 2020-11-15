@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * FlipManager is a singleton class that manages coin flips and
@@ -26,6 +25,7 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_FLIP_MANAGER";
     private static FlipManager flipManager;
     private static SharedPreferences sharedPrefs;
+    private final ChildrenQueue childrenQueue = new ChildrenQueue();
     private final List<FlipHistoryEntry> history = new ArrayList<>();
 
     // Singleton
@@ -60,46 +60,29 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         // singleton: prevent other classes from creating new ones
     }
 
+    public void overrideTurnChild(Child child) {
+        childrenQueue.setOverride(child);
+    }
+
     // returns the child who's turn it is to flip
-    // may return null if there are no children configured
+    // may return null if there are no children configured / no child is flipping
     public Child getTurnChild() {
-        // if we have no children then return null
-        ChildrenManager childrenManager = ChildrenManager.getInstance();
-        if(childrenManager.getNumChildren() == 0) {
-            return null;
-        }
+        return childrenQueue.getNext();
+    }
 
-        // if we have no history entries, return the first child
-        if(history.size() == 0) {
-            return childrenManager.iterator().next();
-        }
-
-        // find the last child who flipped and then let the next one flip
-        FlipHistoryEntry lastFlip = history.get(history.size() - 1);
-        UUID lastChild = lastFlip.getChildUuid();
-
-        Iterator<Child> itr = childrenManager.iterator();
-        while(itr.hasNext()) {
-            Child child = itr.next();
-
-            if(child.getUuid().equals(lastChild) && itr.hasNext()) {
-                return itr.next();
-            }
-        }
-
-        // return first child if it "wrapped around"
-        return childrenManager.iterator().next();
+    public List<Child> getTurnQueue() {
+        return childrenQueue.getQueue();
     }
 
     // performs a coin flip, adds it to the history and returns the result
     public CoinSide doFlip(CoinSide selection) {
         CoinSide result = getRandomCoinSide();
-        Child child = getTurnChild();
+        Child child = childrenQueue.takeTurn();
 
         if(child == null) {
-            history.add(new FlipHistoryEntry(null, result, false));
+            history.add(new FlipHistoryEntry(Child.NONE, result, false));
         } else {
-            history.add(new FlipHistoryEntry(child.getUuid(), result, result == selection));
+            history.add(new FlipHistoryEntry(child.getId(), result, result == selection));
         }
 
         persistToSharedPrefs();
@@ -122,10 +105,10 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
 
     // when a child is deleted, also remove them from history
     // should only be called by the ChildrenManager
-    protected void removeChildFromHistory(UUID childUuid) {
+    protected void removeChildFromHistory(long childId) {
         for(int i = 0; i < history.size(); i++) {
-            UUID historyChildUuid = history.get(i).getChildUuid();
-            if(childUuid.equals(historyChildUuid)) {
+            long historyChildId = history.get(i).getChildId();
+            if(historyChildId == childId) {
                 history.remove(i);
                 i--; // array size has now changed
             }

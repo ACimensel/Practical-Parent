@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
-import java.util.UUID;
-
 import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
@@ -26,7 +23,7 @@ import ca.cmpt276.flame.model.ChildrenManager;
  * Delete a child
  */
 public class ChildEditActivity extends AppCompatActivity {
-    private static final String EXTRA_CHILD_UUID = "EXTRA_CHILD_UUID";
+    private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
     private Child clickedChild;
     private String newName;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
@@ -48,10 +45,8 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void getDataFromIntent() {
-        String childUuid = getIntent().getStringExtra(EXTRA_CHILD_UUID);
-        if(!childUuid.isEmpty()) {
-            clickedChild = childrenManager.getChild(UUID.fromString(childUuid));
-        }
+        long childId = getIntent().getLongExtra(EXTRA_CHILD_ID, Child.NONE);
+        clickedChild = childrenManager.getChild(childId);
     }
 
     private void setupToolbar() {
@@ -86,13 +81,10 @@ public class ChildEditActivity extends AppCompatActivity {
                 return;
             }
 
-            //check if the user leaves the name field empty
             if (clickedChild != null) {
-                //passing uuid and new name for renaming
-                childrenManager.renameChild(clickedChild.getUuid(), newName);
+                childrenManager.renameChild(clickedChild, newName);
             } else {
-                //passing new name for add child
-                childrenManager.addChild(new Child(newName));
+                childrenManager.addChild(newName);
             }
 
             finish();
@@ -112,7 +104,7 @@ public class ChildEditActivity extends AppCompatActivity {
                     .setTitle(R.string.confirm)
                     .setMessage(R.string.childEditActivity_confirmDeleteMsg)
                     .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
-                        childrenManager.removeChild(clickedChild.getUuid());
+                        childrenManager.removeChild(clickedChild);
                         finish();
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
@@ -126,13 +118,13 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     protected static Intent makeIntent(Context context, Child child) {
-        String childUuid = "";
+        long childId = Child.NONE;
         if(child != null) {
-            childUuid = child.getUuid().toString();
+            childId = child.getId();
         }
 
         Intent intent = new Intent(context, ChildEditActivity.class);
-        intent.putExtra(EXTRA_CHILD_UUID, childUuid);
+        intent.putExtra(EXTRA_CHILD_ID, childId);
         return intent;
     }
 }

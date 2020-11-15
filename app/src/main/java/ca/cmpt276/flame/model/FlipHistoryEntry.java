@@ -1,7 +1,6 @@
 package ca.cmpt276.flame.model;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * FLipHistoryEntry manages a coin flip history entry. It contains the UUID of
@@ -9,21 +8,21 @@ import java.util.UUID;
  * the child won or not and the date of the flip.
  */
 public class FlipHistoryEntry {
-    private final UUID childUuid;
+    private final long childId;
     private final FlipManager.CoinSide result;
     private final Boolean won;
     private final Date date;
 
-    public FlipHistoryEntry(UUID childUuid, FlipManager.CoinSide result, Boolean won) {
-        this.childUuid = childUuid;
+    public FlipHistoryEntry(long childId, FlipManager.CoinSide result, Boolean won) {
+        this.childId = childId;
         this.result = result;
         this.won = won;
         this.date = new Date();
     }
 
     // may return null if no child associated with the flip
-    public UUID getChildUuid() {
-        return childUuid;
+    public long getChildId() {
+        return childId;
     }
 
     public FlipManager.CoinSide getResult() {
