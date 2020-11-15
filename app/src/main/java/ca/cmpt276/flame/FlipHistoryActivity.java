@@ -70,7 +70,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             if (isChecked) {
                 //show only turn child's history
                 for (FlipHistoryEntry history : flipManager) {
-                    if (history.getChildUuid() != null && history.getChildUuid().equals(turnChild.getUuid())) {
+                    if (history.getChildId() == turnChild.getId()) {
                         historyList.add(0, history);
                     }
                 }
@@ -131,9 +131,9 @@ public class FlipHistoryActivity extends AppCompatActivity {
             }
 
             String flipResult;
+            Child child = childrenManager.getChild(currentHistory.getChildId());
 
-            if (currentHistory.getChildUuid() != null) {
-                Child child = childrenManager.getChild(currentHistory.getChildUuid());
+            if (child != null) {
                 String wonOrLost;
 
                 if (currentHistory.wasWon()) {
