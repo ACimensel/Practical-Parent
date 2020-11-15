@@ -53,7 +53,7 @@ public class ChildrenQueue {
         return child;
     }
 
-    // list may contain a NULL if the user has overridden the queue to put no child next
+    // front of the list (i.e. index 0) corresponds to the front of the queue
     protected List<Child> getQueue() {
         ChildrenManager childrenManager = ChildrenManager.getInstance();
 
@@ -68,14 +68,12 @@ public class ChildrenQueue {
         while(histItr.hasNext()) {
             Child child = childrenManager.getChild(histItr.next());
 
-            if(child == null) {
+            if(child != null) {
+                queue.remove(child);
+                queue.add(child);
+            } else {
                 histItr.remove();
-                continue;
             }
-
-            // move child to the end of the queue
-            queue.remove(child);
-            queue.add(child);
         }
 
         // if an override has been put in place, move that child to the front of the queue
