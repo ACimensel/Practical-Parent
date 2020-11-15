@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import ca.cmpt276.flame.model.ChildrenManager;
 import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.BGMusicPlayer;
+import ca.cmpt276.flame.model.TaskManager;
 import ca.cmpt276.flame.model.TimeoutManager;
 
 import static ca.cmpt276.flame.model.BGMusicPlayer.playBgMusic;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // let model classes access Shared Preferences
         SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
         ChildrenManager.init(sharedPrefs);
+        TaskManager.init(sharedPrefs);
         FlipManager.init(sharedPrefs);
         TimeoutManager.init(sharedPrefs);
         BGMusicPlayer.init(sharedPrefs, this);
