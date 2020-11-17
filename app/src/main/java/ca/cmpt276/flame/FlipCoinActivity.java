@@ -2,12 +2,14 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -59,6 +61,17 @@ public class FlipCoinActivity extends AppCompatActivity {
         setUpRadioGroup();
         setUpFlipCoinButton();
         setUpHistoryButton();
+
+        // TODO: REMOVE THIS INTO ITS OWN FUNCTION
+        Button testBtn = findViewById(R.id.btnTest);
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                ChooseFlipperFragment dialog = new ChooseFlipperFragment();
+                dialog.show(manager, "Test");
+            }
+        });
     }
 
     private void setupToolbar() {
