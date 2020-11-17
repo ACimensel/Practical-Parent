@@ -54,8 +54,11 @@ public class TaskManager implements Iterable<Task> {
     }
 
     public Task getTask(long taskId) {
-        checkValidTaskId(taskId);
-        return tasks.get(taskId);
+        if(tasks.containsKey(taskId)) {
+            return tasks.get(taskId);
+        }
+
+        return null;
     }
 
     public void addTask(String name, String desc) {
