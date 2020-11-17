@@ -78,7 +78,7 @@ public class TaskActivity extends AppCompatActivity {
             for (Task task : taskManager) {
                 tasks.add(task);
             }
-            //passing Child information to ChildEditActivity
+            //passing Task information to TaskEditActivity
             Task clickedTask = tasks.get(position);
             Intent intent = TaskEditActivity.makeIntent(TaskActivity.this, clickedTask);
             startActivity(intent);
