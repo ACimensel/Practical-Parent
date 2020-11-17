@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/taskEdit_txtName" />
 
     <EditText
-        android:id="@+id/taskEdit_editTxtTaskDes"
+        android:id="@+id/taskEdit_editTxtTaskDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -65,7 +65,7 @@
         android:layout_marginTop="108dp"
         android:text="@string/save"
         app:layout_constraintStart_toStartOf="@+id/taskEdit_editTxtTaskName"
-        app:layout_constraintTop_toBottomOf="@+id/taskEdit_editTxtTaskDes" />
+        app:layout_constraintTop_toBottomOf="@+id/taskEdit_editTxtTaskDesc" />
 
     <Button
         android:id="@+id/taskEdit_btnDelete"

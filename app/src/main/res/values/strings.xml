@@ -2,7 +2,7 @@
     <string name="app_name_short">PracParent</string>
     <string name="app_name_long">Practical Parent</string>
     <string name="flip_coin">Flip Coin</string>
-    <string name="task">Task</string>
+    <string name="task">Tasks</string>
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
     <string name="about">About</string>
@@ -17,7 +17,7 @@
     <string name="edit_child">Edit Child</string>
     <string name="add_child">Add Child</string>
     <string name="add_task">Add Task</string>
-    <string name="edit_task">Add Task</string>
+    <string name="edit_task">Edit Task</string>
     <string name="enter_a_name">Enter a name</string>
     <string name="enter_a_description">Enter a Description</string>
     <string name="history">History</string>

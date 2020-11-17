@@ -65,7 +65,9 @@ public class TaskEditActivity extends AppCompatActivity {
     private void fillTaskName() {
         if (clickedTask != null) {
             EditText inputName = findViewById(R.id.taskEdit_editTxtTaskName);
+            EditText inputDesc = findViewById(R.id.taskEdit_editTxtTaskDesc);
             inputName.setText(clickedTask.getName());
+            inputDesc.setText(clickedTask.getDesc());
         }
     }
 
@@ -74,9 +76,9 @@ public class TaskEditActivity extends AppCompatActivity {
 
         btn.setOnClickListener(v -> {
             EditText inputName = findViewById(R.id.taskEdit_editTxtTaskName);
-            EditText inputDes = findViewById(R.id.taskEdit_editTxtTaskDes);
+            EditText inputDesc = findViewById(R.id.taskEdit_editTxtTaskDesc);
             newName = inputName.getText().toString();
-            newDes = inputDes.getText().toString();
+            newDes = inputDesc.getText().toString();
 
             if (newName.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_name_empty_error), Toast.LENGTH_SHORT).show();
