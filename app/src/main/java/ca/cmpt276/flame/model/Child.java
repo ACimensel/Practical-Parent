@@ -12,10 +12,12 @@ import java.util.UUID;
  */
 public class Child {
     private String name;
+    private String imageUri;
     private final UUID uuid = UUID.randomUUID();
 
-    public Child(String name) {
+    public Child(String name, String imageUri) {
         setName(name);
+        setImageUri(imageUri);
     }
 
     public String getName() {
@@ -36,5 +38,13 @@ public class Child {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUriString) {
+        this.imageUri = imageUriString;
     }
 }

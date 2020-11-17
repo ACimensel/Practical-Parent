@@ -77,6 +77,12 @@ public class ChildrenManager implements Iterable<Child> {
         persistToSharedPrefs();
     }
 
+    public void changeChildPic(UUID id, String imageUri) {
+        checkValidChildUuid(id);
+        children.get(id).setImageUri(imageUri);
+        persistToSharedPrefs();
+    }
+
     public void removeChild(UUID id) {
         checkValidChildUuid(id);
         FlipManager.getInstance().removeChildFromHistory(id);
