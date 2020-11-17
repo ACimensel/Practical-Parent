@@ -14,11 +14,15 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import ca.cmpt276.flame.model.Child;
-import ca.cmpt276.flame.model.ChildrenManager;
+
 import ca.cmpt276.flame.model.Task;
 import ca.cmpt276.flame.model.TaskManager;
 
+/**
+ * TaskActivity: allow users to view a list of tasks
+ * Users may click 'add' button on the top right to add a new task
+ * Users may click an existing task to rename or delete the task
+ */
 public class TaskActivity extends AppCompatActivity {
     private final TaskManager taskManager = TaskManager.getInstance();
 

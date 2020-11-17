@@ -15,6 +15,12 @@ import android.widget.Toast;
 import ca.cmpt276.flame.model.Task;
 import ca.cmpt276.flame.model.TaskManager;
 
+/**
+ * TaskEditActivity:
+ * Add a new task
+ * Rename an existing task
+ * Delete a task
+ */
 public class TaskEditActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
     private Task clickedTask;
@@ -46,7 +52,7 @@ public class TaskEditActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_taskEdit);
 
-        if(clickedTask == null) {
+        if (clickedTask == null) {
             toolbar.setTitle(R.string.add_task);
         } else {
             toolbar.setTitle(R.string.edit_task);
@@ -57,7 +63,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void fillTaskName() {
-        if(clickedTask != null) {
+        if (clickedTask != null) {
             EditText inputName = findViewById(R.id.taskEdit_editTxtTaskName);
             inputName.setText(clickedTask.getName());
         }
@@ -72,12 +78,12 @@ public class TaskEditActivity extends AppCompatActivity {
             newName = inputName.getText().toString();
             newDes = inputDes.getText().toString();
 
-            if(newName.isEmpty()) {
+            if (newName.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_name_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(newDes.isEmpty()) {
+            if (newDes.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_description_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -114,7 +120,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     protected static Intent makeIntent(Context context, Task task) {
         long taskId = Task.NONE;
-        if(task != null) {
+        if (task != null) {
             taskId = task.getId();
         }
 
