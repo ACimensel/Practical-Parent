@@ -78,9 +78,20 @@
         app:layout_constraintVertical_bias="0.52">
 
         <Button
+            android:id="@+id/main_btnTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorTaskPurple"
+            android:padding="14dp"
+            android:text="@string/task"
+            app:autoSizeTextType="uniform" />
+
+        <Button
             android:id="@+id/main_btnFlipCoin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:background="@color/colorMainRed"
             android:padding="14dp"
@@ -198,21 +209,5 @@
             android:layout_weight="32" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/main_btnTask"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/colorMainRed"
-        android:padding="14dp"
-        android:text="@string/task"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/main_containerButtons"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineV_R"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineV_L"
-        app:layout_constraintTop_toTopOf="@+id/titleLower"
-        app:layout_constraintVertical_bias="0.773" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
