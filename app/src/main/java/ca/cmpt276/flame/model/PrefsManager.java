@@ -21,13 +21,13 @@ public class PrefsManager {
     }
 
     protected static Object restoreObj(String sharedPrefsKey, Class<?> objClass) {
-        checkSharedPrefs();
+        checkSharedPrefsNotNull();
         String json = sharedPrefs.getString(sharedPrefsKey, "{}");
         return (new Gson()).fromJson(json, objClass);
     }
 
     protected static void persistObj(String sharedPrefsKey, Object obj) {
-        checkSharedPrefs();
+        checkSharedPrefsNotNull();
         SharedPreferences.Editor editor = sharedPrefs.edit();
         String json = (new Gson()).toJson(obj);
         editor.putString(sharedPrefsKey, json);
@@ -35,11 +35,11 @@ public class PrefsManager {
     }
 
     protected static SharedPreferences getSharedPrefs() {
-        checkSharedPrefs();
+        checkSharedPrefsNotNull();
         return sharedPrefs;
     }
 
-    private static void checkSharedPrefs() {
+    private static void checkSharedPrefsNotNull() {
         if(sharedPrefs == null) {
             throw new IllegalStateException("PrefsManager requires initialization before use");
         }

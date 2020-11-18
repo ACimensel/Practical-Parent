@@ -43,7 +43,6 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         childrenQueue.setOverride(child);
     }
 
-    // returns the child who's turn it is to flip
     // may return null if there are no children configured / no child is flipping
     public Child getTurnChild() {
         return childrenQueue.getNext();
@@ -82,8 +81,7 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         return history.get(history.size() - 1).getResult();
     }
 
-    // when a child is deleted, also remove them from history
-    // should only be called by the ChildrenManager
+    // should only be called by the ChildrenManager when a child is deleted
     protected void removeChildFromHistory(long childId) {
         for(int i = 0; i < history.size(); i++) {
             long historyChildId = history.get(i).getChildId();

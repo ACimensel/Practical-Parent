@@ -40,10 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initModel() {
-        // let model classes access Shared Preferences
         SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
         PrefsManager.init(sharedPrefs);
-        // let music player access the application context
         BGMusicPlayer.init(getApplicationContext());
     }
 
@@ -60,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             musicOnOffBtn.setImageResource(R.drawable.music_off);
         }
 
-        // Set up OnClickListeners for the buttons
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
