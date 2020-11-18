@@ -11,10 +11,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import ca.cmpt276.flame.model.ChildrenManager;
-import ca.cmpt276.flame.model.FlipManager;
 import ca.cmpt276.flame.model.BGMusicPlayer;
-import ca.cmpt276.flame.model.TaskManager;
+import ca.cmpt276.flame.model.PrefsManager;
 import ca.cmpt276.flame.model.TimeoutManager;
 
 import static ca.cmpt276.flame.model.BGMusicPlayer.playBgMusic;
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupSharedPrefs();
+        initModel();
         setupButtons();
         listenForScreenTurningOff();
 
@@ -41,14 +39,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupSharedPrefs() {
-        // let model classes access Shared Preferences
+    private void initModel() {
         SharedPreferences sharedPrefs = getPreferences(MODE_PRIVATE);
-        ChildrenManager.init(sharedPrefs);
-        TaskManager.init(sharedPrefs);
-        FlipManager.init(sharedPrefs);
-        TimeoutManager.init(sharedPrefs);
-        BGMusicPlayer.init(sharedPrefs, this);
+        PrefsManager.init(sharedPrefs);
+        BGMusicPlayer.init(getApplicationContext());
     }
 
     private void setupButtons() {
@@ -65,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             musicOnOffBtn.setImageResource(R.drawable.music_off);
         }
 
-        // Set up OnClickListeners for the buttons
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));

@@ -1,10 +1,6 @@
 package ca.cmpt276.flame.model;
 
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
-
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,31 +20,14 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
 
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_FLIP_MANAGER";
     private static FlipManager flipManager;
-    private static SharedPreferences sharedPrefs;
     private final ChildrenQueue childrenQueue = new ChildrenQueue();
     private final List<FlipHistoryEntry> history = new ArrayList<>();
 
     // Singleton
 
-    // must be initialized to give access to SharedPreferences
-    public static void init(SharedPreferences sharedPrefs) {
-        if(flipManager != null) {
-            return;
-        }
-
-        FlipManager.sharedPrefs = sharedPrefs;
-        String json = sharedPrefs.getString(SHARED_PREFS_KEY, "");
-
-        if(json != null && !json.isEmpty()) {
-            flipManager = (new Gson()).fromJson(json, FlipManager.class);
-        } else {
-            flipManager = new FlipManager();
-        }
-    }
-
     public static FlipManager getInstance() {
         if(flipManager == null) {
-            throw new IllegalStateException("FlipManager must be initialized before use");
+            flipManager = (FlipManager) PrefsManager.restoreObj(SHARED_PREFS_KEY, FlipManager.class);
         }
 
         return flipManager;
@@ -64,7 +43,6 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         childrenQueue.setOverride(child);
     }
 
-    // returns the child who's turn it is to flip
     // may return null if there are no children configured / no child is flipping
     public Child getTurnChild() {
         return childrenQueue.getNext();
@@ -103,8 +81,7 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
         return history.get(history.size() - 1).getResult();
     }
 
-    // when a child is deleted, also remove them from history
-    // should only be called by the ChildrenManager
+    // should only be called by the ChildrenManager when a child is deleted
     protected void removeChildFromHistory(long childId) {
         for(int i = 0; i < history.size(); i++) {
             long historyChildId = history.get(i).getChildId();
@@ -117,10 +94,7 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
     }
 
     private void persistToSharedPrefs() {
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        String json = (new Gson()).toJson(this);
-        editor.putString(SHARED_PREFS_KEY, json);
-        editor.apply();
+        PrefsManager.persistObj(SHARED_PREFS_KEY, this);
     }
 
     @NonNull
