@@ -12,13 +12,14 @@ public class Child {
     public static final long NONE = 0L;
     private final long id;
     private String name;
-    private String imageUri;
+    private String imagePath;
 
     public Child(String name, String imageUri) {
         id = ChildrenManager.getInstance().getNextChildId();
         setName(name);
-        setImageUri(imageUri);
+        setImagePath(imageUri);
     }
+
 
     public long getId() {
         return id;
@@ -40,12 +41,12 @@ public class Child {
         return name;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageUri(String imageUriString) {
+    public void setImagePath(String imagePath) {
 
-        this.imageUri = imageUriString;
+        this.imagePath = imagePath;
     }
 }

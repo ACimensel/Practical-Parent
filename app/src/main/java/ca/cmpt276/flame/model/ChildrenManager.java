@@ -62,7 +62,7 @@ public class ChildrenManager implements Iterable<Child> {
         persistToSharedPrefs();
     }
 
-    public void addChild(Child child){
+    public void addChild(Child child) {
         children.put(child.getId(), child);
         persistToSharedPrefs();
     }
@@ -80,9 +80,9 @@ public class ChildrenManager implements Iterable<Child> {
         child.setName(name);
         persistToSharedPrefs();
     }
-    public void changeChildPic(Child child, String imageUri) {
+    public void changeChildPic(Child child, String imagePath) {
         checkValidChild(child);
-        child.setImageUri(imageUri);
+        child.setImagePath(imagePath);
         persistToSharedPrefs();
     }
 
