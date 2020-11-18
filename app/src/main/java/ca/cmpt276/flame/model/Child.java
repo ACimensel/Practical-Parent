@@ -1,31 +1,31 @@
 package ca.cmpt276.flame.model;
 
-import java.util.UUID;
-
 /**
  * Child represents a single child. A hash map of Child objects are managed by the
- * ChildrenManager class. Each child is given a UUID so it can be uniquely referenced by
+ * ChildrenManager class. Each child is given an ID so it can be uniquely referenced by
  * other classes. If they are instead referred to by index (ex. in a FlipHistoryEntry), then
  * history "breaks" when a Child is deleted. If we store a Child object in a FlipHistoryEntry,
  * then we'll get multiple copies of the object when we restore state from SharedPreferences
  * (one in ChildManager and a separate one in each FlipHistoryEntry) which breaks renaming.
  */
 public class Child {
+    public static final long NONE = 0L;
+    private final long id;
     private String name;
     private String imageUri;
-    private final UUID uuid = UUID.randomUUID();
 
     public Child(String name, String imageUri) {
+        id = ChildrenManager.getInstance().getNextChildId();
         setName(name);
         setImageUri(imageUri);
     }
 
-    public String getName() {
-        return name;
+    public long getId() {
+        return id;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getName() {
+        return name;
     }
 
     protected void setName(String name) {
@@ -45,6 +45,7 @@ public class Child {
     }
 
     public void setImageUri(String imageUriString) {
+
         this.imageUri = imageUriString;
     }
 }

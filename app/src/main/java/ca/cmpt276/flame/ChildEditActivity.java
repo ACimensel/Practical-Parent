@@ -20,13 +20,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
-import java.util.UUID;
-
 import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
-
 
 /**
  * ChildEditActivity:
@@ -35,7 +31,8 @@ import ca.cmpt276.flame.model.ChildrenManager;
  * Delete a child
  */
 public class ChildEditActivity extends AppCompatActivity {
-    private static final String EXTRA_CHILD_UUID = "EXTRA_CHILD_UUID";
+    private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
+   // private static final String EXTRA_CHILD_UUID = "EXTRA_CHILD_UUID";
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
     private Child clickedChild;
@@ -60,10 +57,8 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void getDataFromIntent() {
-        String childUuid = getIntent().getStringExtra(EXTRA_CHILD_UUID);
-        if(!childUuid.isEmpty()) {
-            clickedChild = childrenManager.getChild(UUID.fromString(childUuid));
-        }
+        long childId = getIntent().getLongExtra(EXTRA_CHILD_ID, Child.NONE);
+        clickedChild = childrenManager.getChild(childId);
     }
 
     private void setupToolbar() {
@@ -109,19 +104,21 @@ public class ChildEditActivity extends AppCompatActivity {
                 return;
             }
             //check if the user leaves the name field empty
+
             if (clickedChild != null) {
                 //passing uuid and new name for renaming
-                childrenManager.renameChild(clickedChild.getUuid(), newName);
-                childrenManager.changeChildPic(clickedChild.getUuid(), clickedChild.getImageUri());
+                childrenManager.renameChild(clickedChild, newName);
+                childrenManager.changeChildPic(clickedChild, clickedChild.getImageUri());
             } else {
+                //childrenManager.addChild(newName);
                 //passing new name for add child
-                childrenManager.addChild(new Child(newName, "android.resource://ca.cmpt276.flame/" + R.drawable.default_child));
+                childrenManager.addChild(newName, "android.resource://ca.cmpt276.flame/" + R.drawable.default_child);
             }
 
             finish();
         });
     }
-    
+
     private void setUpEditImageButton() {
         ImageButton inputImageBtn = findViewById(R.id.childEdit_changeImageBtn);
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +169,7 @@ public class ChildEditActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             //set image to image view
             String n = data.getData().getPath();
-            childrenManager.changeChildPic(clickedChild.getUuid(), n);
+            childrenManager.changeChildPic(clickedChild, n);
             fillChildImage();
         }
     }
@@ -189,7 +186,7 @@ public class ChildEditActivity extends AppCompatActivity {
                     .setTitle(R.string.confirm)
                     .setMessage(R.string.childEditActivity_confirmDeleteMsg)
                     .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
-                        childrenManager.removeChild(clickedChild.getUuid());
+                        childrenManager.removeChild(clickedChild);
                         finish();
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
@@ -203,13 +200,13 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     protected static Intent makeIntent(Context context, Child child) {
-        String childUuid = "";
+        long childId = Child.NONE;
         if(child != null) {
-            childUuid = child.getUuid().toString();
+            childId = child.getId();
         }
 
         Intent intent = new Intent(context, ChildEditActivity.class);
-        intent.putExtra(EXTRA_CHILD_UUID, childUuid);
+        intent.putExtra(EXTRA_CHILD_ID, childId);
         return intent;
     }
 }

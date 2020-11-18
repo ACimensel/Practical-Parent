@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.UUID;
 
 /**
  * ChildrenManager is a singleton that manages multiple Child objects.
@@ -19,7 +18,8 @@ public class ChildrenManager implements Iterable<Child> {
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_CHILDREN_MANAGER";
     private static ChildrenManager childrenManager;
     private static SharedPreferences sharedPrefs;
-    private final LinkedHashMap<UUID, Child> children = new LinkedHashMap<>();
+    private long nextChildId = 1L;
+    private final LinkedHashMap<Long, Child> children = new LinkedHashMap<>();
 
     // Singleton
 
@@ -57,42 +57,50 @@ public class ChildrenManager implements Iterable<Child> {
         return children.size();
     }
 
-    public void addChild(Child child) {
-        if(child == null) {
-            throw new IllegalArgumentException("addChild expects non-null child, null given");
+    public void addChild(String name, String uriString) {
+        Child child = new Child(name, uriString);
+        children.put(child.getId(), child);
+        persistToSharedPrefs();
+    }
+
+    // may return null if the child ID does not exist
+    public Child getChild(long id) {
+        if(children.containsKey(id)) {
+            return children.get(id);
         }
 
-        children.put(child.getUuid(), child);
+        return null;
+    }
+
+    public void renameChild(Child child, String name) {
+        checkValidChild(child);
+        child.setName(name);
+        persistToSharedPrefs();
+    }
+    public void changeChildPic(Child child, String imageUri) {
+        checkValidChild(child);
+        child.setImageUri(imageUri);
         persistToSharedPrefs();
     }
 
-    public Child getChild(UUID id) {
-        checkValidChildUuid(id);
-        return children.get(id);
-    }
-
-    public void renameChild(UUID id, String name) {
-        checkValidChildUuid(id);
-        children.get(id).setName(name);
+    public void removeChild(Child child) {
+        checkValidChild(child);
+        FlipManager.getInstance().removeChildFromHistory(child.getId());
+        children.remove(child.getId());
         persistToSharedPrefs();
     }
 
-    public void changeChildPic(UUID id, String imageUri) {
-        checkValidChildUuid(id);
-        children.get(id).setImageUri(imageUri);
-        persistToSharedPrefs();
+    protected long getNextChildId() {
+        return nextChildId++;
     }
 
-    public void removeChild(UUID id) {
-        checkValidChildUuid(id);
-        FlipManager.getInstance().removeChildFromHistory(id);
-        children.remove(id);
-        persistToSharedPrefs();
-    }
-
-    private void checkValidChildUuid(UUID id) {
-        if(!children.containsKey(id)) {
-            throw new IllegalArgumentException("ChildrenManager expects ID to correspond to valid child");
+    private void checkValidChild(Child child) {
+        if(child == null) {
+            throw new IllegalArgumentException("ChildrenManager expects non-null child");
+        } else {
+            if(!children.containsKey(child.getId())) {
+                throw new IllegalArgumentException("ChildrenManager expects ID to correspond to valid child");
+            }
         }
     }
 
