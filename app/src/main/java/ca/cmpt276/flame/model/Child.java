@@ -27,7 +27,7 @@ public class Child {
     }
 
     protected void setName(String name) {
-        if(name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name must be non-empty");
         }
         this.name = name;
