@@ -20,7 +20,6 @@ public class ChildrenManager implements Iterable<Child> {
     private static SharedPreferences sharedPrefs;
     private long nextChildId = 1L;
     private final LinkedHashMap<Long, Child> children = new LinkedHashMap<>();
-
     // Singleton
 
     // must be initialized to give access to SharedPreferences
@@ -63,6 +62,10 @@ public class ChildrenManager implements Iterable<Child> {
         persistToSharedPrefs();
     }
 
+    public void addChild(Child child){
+        children.put(child.getId(), child);
+        persistToSharedPrefs();
+    }
     // may return null if the child ID does not exist
     public Child getChild(long id) {
         if(children.containsKey(id)) {

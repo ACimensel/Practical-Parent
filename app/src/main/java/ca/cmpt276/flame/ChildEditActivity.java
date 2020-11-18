@@ -1,17 +1,18 @@
 package ca.cmpt276.flame;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.Manifest;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
@@ -32,11 +39,11 @@ import ca.cmpt276.flame.model.ChildrenManager;
  */
 public class ChildEditActivity extends AppCompatActivity {
     private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
-   // private static final String EXTRA_CHILD_UUID = "EXTRA_CHILD_UUID";
-    private static final int IMAGE_PICK_CODE = 1000;
-    private static final int PERMISSION_CODE = 1001;
+    Bitmap bitmap = null;
     private Child clickedChild;
-    private String newName;
+    private String newName = null;
+    private long newChildID = -1;
+    Boolean imageFromGallery = false;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
@@ -45,15 +52,21 @@ public class ChildEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_edit);
         getDataFromIntent();
         setupToolbar();
+        setUpDefaultImage();
         fillChildName();
         fillChildImage();
         setupSaveButton();
+
         setUpEditImageButton();
         if (clickedChild == null) {
             hideDeleteButton();
         } else {
             setupDeleteButton();
         }
+    }
+
+    private void setUpDefaultImage() {
+        bitmap =  ((BitmapDrawable)getResources().getDrawable(R.drawable.default_child)).getBitmap();
     }
 
     private void getDataFromIntent() {
@@ -82,14 +95,11 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void fillChildImage() {
-        ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
-        childImageView.setImageResource(R.drawable.default_child);
         if(clickedChild != null) {
-            Log.e("ure address", clickedChild.getImageUri());
-            childImageView.setImageURI(Uri.parse(clickedChild.getImageUri()));
-        } else {
-            childImageView.setImageURI(Uri.parse("android.resource://ca.cmpt276.flame/" + R.drawable.default_child));
-
+            loadImageFromStorage(clickedChild.getImageUri());
+        } else{
+            ImageView imageView = findViewById(R.id.childEdit_child_image_view);
+            imageView.setImageBitmap(bitmap);
         }
     }
 
@@ -108,36 +118,26 @@ public class ChildEditActivity extends AppCompatActivity {
             if (clickedChild != null) {
                 //passing uuid and new name for renaming
                 childrenManager.renameChild(clickedChild, newName);
-                childrenManager.changeChildPic(clickedChild, clickedChild.getImageUri());
+                childrenManager.changeChildPic(clickedChild, saveToInternalStorage(bitmap));
             } else {
                 //childrenManager.addChild(newName);
                 //passing new name for add child
-                childrenManager.addChild(newName, "android.resource://ca.cmpt276.flame/" + R.drawable.default_child);
-            }
+                    String imgBitmap = saveToInternalStorage(bitmap);
+                    childrenManager.renameChild(childrenManager.getChild(newChildID), newName);
+                    childrenManager.changeChildPic(childrenManager.getChild(newChildID), imgBitmap);
 
+            }
             finish();
         });
     }
 
     private void setUpEditImageButton() {
         ImageButton inputImageBtn = findViewById(R.id.childEdit_changeImageBtn);
+
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED) {
-                        //permission not granted, request it.
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        //show popup for runtime permission
-                        requestPermissions(permissions, PERMISSION_CODE);
-                    } else {
-                        //permission already granted
-                        pickImageFromGallery();
-                    }
-                } else {
-                    pickImageFromGallery();
-                }
+                pickImageFromGallery();
             }
         });
     }
@@ -146,32 +146,80 @@ public class ChildEditActivity extends AppCompatActivity {
         //intent to pick image
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+        startActivityForResult(intent, 1);
     }
 
-    //handle result of runtime permission
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //permission was granted
-                pickImageFromGallery();
-            } else {
-                //permission was denied
-                Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
     //handle result of picked image
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            //set image to image view
-            String n = data.getData().getPath();
-            childrenManager.changeChildPic(clickedChild, n);
-            fillChildImage();
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        //Code from : https://stackoverflow.com/questions/10165302/dialog-to-pick-image-from-gallery-or-from-camera
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        Uri selectedImage = null;
+        ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
+        switch (requestCode) {
+            case 0:
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    selectedImage = imageReturnedIntent.getData();
+                    childImageView.setImageURI(selectedImage);
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
         }
+    }
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        //Code from :https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("childImageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File myPath;
+        if(clickedChild != null) {
+            myPath = new File(directory, "" + clickedChild.getId() + "profile.jpg");
+        }
+        else{
+            Child newChild = new Child(newName,null);
+            childrenManager.addChild(newChild);
+            newChildID = newChild.getId();
+            myPath = new File(directory, "" + newChildID + "profile.jpg");
+        }
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(myPath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
+    }
+    private void loadImageFromStorage(String path) {
+        //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
+        File f = null;
+        try {
+            if(clickedChild != null) {
+                f = new File(path, "" + clickedChild.getId() + "profile.jpg");
+            }
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            ImageView img = findViewById(R.id.childEdit_child_image_view);
+            img.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
     }
     private void hideDeleteButton() {
         Button btn = findViewById(R.id.childEdit_btnDelete);
