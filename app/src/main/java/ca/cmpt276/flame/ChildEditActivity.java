@@ -1,9 +1,5 @@
 package ca.cmpt276.flame;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -18,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +49,6 @@ public class ChildEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_edit);
         getDataFromIntent();
         setupToolbar();
-        setUpDefaultImageBitmap();
         fillChildName();
         fillChildImage();
         setupSaveButton();
@@ -80,10 +79,6 @@ public class ChildEditActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    private void setUpDefaultImageBitmap() {
-        childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
-    }
-
     private void fillChildName() {
         if(clickedChild != null) {
             EditText inputName = findViewById(R.id.childEdit_editTxtChildName);
@@ -94,6 +89,9 @@ public class ChildEditActivity extends AppCompatActivity {
     private void fillChildImage() {
         if(clickedChild != null) {
             loadChildImage(clickedChild.getImagePath());
+        }
+        else{
+            loadChildImage(null);
         }
         ImageView imageView = findViewById(R.id.childEdit_child_image_view);
         imageView.setImageBitmap(childImage);
@@ -109,14 +107,11 @@ public class ChildEditActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.child_name_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
-            //check if the user leaves the name field empty
 
             if (clickedChild != null) {
-                //passing child clicked and new name/ image path for renaming and changing picture
                 childrenManager.renameChild(clickedChild, newName);
                 childrenManager.changeChildPic(clickedChild, saveChildImage(clickedChild));
             } else {
-                //adding new child with image path
                 newChild = childrenManager.addChild(newName);
                 String imgPath = saveChildImage(newChild);
                 childrenManager.changeChildPic(newChild, imgPath);
@@ -127,11 +122,41 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private void setUpEditImageButton() {
         ImageButton inputImageBtn = findViewById(R.id.childEdit_changeImageBtn);
-        inputImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
+        inputImageBtn.setOnClickListener(v ->  {
+                new AlertDialog.Builder(ChildEditActivity.this)
+                        .setTitle(R.string.choose)
+                        .setPositiveButton(R.string.gallery, ((dialogInterface, i) -> {
+                            pickImageFromGallery();
+                        }))
+                        .setNegativeButton(R.string.remove, ((dialogInterface, i) ->{
+                            if(clickedChild != null) {
+                                deleteChildImgFromInternalStorage(clickedChild);
+                            }
+                            loadChildImage(null);
+                            ImageView imageView = findViewById(R.id.childEdit_child_image_view);
+                            imageView.setImageBitmap(childImage);
+                        })).show();
+
+            /*@Override
             public void onClick(View v) {
-                pickImageFromGallery();
-            }
+                v = LayoutInflater.from(getActivity())
+                        .inflate(R.layout.edit_image_msg_layout, null);
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getActivity().finish();;
+                    }
+                };
+                new AlertDialog.Builder(ChildEditActivity.this)
+                        .setTitle("Choose Options")
+                        .setView(v)
+                        .setPositiveButton(R.string.cancel, listener)
+                        .create();
+                FragmentManager manager = getSupportFragmentManager();
+                Fragment dialog = new Fragment();
+                dialog.show(manager, "Choices");
+               // pickImageFromGallery();*/
+
         });
     }
 
@@ -193,14 +218,18 @@ public class ChildEditActivity extends AppCompatActivity {
     }
     private void loadChildImage(String path) {
         //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
-        File f = null;
-        try {
-            if(clickedChild != null) {
-                f = new File(path, "" + clickedChild.getId() + "profile.jpg");
+        if(path == null){
+            childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
+        } else {
+            File f = null;
+            try {
+                if (clickedChild != null) {
+                    f = new File(path, "" + clickedChild.getId() + "profile.jpg");
+                }
+                childImage = BitmapFactory.decodeStream(new FileInputStream(f));
+            } catch (FileNotFoundException e) {
+                childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
             }
-            childImage = BitmapFactory.decodeStream(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            setUpDefaultImageBitmap();
         }
     }
     private void hideDeleteButton() {
