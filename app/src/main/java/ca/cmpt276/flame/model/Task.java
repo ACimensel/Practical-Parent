@@ -6,6 +6,7 @@ package ca.cmpt276.flame.model;
  * given an incrementing ID so that it can be uniquely referenced by other classes.
  */
 public class Task {
+    public static final long NONE = 0L;
     private final long taskId;
     private final ChildrenQueue childrenQueue = new ChildrenQueue();
     private String name;
@@ -51,5 +52,10 @@ public class Task {
 
     protected void takeTurn() {
         childrenQueue.takeTurn();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
