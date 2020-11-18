@@ -45,8 +45,7 @@ public class Child {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
-
+    protected void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 }

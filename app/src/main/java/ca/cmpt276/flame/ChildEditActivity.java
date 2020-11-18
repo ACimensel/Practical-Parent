@@ -37,11 +37,11 @@ import ca.cmpt276.flame.model.ChildrenManager;
  */
 public class ChildEditActivity extends AppCompatActivity {
     private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
-    public static final int IMAGE_QUALITY = 100;
-    Bitmap bitmap = null;
+    Bitmap childImage = null;
     private Child clickedChild;
-    private String newName = null;
+    private String newName;
     private long newChildID;
+    private Child newChild;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
@@ -82,7 +82,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void setUpDefaultImageBitmap() {
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
+        childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
     }
 
     private void fillChildName() {
@@ -95,10 +95,9 @@ public class ChildEditActivity extends AppCompatActivity {
     private void fillChildImage() {
         if(clickedChild != null) {
             loadImageFromStorage(clickedChild.getImagePath());
-        } else {
-            ImageView imageView = findViewById(R.id.childEdit_child_image_view);
-            imageView.setImageBitmap(bitmap);
         }
+        ImageView imageView = findViewById(R.id.childEdit_child_image_view);
+        imageView.setImageBitmap(childImage);
     }
 
     private void setupSaveButton() {
@@ -116,12 +115,13 @@ public class ChildEditActivity extends AppCompatActivity {
             if (clickedChild != null) {
                 //passing child clicked and new name/ image path for renaming and changing picture
                 childrenManager.renameChild(clickedChild, newName);
-                childrenManager.changeChildPic(clickedChild, saveToInternalStorage(bitmap));
+                childrenManager.changeChildPic(clickedChild, saveChildImage());
             } else {
-                //passing new name, new image path for new child added in saveToInternalStorage
-                String imgBitmap = saveToInternalStorage(bitmap);
-                childrenManager.renameChild(childrenManager.getChild(newChildID), newName);
-                childrenManager.changeChildPic(childrenManager.getChild(newChildID), imgBitmap);
+                //adding new child with image path
+                newChild = childrenManager.addChild(newName, null);
+                newChildID = newChild.getId();
+                String imgPath = saveChildImage();
+                childrenManager.changeChildPic(newChild, imgPath);
             }
             finish();
         });
@@ -158,7 +158,7 @@ public class ChildEditActivity extends AppCompatActivity {
                     selectedImage = imageReturnedIntent.getData();
                     childImageView.setImageURI(selectedImage);
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        childImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -168,9 +168,10 @@ public class ChildEditActivity extends AppCompatActivity {
         }
     }
 
-    private String saveToInternalStorage(Bitmap bitmapImage) {
+    private String saveChildImage() {
         //Code from :https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
         //saves the image of child with name including the child id
+        final int IMAGE_QUALITY = 100;
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("childImageDir", Context.MODE_PRIVATE);
         // Create imageDir
@@ -178,16 +179,13 @@ public class ChildEditActivity extends AppCompatActivity {
         if(clickedChild != null) {
             myPath = new File(directory, "" + clickedChild.getId() + "profile.jpg");
         } else {
-            Child newChild = new Child(newName, null);
-            childrenManager.addChild(newChild);
-            newChildID = newChild.getId();
             myPath = new File(directory, "" + newChildID + "profile.jpg");
         }
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(myPath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, fos);
+            childImage.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -206,13 +204,10 @@ public class ChildEditActivity extends AppCompatActivity {
             if(clickedChild != null) {
                 f = new File(path, "" + clickedChild.getId() + "profile.jpg");
             }
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ImageView img = findViewById(R.id.childEdit_child_image_view);
-            img.setImageBitmap(b);
+            childImage = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            setUpDefaultImageBitmap();
         }
-
     }
     private void hideDeleteButton() {
         Button btn = findViewById(R.id.childEdit_btnDelete);
@@ -238,10 +233,6 @@ public class ChildEditActivity extends AppCompatActivity {
     private void deleteChildImgFromInternalStorage(Child child) {
         String dir = child.getImagePath();
         File file = new File(dir, "" + child.getId() + "profile.jpg");
-        boolean deleted = file.delete();
-        if(deleted) {
-            Toast.makeText(this, "Child Deleted", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
