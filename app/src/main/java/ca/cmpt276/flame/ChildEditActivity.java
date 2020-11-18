@@ -40,7 +40,6 @@ public class ChildEditActivity extends AppCompatActivity {
     Bitmap childImage = null;
     private Child clickedChild;
     private String newName;
-    private long newChildID;
     private Child newChild;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
@@ -94,7 +93,7 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private void fillChildImage() {
         if(clickedChild != null) {
-            loadImageFromStorage(clickedChild.getImagePath());
+            loadChildImage(clickedChild.getImagePath());
         }
         ImageView imageView = findViewById(R.id.childEdit_child_image_view);
         imageView.setImageBitmap(childImage);
@@ -115,12 +114,11 @@ public class ChildEditActivity extends AppCompatActivity {
             if (clickedChild != null) {
                 //passing child clicked and new name/ image path for renaming and changing picture
                 childrenManager.renameChild(clickedChild, newName);
-                childrenManager.changeChildPic(clickedChild, saveChildImage());
+                childrenManager.changeChildPic(clickedChild, saveChildImage(clickedChild));
             } else {
                 //adding new child with image path
-                newChild = childrenManager.addChild(newName, null);
-                newChildID = newChild.getId();
-                String imgPath = saveChildImage();
+                newChild = childrenManager.addChild(newName);
+                String imgPath = saveChildImage(newChild);
                 childrenManager.changeChildPic(newChild, imgPath);
             }
             finish();
@@ -168,7 +166,7 @@ public class ChildEditActivity extends AppCompatActivity {
         }
     }
 
-    private String saveChildImage() {
+    private String saveChildImage(Child child) {
         //Code from :https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
         //saves the image of child with name including the child id
         final int IMAGE_QUALITY = 100;
@@ -176,11 +174,7 @@ public class ChildEditActivity extends AppCompatActivity {
         File directory = cw.getDir("childImageDir", Context.MODE_PRIVATE);
         // Create imageDir
         File myPath;
-        if(clickedChild != null) {
-            myPath = new File(directory, "" + clickedChild.getId() + "profile.jpg");
-        } else {
-            myPath = new File(directory, "" + newChildID + "profile.jpg");
-        }
+        myPath = new File(directory, "" + child.getId() + "profile.jpg");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(myPath);
@@ -197,7 +191,7 @@ public class ChildEditActivity extends AppCompatActivity {
         }
         return directory.getAbsolutePath();
     }
-    private void loadImageFromStorage(String path) {
+    private void loadChildImage(String path) {
         //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
         File f = null;
         try {

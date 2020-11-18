@@ -56,17 +56,13 @@ public class ChildrenManager implements Iterable<Child> {
         return children.size();
     }
 
-    public Child addChild(String name, String imgPath) {
-        Child child = new Child(name, imgPath);
+    public Child addChild(String name) {
+        Child child = new Child(name);
         children.put(child.getId(), child);
         persistToSharedPrefs();
         return child;
     }
 
-    public void addChild(Child child) {
-        children.put(child.getId(), child);
-        persistToSharedPrefs();
-    }
     // may return null if the child ID does not exist
     public Child getChild(long id) {
         if(children.containsKey(id)) {

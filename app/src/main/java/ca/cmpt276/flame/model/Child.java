@@ -14,10 +14,9 @@ public class Child {
     private String name;
     private String imagePath;
 
-    public Child(String name, String imagePath) {
+    protected Child(String name) {
         id = ChildrenManager.getInstance().getNextChildId();
         setName(name);
-        setImagePath(imagePath);
     }
 
 
