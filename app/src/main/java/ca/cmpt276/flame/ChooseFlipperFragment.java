@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -21,40 +25,34 @@ import ca.cmpt276.flame.model.FlipManager;
 /**
  *  A fragment class to pop up dialog box to enable user to choose child to go next
  */
-public class ChooseFlipperFragment extends AppCompatDialogFragment {
-    ListView listView;
+public class ChooseFlipperFragment extends Fragment {
+    private View v;
+    private RecyclerView recyclerView;
+    private FlipManager flipManager;
+    private List<Child> childrenQueue;
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // Create the view to show
-        View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_choose_flipper, null);
-
-        // Build the alert dialog
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .create();
-
-        //Make Background Transparent
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorTransparentOffWhite);
-
-
-        listView = v.findViewById(R.id.chooseFlipper_flipQueueList);
-        populateListView();
-
-        return dialog;
+    public ChooseFlipperFragment() {
     }
 
-    private void populateListView() {
-        FlipManager fM = FlipManager.getInstance();
-        List<Child> lst = fM.getTurnQueue();
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_choose_flipper, container, false);
 
-        //ArrayAdapter<Child> adapter = new ArrayAdapter<>(getActivity(), R.layout.fragment_choose_flipper, lst);
-        //listView.setAdapter(adapter);
+        recyclerView = v.findViewById(R.id.chooseFlipper_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        for(Child i : lst) {
-            Log.d("TESTTESTTEST", "TEST " + i.getName());
-        }
+        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), childrenQueue);
+        recyclerView.setAdapter(recyclerAdapter);
+
+        return v;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        flipManager = FlipManager.getInstance();
+        childrenQueue = flipManager.getTurnQueue();
     }
 }

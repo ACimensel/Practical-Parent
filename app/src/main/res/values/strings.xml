@@ -6,6 +6,8 @@
     <string name="children">Children</string>
     <string name="about">About</string>
     <string name="add">Add</string>
+    <string name="child_name">Child Name</string>
+    <string name="child_pos_in_queue">%1$d.</string>
     <string name="child_name_empty_error">Please enter a non-empty name</string>
     <string name="name">Name</string>
     <string name="save">Save</string>

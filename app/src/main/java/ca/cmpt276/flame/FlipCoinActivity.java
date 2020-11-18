@@ -3,6 +3,8 @@ package ca.cmpt276.flame;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -67,9 +69,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getSupportFragmentManager();
-                ChooseFlipperFragment dialog = new ChooseFlipperFragment();
-                dialog.show(manager, "Test");
+
             }
         });
     }
