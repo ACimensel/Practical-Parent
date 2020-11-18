@@ -14,10 +14,10 @@ public class Child {
     private String name;
     private String imagePath;
 
-    public Child(String name, String imageUri) {
+    public Child(String name, String imagePath) {
         id = ChildrenManager.getInstance().getNextChildId();
         setName(name);
-        setImagePath(imageUri);
+        setImagePath(imagePath);
     }
 
 

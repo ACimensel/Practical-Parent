@@ -56,12 +56,6 @@ public class ChildrenManager implements Iterable<Child> {
         return children.size();
     }
 
-    public void addChild(String name, String uriString) {
-        Child child = new Child(name, uriString);
-        children.put(child.getId(), child);
-        persistToSharedPrefs();
-    }
-
     public void addChild(Child child) {
         children.put(child.getId(), child);
         persistToSharedPrefs();
