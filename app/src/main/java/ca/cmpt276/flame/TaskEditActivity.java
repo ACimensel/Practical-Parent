@@ -25,7 +25,7 @@ public class TaskEditActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
     private Task clickedTask;
     private String newName;
-    private String newDes;
+    private String newDesc;
     private final TaskManager taskManager = TaskManager.getInstance();
 
     @Override
@@ -78,22 +78,22 @@ public class TaskEditActivity extends AppCompatActivity {
             EditText inputName = findViewById(R.id.taskEdit_editTxtTaskName);
             EditText inputDesc = findViewById(R.id.taskEdit_editTxtTaskDesc);
             newName = inputName.getText().toString();
-            newDes = inputDesc.getText().toString();
+            newDesc = inputDesc.getText().toString();
 
             if (newName.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_name_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (newDes.isEmpty()) {
+            if (newDesc.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_description_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (clickedTask != null) {
-                taskManager.modifyTask(clickedTask, newName, newDes);
+                taskManager.modifyTask(clickedTask, newName, newDesc);
             } else {
-                taskManager.addTask(newName, newDes);
+                taskManager.addTask(newName, newDesc);
             }
 
             finish();
