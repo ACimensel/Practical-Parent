@@ -234,11 +234,21 @@ public class ChildEditActivity extends AppCompatActivity {
                     .setTitle(R.string.confirm)
                     .setMessage(R.string.childEditActivity_confirmDeleteMsg)
                     .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
+                        deleteChildImgFromInternalStorage(clickedChild);
                         childrenManager.removeChild(clickedChild);
                         finish();
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
         });
+    }
+
+    private void deleteChildImgFromInternalStorage(Child child) {
+        String dir = child.getImageUri();
+        File file = new File(dir, "" + child.getId() + "profile.jpg");
+        boolean deleted = file.delete();
+        if(deleted){
+            Toast.makeText(this, "Child Deleted", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
