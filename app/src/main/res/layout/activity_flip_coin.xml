@@ -105,18 +105,19 @@
         app:layout_constraintTop_toTopOf="@+id/coinUpper"
         app:srcCompat="@drawable/coin_frame_head" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/flipCoin_containerButtons"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxWidth="200dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonsUpper">
 
         <Button
             android:id="@+id/flipCoin_btnFlipCoin"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@color/colorPrimary"
@@ -127,7 +128,7 @@
 
         <Button
             android:id="@+id/flipCoin_btnHistory"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:text="@string/history"
@@ -136,7 +137,7 @@
             app:layout_constraintHorizontal_bias=".5"
             app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/flipCoin_txtResultTxt"

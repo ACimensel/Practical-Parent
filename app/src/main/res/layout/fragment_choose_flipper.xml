@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_choose_flipper"
     android:background="@color/colorTransparentOffWhite"
-    tools:context=".ChooseFlipperFragment">
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context=".ChooseFlipperFragment"
+    tools:layout="@layout/fragment_choose_flipper"
+    android:focusable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,22 +20,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.08" />
+            app:layout_constraintGuide_percent="0.09" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/fragLowerBound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.88" />
+            app:layout_constraintGuide_percent="0.9" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/colorTransparentNavyBlue"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="6dp"
-            android:background="@color/colorTransparentDarkGray"
             app:layout_constraintBottom_toTopOf="@+id/fragUpperBound"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +75,35 @@
             app:layout_constraintBottom_toTopOf="@+id/fragLowerBound"
             app:layout_constraintTop_toTopOf="@+id/fragUpperBound" />
 
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragLowerBound" />
+            app:layout_constraintTop_toTopOf="@+id/fragLowerBound">
+
+            <Button
+                android:id="@+id/chooseFlipper_btnSelectNoOne"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/colorMainGreen"
+                android:text="No Selection" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+            <Button
+                android:id="@+id/chooseFlipper_btnSelectCanceled"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/colorMainRed"
+                android:text="@string/cancel" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

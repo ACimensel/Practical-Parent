@@ -73,6 +73,7 @@ public class FlipCoinActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.FlipCoinContainer, testFrag, "Test Frag");
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

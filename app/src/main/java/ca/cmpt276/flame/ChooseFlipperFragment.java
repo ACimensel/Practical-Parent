@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,8 +42,19 @@ public class ChooseFlipperFragment extends Fragment {
         RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), childrenQueue);
         recyclerView.setAdapter(recyclerAdapter);
 
+
+        Button cancelBtn = v.findViewById(R.id.chooseFlipper_btnSelectCanceled);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
         return v;
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,4 +63,6 @@ public class ChooseFlipperFragment extends Fragment {
         flipManager = FlipManager.getInstance();
         childrenQueue = flipManager.getTurnQueue();
     }
+
+
 }
