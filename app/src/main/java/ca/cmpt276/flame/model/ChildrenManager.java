@@ -1,5 +1,7 @@
 package ca.cmpt276.flame.model;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import java.util.Iterator;
@@ -32,10 +34,11 @@ public class ChildrenManager implements Iterable<Child> {
         // singleton: prevent other classes from creating new ones
     }
 
-    public void addChild(String name) {
+    public Child addChild(String name) {
         Child child = new Child(name);
         children.put(child.getId(), child);
         persistToSharedPrefs();
+        return child;
     }
 
     // may return null if the child ID does not exist
@@ -53,9 +56,22 @@ public class ChildrenManager implements Iterable<Child> {
         persistToSharedPrefs();
     }
 
-    public void removeChild(Child child) {
+    public void setChildHasImage(Child child) {
+        checkValidChild(child);
+        child.setHasImage();
+        persistToSharedPrefs();
+    }
+
+    public void removeChildImage(Child child, Context context) {
+        checkValidChild(child);
+        child.removeImage(context);
+        persistToSharedPrefs();
+    }
+
+    public void removeChild(Child child, Context context) {
         checkValidChild(child);
         FlipManager.getInstance().removeChildFromHistory(child.getId());
+        child.removeImage(context);
         children.remove(child.getId());
         persistToSharedPrefs();
     }
