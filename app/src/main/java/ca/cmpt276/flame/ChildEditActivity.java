@@ -47,8 +47,8 @@ public class ChildEditActivity extends AppCompatActivity {
         fillChildName();
         fillChildImage();
         setupSaveButton();
-
         setUpEditImageButton();
+
         if (clickedChild == null) {
             hideDeleteButton();
         } else {
@@ -154,7 +154,6 @@ public class ChildEditActivity extends AppCompatActivity {
 
 
     private void pickImageFromGallery() {
-        //intent to pick image
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 1);
@@ -163,7 +162,6 @@ public class ChildEditActivity extends AppCompatActivity {
     //handle result of picked image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        //Code from : https://stackoverflow.com/questions/10165302/dialog-to-pick-image-from-gallery-or-from-camera
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         Uri selectedImage;
         ImageView childImageView = findViewById(R.id.childEdit_child_image_view);

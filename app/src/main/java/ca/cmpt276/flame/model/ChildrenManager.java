@@ -17,6 +17,7 @@ public class ChildrenManager implements Iterable<Child> {
     private static ChildrenManager childrenManager;
     private long nextChildId = 1L;
     private final LinkedHashMap<Long, Child> children = new LinkedHashMap<>();
+
     // Singleton
 
     public static ChildrenManager getInstance() {
