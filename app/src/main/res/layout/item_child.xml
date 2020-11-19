@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="6dp">
+    android:paddingStart="6dp"
+    android:paddingTop="3dp"
+    android:paddingEnd="6dp"
+    android:paddingBottom="3dp">
 
     <ImageView
         android:id="@+id/item_child_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
     <LinearLayout
@@ -24,8 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/child_name"
-            android:textStyle="bold" />
+            android:text="@string/child_name" />
 
         <TextView
             android:id="@+id/item_child_order"
@@ -34,8 +36,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:text="@string/child_pos_in_queue"
-            android:textStyle="bold" />
+            android:text="@string/child_pos_in_queue" />
 
     </LinearLayout>
 

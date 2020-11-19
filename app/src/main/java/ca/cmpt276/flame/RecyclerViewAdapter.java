@@ -14,6 +14,9 @@ import java.util.List;
 
 import ca.cmpt276.flame.model.Child;
 
+/**
+ *  A recycler view adapter class responsible for making a view for each item in the data set
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<Child> childrenQueue;
@@ -27,7 +30,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_child, parent, false);
-
         return new ViewHolder(v);
     }
 
@@ -43,6 +45,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return childrenQueue.size();
     }
 
+    /**
+     *  A view holder class responsible for filling the view of each item in the data set
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView childImage;
         private TextView childName;
