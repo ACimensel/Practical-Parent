@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/colorTransparentOffWhite"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     tools:context=".ChooseFlipperFragment"
-    tools:layout="@layout/fragment_choose_flipper"
-    android:focusable="true">
+    tools:layout="@layout/fragment_choose_flipper">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -85,23 +85,22 @@
             app:layout_constraintTop_toTopOf="@+id/fragLowerBound">
 
             <Button
-                android:id="@+id/chooseFlipper_btnSelectNoOne"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/colorMainGreen"
-                android:text="No Selection" />
-
-            <Space
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5" />
-
-            <Button
                 android:id="@+id/chooseFlipper_btnSelectCanceled"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/colorMainRed"
                 android:text="@string/cancel" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/chooseFlipper_btnSelectNoOne"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/colorMainGreen"
+                android:text="@string/select_no_one" />
 
         </LinearLayout>
 

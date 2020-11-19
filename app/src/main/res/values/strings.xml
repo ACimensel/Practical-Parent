@@ -50,6 +50,7 @@
     <string name="chooseTimeActivity_timer_hint">min</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="select_no_one">Select No One</string>
     <string name="childEditActivity_confirmDeleteMsg">Are you sure you want to delete this child? You\'ll lose their flip history as well.</string>
     <string name="bg_music">BG Music:</string>
     <string name="no_history_entries">No history entries.</string>
