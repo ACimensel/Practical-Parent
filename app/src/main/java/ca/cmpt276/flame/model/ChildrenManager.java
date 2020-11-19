@@ -1,5 +1,6 @@
 package ca.cmpt276.flame.model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -77,15 +78,23 @@ public class ChildrenManager implements Iterable<Child> {
         child.setName(name);
         persistToSharedPrefs();
     }
-    public void changeChildPic(Child child, String imagePath) {
+
+    public void setChildHasImage(Child child) {
         checkValidChild(child);
-        child.setImagePath(imagePath);
+        child.setHasImage();
         persistToSharedPrefs();
     }
 
-    public void removeChild(Child child) {
+    public void removeChildImage(Child child, Context context) {
+        checkValidChild(child);
+        child.removeImage(context);
+        persistToSharedPrefs();
+    }
+
+    public void removeChild(Child child, Context context) {
         checkValidChild(child);
         FlipManager.getInstance().removeChildFromHistory(child.getId());
+        child.removeImage(context);
         children.remove(child.getId());
         persistToSharedPrefs();
     }

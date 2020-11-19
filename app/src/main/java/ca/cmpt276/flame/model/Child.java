@@ -1,6 +1,7 @@
 package ca.cmpt276.flame.model;
 
-import android.content.res.Resources;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -22,7 +23,7 @@ public class Child {
     public static final long NONE = 0L;
     private final long id;
     private String name;
-    private String imagePath;
+    private boolean hasImage;
 
     protected Child(String name) {
         id = ChildrenManager.getInstance().getNextChildId();
@@ -49,25 +50,45 @@ public class Child {
         return name;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public boolean hasImage() {
+        return hasImage;
     }
 
-    protected void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    protected void setHasImage() {
+        this.hasImage = true;
     }
-    public Bitmap loadChildImage(Resources resources) {
-        //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
-        Bitmap childImage;
-        File f = null;
-        try {
-            if (this != null) {
-                f = new File(this.imagePath, "" + this.getId() + "profile.jpg");
+
+    protected void removeImage(Context context) {
+        this.getImageFile(context).delete();
+        this.hasImage = false;
+    }
+
+    public File getImageFile(Context context) {
+        ContextWrapper cw = new ContextWrapper(context);
+        File directory = cw.getDir("childImageDir", Context.MODE_PRIVATE);
+        return new File(directory, this.getId() + "profile.jpg");
+    }
+
+    public Bitmap getImageBitmap(Context context) {
+        Bitmap childImage = null;
+
+        if(this.hasImage) {
+            try {
+                File f = this.getImageFile(context);
+                childImage = BitmapFactory.decodeStream(new FileInputStream(f));
+            } catch (FileNotFoundException e) {
+                // use default image below
             }
-            childImage = BitmapFactory.decodeStream(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            childImage = BitmapFactory.decodeResource(resources, R.drawable.default_child);
         }
+
+        if(childImage == null) {
+            childImage = getDefaultImageBitmap(context);
+        }
+
         return childImage;
+    }
+
+    public static Bitmap getDefaultImageBitmap(Context context) {
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.default_child);
     }
 }

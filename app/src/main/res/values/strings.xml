@@ -95,5 +95,6 @@
     <string name="remove">Remove Image</string>
     <string name="new_image">New Image</string>
     <string name="gallery">Gallery</string>
+    <string name="something_wrong_try_again">Something went wrong. Please try again.</string>
 
 </resources>

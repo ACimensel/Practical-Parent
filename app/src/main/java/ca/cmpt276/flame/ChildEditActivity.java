@@ -1,10 +1,8 @@
 package ca.cmpt276.flame;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +17,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -35,10 +32,10 @@ import ca.cmpt276.flame.model.ChildrenManager;
  */
 public class ChildEditActivity extends AppCompatActivity {
     private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
-    Bitmap childImage = null;
+    private Bitmap childImage = null;
+    private Boolean imageNeedsSaving = false;
     private Child clickedChild;
     private String newName;
-    private Child newChild;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
@@ -86,9 +83,9 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private void fillChildImage() {
         if(clickedChild != null) {
-            childImage = clickedChild.loadChildImage(getResources());
+            childImage = clickedChild.getImageBitmap(this);
         } else {
-            childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
+            childImage = Child.getDefaultImageBitmap(this);
         }
         ImageView imageView = findViewById(R.id.childEdit_child_image_view);
         imageView.setImageBitmap(childImage);
@@ -107,36 +104,44 @@ public class ChildEditActivity extends AppCompatActivity {
 
             if (clickedChild != null) {
                 childrenManager.renameChild(clickedChild, newName);
-                childrenManager.changeChildPic(clickedChild, saveChildImage(clickedChild));
             } else {
-                newChild = childrenManager.addChild(newName);
-                String imgPath = saveChildImage(newChild);
-                childrenManager.changeChildPic(newChild, imgPath);
+                clickedChild = childrenManager.addChild(newName);
             }
+
+            saveChildImage();
+
             finish();
         });
     }
 
     private void setUpEditImageButton() {
         ImageButton inputImageBtn = findViewById(R.id.childEdit_changeImageBtn);
+
         inputImageBtn.setOnClickListener(v ->  {
-            new AlertDialog.Builder(ChildEditActivity.this)
-                .setTitle(R.string.choose)
-                .setPositiveButton(R.string.new_image, ((dialogInterface, i) -> {
-                    setUpDialogBoxForImageOptions();
-                }))
-                .setNegativeButton(R.string.remove, ((dialogInterface, i) -> {
-                    if(clickedChild != null) {
-                        deleteChildImgFromInternalStorage(clickedChild);
-                    }
-                    childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
-                    ImageView imageView = findViewById(R.id.childEdit_child_image_view);
-                    imageView.setImageBitmap(childImage);
-                })).show();
+            if(imageNeedsSaving || (clickedChild != null && clickedChild.hasImage())) {
+                showDialogBoxAddRemoveImage();
+            } else {
+                showDialogBoxGalleryOrCamera();
+            }
         });
     }
 
-    private void setUpDialogBoxForImageOptions() {
+    private void showDialogBoxAddRemoveImage() {
+        new AlertDialog.Builder(ChildEditActivity.this)
+                .setTitle(R.string.choose)
+                .setPositiveButton(R.string.new_image, ((dialogInterface, i) -> {
+                    showDialogBoxGalleryOrCamera();
+                }))
+                .setNegativeButton(R.string.remove, ((dialogInterface, i) -> {
+                    if(clickedChild != null) {
+                        childrenManager.removeChildImage(clickedChild, this);
+                    }
+                    imageNeedsSaving = false;
+                    fillChildImage();
+                })).show();
+    }
+
+    private void showDialogBoxGalleryOrCamera() {
         new AlertDialog.Builder(ChildEditActivity.this)
                 .setTitle(R.string.choose)
                 .setPositiveButton(R.string.gallery, ((dialogInterface, i) -> {
@@ -167,11 +172,30 @@ public class ChildEditActivity extends AppCompatActivity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     selectedImage = imageReturnedIntent.getData();
-                    childImageView.setImageURI(selectedImage);
                     try {
-                        childImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        Bitmap fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+
+                        // crop
+                        int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
+                        int offsetX = 0;
+                        int offsetY = 0;
+
+                        if(fullSize.getWidth() > fullSize.getHeight()) {
+                            offsetX = (fullSize.getWidth() - size) / 2;
+                        } else {
+                            offsetY = (fullSize.getHeight() - size) / 2;
+                        }
+
+                        Bitmap cropped = Bitmap.createBitmap(fullSize, offsetX, offsetY, size, size);
+
+                        // down size
+                        final int IMAGE_DIM = 150;
+                        childImage = Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
+                        childImageView.setImageBitmap(childImage);
+
+                        imageNeedsSaving = true;
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -179,30 +203,23 @@ public class ChildEditActivity extends AppCompatActivity {
         }
     }
 
-    private String saveChildImage(Child child) {
-        //Code from :https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
-        //saves the image of child with name including the child id
-        final int IMAGE_QUALITY = 100;
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("childImageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File myPath;
-        myPath = new File(directory, "" + child.getId() + "profile.jpg");
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(myPath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            childImage.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void saveChildImage() {
+        if(!imageNeedsSaving) {
+            return;
         }
-        return directory.getAbsolutePath();
+
+        final int IMAGE_QUALITY = 100;
+
+        try {
+            FileOutputStream fos = new FileOutputStream(clickedChild.getImageFile(this));
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            childImage.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, fos);
+            fos.close();
+
+            childrenManager.setChildHasImage(clickedChild);
+        } catch (IOException e) {
+            Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void hideDeleteButton() {
@@ -218,17 +235,11 @@ public class ChildEditActivity extends AppCompatActivity {
                     .setTitle(R.string.confirm)
                     .setMessage(R.string.childEditActivity_confirmDeleteMsg)
                     .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
-                        deleteChildImgFromInternalStorage(clickedChild);
-                        childrenManager.removeChild(clickedChild);
+                        childrenManager.removeChild(clickedChild, this);
                         finish();
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
         });
-    }
-
-    private void deleteChildImgFromInternalStorage(Child child) {
-        String dir = child.getImagePath();
-        File file = new File(dir, "" + child.getId() + "profile.jpg");
     }
 
     @Override
