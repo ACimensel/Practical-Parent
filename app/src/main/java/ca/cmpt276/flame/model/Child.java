@@ -1,5 +1,15 @@
 package ca.cmpt276.flame.model;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import ca.cmpt276.flame.R;
+
 /**
  * Child represents a single child. A hash map of Child objects are managed by the
  * ChildrenManager class. Each child is given an ID so it can be uniquely referenced by
@@ -18,7 +28,6 @@ public class Child {
         id = ChildrenManager.getInstance().getNextChildId();
         setName(name);
     }
-
 
     public long getId() {
         return id;
@@ -46,5 +55,19 @@ public class Child {
 
     protected void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+    public Bitmap loadChildImage(Resources resources) {
+        //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
+        Bitmap childImage;
+        File f = null;
+        try {
+            if (this != null) {
+                f = new File(this.imagePath, "" + this.getId() + "profile.jpg");
+            }
+            childImage = BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            childImage = BitmapFactory.decodeResource(resources, R.drawable.default_child);
+        }
+        return childImage;
     }
 }

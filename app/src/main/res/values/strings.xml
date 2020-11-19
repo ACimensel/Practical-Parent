@@ -91,8 +91,9 @@
         \t\t<a href = "https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">App BG Music</a>
     </string>
     <string name="choose">Select</string>
-    <string name="editImgMsgLayout_cameraBtn">Camera</string>
+    <string name="camera">Camera</string>
     <string name="remove">Remove Image</string>
-    <string name="gallery">New Image</string>
+    <string name="new_image">New Image</string>
+    <string name="gallery">Gallery</string>
 
 </resources>

@@ -20,8 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -88,10 +86,9 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private void fillChildImage() {
         if(clickedChild != null) {
-            loadChildImage(clickedChild.getImagePath());
-        }
-        else{
-            loadChildImage(null);
+            childImage = clickedChild.loadChildImage(getResources());
+        } else {
+            childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
         }
         ImageView imageView = findViewById(R.id.childEdit_child_image_view);
         imageView.setImageBitmap(childImage);
@@ -123,42 +120,33 @@ public class ChildEditActivity extends AppCompatActivity {
     private void setUpEditImageButton() {
         ImageButton inputImageBtn = findViewById(R.id.childEdit_changeImageBtn);
         inputImageBtn.setOnClickListener(v ->  {
-                new AlertDialog.Builder(ChildEditActivity.this)
-                        .setTitle(R.string.choose)
-                        .setPositiveButton(R.string.gallery, ((dialogInterface, i) -> {
-                            pickImageFromGallery();
-                        }))
-                        .setNegativeButton(R.string.remove, ((dialogInterface, i) ->{
-                            if(clickedChild != null) {
-                                deleteChildImgFromInternalStorage(clickedChild);
-                            }
-                            loadChildImage(null);
-                            ImageView imageView = findViewById(R.id.childEdit_child_image_view);
-                            imageView.setImageBitmap(childImage);
-                        })).show();
-
-            /*@Override
-            public void onClick(View v) {
-                v = LayoutInflater.from(getActivity())
-                        .inflate(R.layout.edit_image_msg_layout, null);
-                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getActivity().finish();;
+            new AlertDialog.Builder(ChildEditActivity.this)
+                .setTitle(R.string.choose)
+                .setPositiveButton(R.string.new_image, ((dialogInterface, i) -> {
+                    setUpDialogBoxForImageOptions();
+                }))
+                .setNegativeButton(R.string.remove, ((dialogInterface, i) -> {
+                    if(clickedChild != null) {
+                        deleteChildImgFromInternalStorage(clickedChild);
                     }
-                };
-                new AlertDialog.Builder(ChildEditActivity.this)
-                        .setTitle("Choose Options")
-                        .setView(v)
-                        .setPositiveButton(R.string.cancel, listener)
-                        .create();
-                FragmentManager manager = getSupportFragmentManager();
-                Fragment dialog = new Fragment();
-                dialog.show(manager, "Choices");
-               // pickImageFromGallery();*/
-
+                    childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
+                    ImageView imageView = findViewById(R.id.childEdit_child_image_view);
+                    imageView.setImageBitmap(childImage);
+                })).show();
         });
     }
+
+    private void setUpDialogBoxForImageOptions() {
+        new AlertDialog.Builder(ChildEditActivity.this)
+                .setTitle(R.string.choose)
+                .setPositiveButton(R.string.gallery, ((dialogInterface, i) -> {
+                    pickImageFromGallery();
+                }))
+                .setNegativeButton(R.string.camera, ((dialogInterface, i) -> {
+                   ///
+                })).show();
+    }
+
 
     private void pickImageFromGallery() {
         //intent to pick image
@@ -216,22 +204,7 @@ public class ChildEditActivity extends AppCompatActivity {
         }
         return directory.getAbsolutePath();
     }
-    private void loadChildImage(String path) {
-        //Code from: https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
-        if(path == null){
-            childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
-        } else {
-            File f = null;
-            try {
-                if (clickedChild != null) {
-                    f = new File(path, "" + clickedChild.getId() + "profile.jpg");
-                }
-                childImage = BitmapFactory.decodeStream(new FileInputStream(f));
-            } catch (FileNotFoundException e) {
-                childImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_child);
-            }
-        }
-    }
+
     private void hideDeleteButton() {
         Button btn = findViewById(R.id.childEdit_btnDelete);
         btn.setVisibility(View.GONE);
