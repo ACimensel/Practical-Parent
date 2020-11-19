@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskEditActivity">
+
+    <TextView
+        android:id="@+id/taskEdit_txtDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/description"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskEdit_editTxtTaskName" />
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_taskEdit" />
+
+    <TextView
+        android:id="@+id/taskEdit_txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/name"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_taskEdit" />
+
+    <EditText
+        android:id="@+id/taskEdit_editTxtTaskName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:hint="@string/enter_a_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/taskEdit_txtName"
+        app:layout_constraintTop_toBottomOf="@+id/taskEdit_txtName" />
+
+    <EditText
+        android:id="@+id/taskEdit_editTxtTaskDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/enter_a_description"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/taskEdit_txtName"
+        app:layout_constraintTop_toBottomOf="@+id/taskEdit_txtDes" />
+
+    <Button
+        android:id="@+id/taskEdit_btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
+        android:text="@string/save"
+        app:layout_constraintStart_toStartOf="@+id/taskEdit_editTxtTaskName"
+        app:layout_constraintTop_toBottomOf="@+id/taskEdit_editTxtTaskDesc" />
+
+    <Button
+        android:id="@+id/taskEdit_btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/delete"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/taskEdit_editTxtTaskName"
+        app:layout_constraintTop_toTopOf="@+id/taskEdit_btnSave"
+        tools:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
