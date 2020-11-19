@@ -23,9 +23,9 @@ public class BGMusicPlayer {
         // static class: prevent other classes from creating new ones
     }
 
-    public static void init(SharedPreferences sharedPrefs, Context context) {
+    public static void init(Context context) {
         if(BGMusicPlayer.sharedPrefs == null) {
-            BGMusicPlayer.sharedPrefs =  sharedPrefs;
+            BGMusicPlayer.sharedPrefs =  PrefsManager.getSharedPrefs();
             isMusicEnabled = sharedPrefs.getBoolean(SHARED_PREFS_KEY, true);
         }
 
