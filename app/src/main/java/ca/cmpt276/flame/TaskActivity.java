@@ -70,7 +70,7 @@ public class TaskActivity extends AppCompatActivity {
     private void populateList() {
         taskList.clear();
         for (Task task : taskManager) {
-            taskList.add(0, task);
+            taskList.add(task);
         }
     }
 
@@ -104,7 +104,7 @@ public class TaskActivity extends AppCompatActivity {
 
             txtTaskName.setText(clickedTask.getName());
             txtChildName.setText(clickedTask.getNextChild().getName());
-            imagePortrait.setImageResource(R.drawable.default_child);
+            imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
 
             //passing task data to DialogFragment
             Bundle args = new Bundle();

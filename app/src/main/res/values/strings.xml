@@ -105,6 +105,6 @@
     <string name="new_image">New Image</string>
     <string name="gallery">Gallery</string>
     <string name="something_wrong_try_again">Something went wrong. Please try again.</string>
-    <string name="took_turn">Took Turn</string>
+    <string name="took_turn">Take Turn</string>
 
 </resources>
