@@ -148,10 +148,13 @@ public class ChildEditActivity extends AppCompatActivity {
                     pickImageFromGallery();
                 }))
                 .setNegativeButton(R.string.camera, ((dialogInterface, i) -> {
-                   ///
+                    pickImageFromCamera();
                 })).show();
     }
-
+    private void pickImageFromCamera() {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePicture, 0);
+    }
 
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -167,6 +170,14 @@ public class ChildEditActivity extends AppCompatActivity {
         ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
         switch (requestCode) {
             case 0:
+                if(resultCode == RESULT_OK) {
+                    Bundle extras = imageReturnedIntent.getExtras();
+                    Bitmap fullSize = (Bitmap) extras.get("data");
+                    cropAndDownsizeImage(fullSize);
+                    childImageView.setImageBitmap(childImage);
+                    imageNeedsSaving = true;
+                }
+                break;
             case 1:
                 if (resultCode == RESULT_OK) {
                     selectedImage = imageReturnedIntent.getData();
@@ -174,21 +185,7 @@ public class ChildEditActivity extends AppCompatActivity {
                         Bitmap fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 
                         // crop
-                        int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
-                        int offsetX = 0;
-                        int offsetY = 0;
-
-                        if(fullSize.getWidth() > fullSize.getHeight()) {
-                            offsetX = (fullSize.getWidth() - size) / 2;
-                        } else {
-                            offsetY = (fullSize.getHeight() - size) / 2;
-                        }
-
-                        Bitmap cropped = Bitmap.createBitmap(fullSize, offsetX, offsetY, size, size);
-
-                        // down size
-                        final int IMAGE_DIM = 150;
-                        childImage = Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
+                        cropAndDownsizeImage(fullSize);
                         childImageView.setImageBitmap(childImage);
 
                         imageNeedsSaving = true;
@@ -199,6 +196,24 @@ public class ChildEditActivity extends AppCompatActivity {
 
                 break;
         }
+    }
+
+    private void cropAndDownsizeImage(Bitmap fullSize) {
+        int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if(fullSize.getWidth() > fullSize.getHeight()) {
+            offsetX = (fullSize.getWidth() - size) / 2;
+        } else {
+            offsetY = (fullSize.getHeight() - size) / 2;
+        }
+
+        Bitmap cropped = Bitmap.createBitmap(fullSize, offsetX, offsetY, size, size);
+
+        // down size
+        final int IMAGE_DIM = 150;
+        childImage = Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
     }
 
     private void saveChildImage() {
