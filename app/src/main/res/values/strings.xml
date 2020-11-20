@@ -5,7 +5,7 @@
     <string name="task">Tasks</string>
     <string name="timeout">Timeout</string>
     <string name="children">Children</string>
-    <string name="about">About</string>
+    <string name="help">Help</string>
     <string name="add">Add</string>
     <string name="child_name_empty_error">Please enter a non-empty name</string>
     <string name="task_name_empty_error">Please enter a non-empty name</string>
@@ -58,34 +58,39 @@
     <string name="taskEditActivity_confirmDeleteMsg">Are you sure you want to delete this task?</string>
     <string name="bg_music">BG Music:</string>
     <string name="no_history_entries">No history entries.</string>
-    <string name="aboutActivity_appUsageTitleTxt">Usage Instructions</string>
-    <string name="aboutActivity_appUsageInstructions">
-        Configure Child:\n
-        1. Click on \"Children\" button in main menu.\n
+    <string name="helpActivity_appUsageTitleTxt">Usage Instructions</string>
+    <string name="helpActivity_appUsageInstructions">
+        <b>Configure Children:</b>\n
+        1. Click on "Children" button in main menu.\n
         2. If there are children already configured, the app will show the list of children.\n
         3. To add a new child, click on the \"\+\" icon in the toolbar.\n
         4. Enter the name of the child and click on \"Save\" button to save it.\n
         5. Click on the child\'s name to edit or delete it. If a child is deleted, their coin flip history will also be removed.\n
         \n
-        Coin Flip:\n
+        <b>Flip a Coin:</b>\n
         1. Click on \"Flip Coin\" button in the main menu.\n
         2. If there are children configured, the app will show the child\'s name whose turn it is and allow the child to select heads or tails.\n
         3. Tap the \"Flip Coin\" button to flip.\n
         4. The app will show the result of flip which is automatically saved in the flip history.\n
         \n
-        Timeout:\n
+        <b>Timeout:</b>\n
         1. Click on \"Timeout\" button in the main menu.\n
         2. Select one of the timer options or create a custom timer by entering a number of minutes and then click on \"Start Timer\" button to start the timer.\n
         3. Optionally pause, resume or reset the timer. If it is reset, it can either be started again or cancelled.\n
         4. If the app is closed, the timer will continue to run in the background.\n
-        5. When timer is done, app will show a notification with an alarm and vibration. Tap the notification to dismiss it.
+        5. When timer is done, app will show a notification with an alarm and vibration. Tap the notification to dismiss it.\n
     </string>
-    <string name="aboutActivity_authorTitle">Scrum Team - Flame</string>
-    <string name="aboutActivity_author_details">Jasmeen (Product Owner)\nArtun (Scrum Master)\nEthan (Repository Manager)\nRyan (Team Member)</string>
-    <string name="aboutActivity_referencesTitle">References</string>
-    <string name="aboutActivity_references_data">
+    <string name="helpActivity_authorTitle">Team Flame</string>
+    <string name="helpActivity_author_details">
+        Artun <i>(Repository Manager)</i>\n
+        Ethan <i>(Scrum Master)</i>\n
+        Jasmeen <i>(Team Member)</i>\n
+        Ryan <i>(Project Owner)</i>
+    </string>
+    <string name="helpActivity_referencesTitle">References</string>
+    <string name="helpActivity_references_data">
         Images:\n
-        \t\t<a href="https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">Euro Coin 3d Model</a>\n
+        \t\t<a href="https://www.turbosquid.com/3d-models/3d-model-euro-coin/964519">Euro Coin 3D Model</a>\n
         \t\t<a href="https://www.shutterstock.com/image-vector/initial-letter-pp-linked-rounded-design-693959755">PP Initials App Icon Image</a>\n
         \t\t<a href="https://miro.medium.com/max/700/0*zKIRrTDH0O540W1d.png">App Icon Background</a>\n
         \t\t<a href="https://wallpaperaccess.com/gradient">Timeout Gradient BG Image</a>\n

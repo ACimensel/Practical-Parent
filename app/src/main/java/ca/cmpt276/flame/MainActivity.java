@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Button taskBtn = findViewById(R.id.main_btnTask);
         Button timeoutBtn = findViewById(R.id.main_btnTimeout);
         Button childrenBtn = findViewById(R.id.main_btnChildren);
-        Button aboutBtn = findViewById(R.id.main_btnAbout);
+        Button helpBtn = findViewById(R.id.main_btnAbout);
         ImageButton musicOnOffBtn = findViewById(R.id.main_btnMusicOnOff);
 
         if(BGMusicPlayer.isMusicEnabled()) {
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
-        aboutBtn.setOnClickListener(view -> startActivity(AboutActivity.makeIntent(this)));
+        helpBtn.setOnClickListener(view -> startActivity(HelpActivity.makeIntent(this)));
         taskBtn.setOnClickListener(view -> startActivity(TaskActivity.makeIntent(this)));
 
         timeoutBtn.setOnClickListener(view -> {

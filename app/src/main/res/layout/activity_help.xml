@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity">
+    tools:context=".HelpActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -25,61 +25,61 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/aboutActivity_usage_instruction_title"
+                android:id="@+id/helpActivity_titleUsageInstructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="@string/aboutActivity_appUsageTitleTxt"
+                android:text="@string/helpActivity_appUsageTitleTxt"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/aboutActivity_coin_flip_instructions_text"
+                android:id="@+id/helpActivity_txtUsageInstructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="10dp"
-                android:text="@string/aboutActivity_appUsageInstructions"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:text="@string/helpActivity_appUsageInstructions" />
 
             <TextView
-                android:id="@+id/aboutActivity_author_title_text"
+                android:id="@+id/helpActivity_titleAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/aboutActivity_authorTitle"
+                android:text="@string/helpActivity_authorTitle"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/aboutActivity_authorBody"
+                android:id="@+id/helpActivity_txtAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="10dp"
-                android:text="@string/aboutActivity_author_details"
+                android:text="@string/helpActivity_author_details"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/aboutActivity_references_title"
+                android:id="@+id/helpActivity_titleReferences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/aboutActivity_referencesTitle"
+                android:text="@string/helpActivity_referencesTitle"
                 android:textColor="@color/colorDarkGray"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/aboutActivity_reference_body"
+                android:id="@+id/helpActivity_txtReferences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="10dp"
                 android:paddingBottom="10dp"
-                android:text="@string/aboutActivity_references_data"
+                android:text="@string/helpActivity_references_data"
                 android:textSize="18sp" />
 
         </LinearLayout>
