@@ -96,7 +96,10 @@ public class TaskEditActivity extends AppCompatActivity {
                 taskManager.addTask(newName, newDesc);
             }
 
-            finish();
+            //set up go back to TaskActivity
+            Intent intent = new Intent(this, TaskActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
     }
 
@@ -114,7 +117,10 @@ public class TaskEditActivity extends AppCompatActivity {
                     .setMessage(R.string.taskEditActivity_confirmDeleteMsg)
                     .setPositiveButton(R.string.delete, ((dialogInterface, i) -> {
                         taskManager.removeTask(clickedTask);
-                        finish();
+                        //set up go back to TaskActivity
+                        Intent intent = new Intent(this, TaskActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }))
                     .setNegativeButton(R.string.cancel, null).show();
         });
