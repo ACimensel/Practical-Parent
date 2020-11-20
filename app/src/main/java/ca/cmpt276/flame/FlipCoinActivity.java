@@ -40,11 +40,12 @@ public class FlipCoinActivity extends AppCompatActivity {
     private GifImageView coinGif;
     private Button flipBtn;
     private Button historyBtn;
-    private RadioGroup chooseSideRadioGroup;
+    protected RadioGroup chooseSideRadioGroup;
     private MediaPlayer coinSpinSound;
 
-    protected Child customChild = null;
+    protected static Child customChild = null;
     protected boolean childDisabled = false;
+    private Button testBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,19 @@ public class FlipCoinActivity extends AppCompatActivity {
         updateCoinFrame();
         setUpRadioGroup();
         setUpOnclickListeners();
+
+        // TODO remove this
+        testBtn = findViewById(R.id.testButton);
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(customChild == null) {
+                    Toast.makeText(FlipCoinActivity.this, "null", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FlipCoinActivity.this, "" + customChild.getName(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -95,8 +109,8 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    protected void setUpRadioGroup() {
-        if(flipManager.getTurnChild() == null || childDisabled) {
+    private void setUpRadioGroup() {
+        if(flipManager.getTurnChild() == null) {
             chooseSideRadioGroup.setVisibility(View.INVISIBLE);
             enableFlipCoinBtn();
         } else {
@@ -211,7 +225,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
-    private void enableFlipCoinBtn() {
+    protected void enableFlipCoinBtn() {
         flipBtn.setEnabled(true);
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }

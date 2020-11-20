@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorTransparentOffWhite"
+        android:background="@color/colorBtnGray"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
         android:text="@string/user_to_flip"
@@ -154,5 +154,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flipCoin_gifCoin"
         app:layout_constraintVertical_bias=".2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="Test" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

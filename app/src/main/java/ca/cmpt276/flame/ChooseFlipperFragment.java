@@ -72,7 +72,8 @@ public class ChooseFlipperFragment extends Fragment {
 
                 parent.childDisabled = true;
                 parent.childTurnTxt.setText(R.string.no_user_selected_to_flip);
-                parent.setUpRadioGroup();
+                parent.chooseSideRadioGroup.setVisibility(View.INVISIBLE);
+                parent.enableFlipCoinBtn();
 
                 getFragmentManager().popBackStack();
             }

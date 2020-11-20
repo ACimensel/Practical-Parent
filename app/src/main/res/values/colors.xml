@@ -8,12 +8,14 @@
     <color name="colorAccentBlue">#00ace6</color>
     <color name="colorDarkGray">#333333</color>
     <color name="colorTransparentNavyBlue">#AA093170</color>
-    <color name="colorTransparentOffWhite">#EEDDDDDD</color>
+    <color name="colorTransparentOffWhite">#EECCCCCC</color>
+    <color name="colorTransparentWhite">#66FFFFFF</color>
     <color name="colorDisabled">#787878</color>
     <color name="colorSkyBlue">#98c1d9</color>
     <color name="colorLightSkyBlue">#bde0fe</color>
     <color name="colorMainRed">#F44336</color>
     <color name="colorMainYellow">#F6BC0B</color>
     <color name="colorMainGreen">#4CAF50</color>
-    <color name="colorTaskPurple">#8A2BE2</color>
+    <color name="colorTaskPurple">#9a64cc</color>
+    <color name="colorBtnGray">#DDDDDD</color>
 </resources>

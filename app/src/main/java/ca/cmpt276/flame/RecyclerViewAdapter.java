@@ -1,11 +1,14 @@
 package ca.cmpt276.flame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,13 +33,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_child, parent, false);
-        return new ViewHolder(v);
+        ViewHolder vHolder = new ViewHolder(v);
+
+
+
+        vHolder.childItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context, "" + vHolder.childObj.getName(), Toast.LENGTH_SHORT).show();
+                FlipCoinActivity.customChild = vHolder.childObj;
+
+                // TODO Close fragment from here
+            }
+        });
+
+
+
+
+
+
+        return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder vHolder, int position) {
-        vHolder.childImage.setImageBitmap(childrenQueue.get(position).getImageBitmap(context));
-        vHolder.childName.setText(childrenQueue.get(position).getName());
+        vHolder.childObj = childrenQueue.get(position);
+        vHolder.childImage.setImageBitmap(vHolder.childObj.getImageBitmap(context));
+        vHolder.childName.setText(vHolder.childObj.getName());
         vHolder.childOrderInQ.setText(context.getString(R.string.child_pos_in_queue, position + 1));
     }
 
@@ -49,6 +72,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      *  A view holder class responsible for filling the view of each item in the data set
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private Child childObj;
+        private LinearLayout childItem;
         private ImageView childImage;
         private TextView childName;
         private TextView childOrderInQ;
@@ -56,6 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            childItem = itemView.findViewById(R.id.item_child);
             childImage = itemView.findViewById(R.id.item_child_image);
             childName = itemView.findViewById(R.id.item_child_name);
             childOrderInQ = itemView.findViewById(R.id.item_child_order);
