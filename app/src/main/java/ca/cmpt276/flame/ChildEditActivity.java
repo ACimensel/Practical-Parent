@@ -152,14 +152,16 @@ public class ChildEditActivity extends AppCompatActivity {
                 })).show();
     }
     private void pickImageFromCamera() {
+        final int REQUEST_CODE_CAMERA = 0;
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePicture, 0);
+        startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
     }
 
     private void pickImageFromGallery() {
+        final int REQUEST_CODE_GALLERY = 1;
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
 
     //handle result of picked image
@@ -168,27 +170,19 @@ public class ChildEditActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         Uri selectedImage;
         ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
+        Bitmap fullSize = null;
         switch (requestCode) {
             case 0:
                 if(resultCode == RESULT_OK) {
                     Bundle extras = imageReturnedIntent.getExtras();
-                    Bitmap fullSize = (Bitmap) extras.get("data");
-                    cropAndDownsizeImage(fullSize);
-                    childImageView.setImageBitmap(childImage);
-                    imageNeedsSaving = true;
+                    fullSize = (Bitmap) extras.get("data");
                 }
                 break;
             case 1:
                 if (resultCode == RESULT_OK) {
                     selectedImage = imageReturnedIntent.getData();
                     try {
-                        Bitmap fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-
-                        // crop
-                        cropAndDownsizeImage(fullSize);
-                        childImageView.setImageBitmap(childImage);
-
-                        imageNeedsSaving = true;
+                        fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
                     }
@@ -196,9 +190,14 @@ public class ChildEditActivity extends AppCompatActivity {
 
                 break;
         }
+        if(fullSize != null) {
+            childImage = cropAndDownsizeImage(fullSize);
+            childImageView.setImageBitmap(childImage);
+            imageNeedsSaving = true;
+        }
     }
 
-    private void cropAndDownsizeImage(Bitmap fullSize) {
+    private Bitmap cropAndDownsizeImage(Bitmap fullSize) {
         int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
         int offsetX = 0;
         int offsetY = 0;
@@ -213,7 +212,7 @@ public class ChildEditActivity extends AppCompatActivity {
 
         // down size
         final int IMAGE_DIM = 150;
-        childImage = Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
+        return Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
     }
 
     private void saveChildImage() {
