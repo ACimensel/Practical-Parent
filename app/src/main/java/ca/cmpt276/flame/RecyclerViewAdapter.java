@@ -35,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder vHolder, int position) {
-        //vHolder.childImage.setImageResource(childrenQueue.get(position).getImage());
+        vHolder.childImage.setImageBitmap(childrenQueue.get(position).getImageBitmap(context));
         vHolder.childName.setText(childrenQueue.get(position).getName());
         vHolder.childOrderInQ.setText(context.getString(R.string.child_pos_in_queue, position + 1));
     }

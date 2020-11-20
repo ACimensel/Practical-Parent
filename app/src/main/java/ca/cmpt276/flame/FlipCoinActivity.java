@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
@@ -33,7 +34,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
     private boolean isFirstSpin = true;
-    private TextView childTurnTxt;
+    protected TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
     private GifImageView coinGif;
@@ -41,6 +42,9 @@ public class FlipCoinActivity extends AppCompatActivity {
     private Button historyBtn;
     private RadioGroup chooseSideRadioGroup;
     private MediaPlayer coinSpinSound;
+
+    protected Child customChild = null;
+    protected boolean childDisabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +65,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         updateChildTurnText();
         updateCoinFrame();
         setUpRadioGroup();
-        setUpFlipCoinButton();
-        setUpHistoryButton();
-
-        // TODO: REMOVE THIS INTO ITS OWN FUNCTION
-        Button testBtn = findViewById(R.id.btnTest);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment testFrag = new ChooseFlipperFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.FlipCoinContainer, testFrag, "Test Frag");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        setUpOnclickListeners();
     }
 
     private void setupToolbar() {
@@ -88,7 +77,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     private void updateChildTurnText() {
         Child child = flipManager.getTurnChild();
         if(child == null) {
-            childTurnTxt.setText("");
+            childTurnTxt.setVisibility(View.INVISIBLE);
         } else {
             if(isFirstSpin) {
                 childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
@@ -106,9 +95,9 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpRadioGroup() {
-        if(flipManager.getTurnChild() == null) {
-            chooseSideRadioGroup.removeAllViews();
+    protected void setUpRadioGroup() {
+        if(flipManager.getTurnChild() == null || childDisabled) {
+            chooseSideRadioGroup.setVisibility(View.INVISIBLE);
             enableFlipCoinBtn();
         } else {
             findViewById(R.id.flipCoin_headsBtn).setOnClickListener(v -> enableFlipCoinBtn());
@@ -117,11 +106,20 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpFlipCoinButton() {
-        flipBtn.setOnClickListener(v -> flipCoin());
-    }
+    private void setUpOnclickListeners() {
+        childTurnTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment chooseFlipperFragment = new ChooseFlipperFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.FlipCoinContainer, chooseFlipperFragment, "Choose Flipper");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
-    private void setUpHistoryButton() {
+        flipBtn.setOnClickListener(v -> flipCoin());
         historyBtn.setOnClickListener(v -> startActivity(FlipHistoryActivity.makeIntent(this)));
     }
 
@@ -138,11 +136,14 @@ public class FlipCoinActivity extends AppCompatActivity {
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
-        if(chosenCoinSide == R.id.flipCoin_headsBtn) {
+        if(chosenCoinSide == R.id.flipCoin_headsBtn && !childDisabled) {
+            Toast.makeText(this, "Heads chosen", Toast.LENGTH_SHORT).show(); // TODO REMOVE
             flipResult = flipManager.doFlip(FlipManager.CoinSide.HEADS);
-        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn) {
+        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn && !childDisabled) {
+            Toast.makeText(this, "Tails chosen", Toast.LENGTH_SHORT).show(); // TODO REMOVE
             flipResult = flipManager.doFlip(FlipManager.CoinSide.TAILS);
         } else {
+            Toast.makeText(this, "No one chosen", Toast.LENGTH_SHORT).show(); // TODO REMOVE
             flipResult = flipManager.doFlip(null);
         }
 
@@ -167,6 +168,10 @@ public class FlipCoinActivity extends AppCompatActivity {
             enableHistoryBtn();
             if(flipManager.getTurnChild() == null) {
                 enableFlipCoinBtn();
+            }
+            else{
+                childDisabled = false;
+                chooseSideRadioGroup.setVisibility(View.VISIBLE);
             }
         }, DELAY_IN_MS);
     }
