@@ -32,6 +32,8 @@ import ca.cmpt276.flame.model.ChildrenManager;
  */
 public class ChildEditActivity extends AppCompatActivity {
     private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
+    private static final int REQUEST_CODE_CAMERA = 0;
+    private static final int REQUEST_CODE_GALLERY = 1;
     private Bitmap childImage = null;
     private Boolean imageNeedsSaving = false;
     private Child clickedChild;
@@ -152,13 +154,11 @@ public class ChildEditActivity extends AppCompatActivity {
                 })).show();
     }
     private void pickImageFromCamera() {
-        final int REQUEST_CODE_CAMERA = 0;
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
     }
 
     private void pickImageFromGallery() {
-        final int REQUEST_CODE_GALLERY = 1;
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_GALLERY);
@@ -168,27 +168,23 @@ public class ChildEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        Uri selectedImage;
         ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
         Bitmap fullSize = null;
-        switch (requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA:
                     Bundle extras = imageReturnedIntent.getExtras();
                     fullSize = (Bitmap) extras.get("data");
-                }
-                break;
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    selectedImage = imageReturnedIntent.getData();
+                    break;
+                case REQUEST_CODE_GALLERY:
+                    Uri selectedImage = imageReturnedIntent.getData();
                     try {
                         fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                break;
+                    break;
+            }
         }
         if(fullSize != null) {
             childImage = cropAndDownsizeImage(fullSize);
