@@ -18,16 +18,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/flipHistory_imgProfile"
         app:layout_constraintEnd_toStartOf="@+id/flipHistory_txtTime"
         app:layout_constraintStart_toEndOf="@+id/flipHistory_imgProfile"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/flipHistory_imgProfile" />
 
     <TextView
         android:id="@+id/flipHistory_txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/flipHistory_txtMain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/flipHistory_txtMain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
