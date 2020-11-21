@@ -5,20 +5,31 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/flip_history_txtMain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/flip_history_txtTime"
+    <ImageView
+        android:id="@+id/flipHistory_imgProfile"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/default_child" />
 
     <TextView
-        android:id="@+id/flip_history_txtTime"
+        android:id="@+id/flipHistory_txtMain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/flipHistory_imgProfile"
+        app:layout_constraintEnd_toStartOf="@+id/flipHistory_txtTime"
+        app:layout_constraintStart_toEndOf="@+id/flipHistory_imgProfile"
+        app:layout_constraintTop_toTopOf="@+id/flipHistory_imgProfile" />
+
+    <TextView
+        android:id="@+id/flipHistory_txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/flipHistory_txtMain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/flipHistory_txtMain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
