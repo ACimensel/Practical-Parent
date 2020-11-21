@@ -35,35 +35,23 @@ public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
     private boolean isFirstSpin = true;
-    protected TextView childTurnTxt;
+    private TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
     private GifImageView coinGif;
     private Button flipBtn;
     private Button historyBtn;
-    protected RadioGroup chooseSideRadioGroup;
+    private RadioGroup chooseSideRadioGroup;
     private MediaPlayer coinSpinSound;
-
-
-    private Button testBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
-
-        // TODO create setViews function for below
-        childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
-        coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
-        coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
-        coinGif = findViewById(R.id.flipCoin_gifCoin);
-        flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
-        historyBtn = findViewById(R.id.flipCoin_btnHistory);
-        chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
+        setupViews();
         coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
 
-        // TODO put this in UI update function
         coinResultTxt.setText("");
         updateChildTurnText();
         updateCoinFrame();
@@ -89,6 +77,16 @@ public class FlipCoinActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.flip_coin);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
+    }
+
+    private void setupViews() {
+        childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
+        coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
+        coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
+        coinGif = findViewById(R.id.flipCoin_gifCoin);
+        flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
+        historyBtn = findViewById(R.id.flipCoin_btnHistory);
+        chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
     }
 
     private void updateChildTurnText() {
@@ -124,16 +122,13 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setUpOnclickListeners() {
-        childTurnTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment chooseFlipperFragment = new ChooseFlipperFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.FlipCoinContainer, chooseFlipperFragment, "Choose Flipper");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
+        childTurnTxt.setOnClickListener(v -> {
+            Fragment chooseFlipperFragment = new ChooseFlipperFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.FlipCoinContainer, chooseFlipperFragment, "Choose Flipper");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         flipBtn.setOnClickListener(v -> flipCoin());
