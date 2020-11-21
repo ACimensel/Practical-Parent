@@ -1,16 +1,22 @@
 package ca.cmpt276.flame;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,20 +31,19 @@ import ca.cmpt276.flame.model.TaskManager;
  */
 public class TaskActivity extends AppCompatActivity {
     private final TaskManager taskManager = TaskManager.getInstance();
+    private final ArrayList<Task> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         setupToolbar();
-
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setupTaskView();
-        setupClickCallBack();
+    protected void onResume() {
+        super.onResume();
+        refreshListView();
     }
 
     @Override
@@ -58,31 +63,50 @@ public class TaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void setupTaskView() {
-        ListView list = findViewById(R.id.task_listView);
-        ArrayList<Task> tasks = new ArrayList<>();
+    protected void refreshListView() {
+        taskList.clear();
         for (Task task : taskManager) {
-            tasks.add(task);
+            taskList.add(task);
         }
-
-        ArrayAdapter<Task> adapter = new ArrayAdapter<>(this, R.layout.list_view_task, tasks);
+        ArrayAdapter<Task> adapter = new TaskListAdapter();
+        ListView list = findViewById(R.id.task_listView);
         list.setAdapter(adapter);
     }
 
-    //setup register click callback for list view
-    private void setupClickCallBack() {
-        ListView list = findViewById(R.id.task_listView);
-        list.setOnItemClickListener((parent, view, position, id) -> {
-            ArrayList<Task> tasks = new ArrayList<>();
-            for (Task task : taskManager) {
-                tasks.add(task);
+    private class TaskListAdapter extends ArrayAdapter<Task> {
+        TaskListAdapter() {
+            super(TaskActivity.this, R.layout.list_view_task, taskList);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            //make sure we have a view to work with (may have been given null)
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.list_view_task, parent, false);
             }
-            //passing Task information to TaskEditActivity
-            Task clickedTask = tasks.get(position);
-            Intent intent = TaskEditActivity.makeIntent(TaskActivity.this, clickedTask);
-            startActivity(intent);
-        });
+
+            Task clickedTask = taskList.get(position);
+            if(clickedTask.getNextChild() != null) {
+                TextView txtChildName = itemView.findViewById(R.id.task_txtChildName);
+                txtChildName.setText(clickedTask.getNextChild().getName());
+
+                ImageView imagePortrait = itemView.findViewById(R.id.task_imagePortrait);
+                imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
+            }
+
+            TextView txtTaskName = itemView.findViewById(R.id.task_txtTaskName);
+            txtTaskName.setText(clickedTask.getName());
+
+            itemView.setOnClickListener(v -> {
+                FragmentManager manager = getSupportFragmentManager();
+                TaskFragment dialog = new TaskFragment(TaskActivity.this, clickedTask);
+                dialog.show(manager, "TaskDialog");
+            });
+
+            return itemView;
+        }
     }
 
     private void setupToolbar() {

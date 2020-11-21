@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
         android:text="@string/save"
-        app:layout_constraintStart_toStartOf="@+id/taskEdit_editTxtTaskName"
+        app:layout_constraintEnd_toEndOf="@+id/taskEdit_editTxtTaskName"
         app:layout_constraintTop_toBottomOf="@+id/taskEdit_editTxtTaskDesc" />
 
     <Button
@@ -74,7 +74,7 @@
         android:background="@android:color/holo_red_dark"
         android:text="@string/delete"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/taskEdit_editTxtTaskName"
+        app:layout_constraintStart_toStartOf="@+id/taskEdit_editTxtTaskName"
         app:layout_constraintTop_toTopOf="@+id/taskEdit_btnSave"
         tools:visibility="invisible" />
 
