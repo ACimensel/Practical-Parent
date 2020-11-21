@@ -73,11 +73,14 @@ public class TaskFragment extends AppCompatDialogFragment {
 
     private void setupButtons(View dialogLayout) {
         Button btnTookTurn = dialogLayout.findViewById(R.id.task_dialog_btnTookTurn);
-        btnTookTurn.setOnClickListener(v -> {
-            taskManager.takeTurn(clickedTask);
-            taskActivity.refreshListView();
-            this.dismiss();
-        });
+        if(clickedTask.getNextChild() != null) {
+            btnTookTurn.setVisibility(View.VISIBLE);
+            btnTookTurn.setOnClickListener(v -> {
+                taskManager.takeTurn(clickedTask);
+                taskActivity.refreshListView();
+                this.dismiss();
+            });
+        }
 
         Button btnCancel = dialogLayout.findViewById(R.id.task_dialog_btnCancel);
         btnCancel.setOnClickListener(v -> {
