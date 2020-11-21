@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,11 +16,13 @@ import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import ca.cmpt276.flame.model.BGMusicPlayer;
@@ -39,6 +42,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
     ChildrenManager childrenManager = ChildrenManager.getInstance();
     Child turnChild = flipManager.getTurnChild();
     private final ArrayList<FlipHistoryEntry> historyList = new ArrayList<>();
+    private final HashMap<Long, Bitmap> childBitmaps = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,10 +122,9 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.list_view_flip_history, parent, false);
             }
 
-            //find the history to work with
             FlipHistoryEntry currentHistory = historyList.get(position);
 
-            TextView txtName = itemView.findViewById(R.id.flip_history_txtMain);
+            TextView txtName = itemView.findViewById(R.id.flipHistory_txtMain);
 
             String coinSideResult;
             if (currentHistory.getResult() == FlipManager.CoinSide.HEADS) {
@@ -143,20 +146,32 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 }
 
                 flipResult = getString(R.string.flip_result_child, child.getName(), coinSideResult, wonOrLost);
+
+                ImageView profileImg = itemView.findViewById(R.id.flipHistory_imgProfile);
+                profileImg.setImageBitmap(getChildBitmap(child));
             } else {
                 flipResult = getString(R.string.flip_result, coinSideResult);
             }
 
             txtName.setText(getTextFromHtml(flipResult));
 
-            TextView txtTime = itemView.findViewById(R.id.flip_history_txtTime);
-            //change the data format
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm", Locale.getDefault());
             String time = format.format(currentHistory.getDate());
+
+            TextView txtTime = itemView.findViewById(R.id.flipHistory_txtTime);
             txtTime.setText(time);
 
             return itemView;
         }
+    }
+
+    // reduce memory usage by only storing one bitmap in memory for each child
+    private Bitmap getChildBitmap(Child child) {
+        if(!childBitmaps.containsKey(child.getId())) {
+            childBitmaps.put(child.getId(), child.getImageBitmap(this));
+        }
+
+        return childBitmaps.get(child.getId());
     }
 
     @Override
