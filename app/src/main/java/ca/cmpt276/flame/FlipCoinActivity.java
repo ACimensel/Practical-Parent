@@ -31,6 +31,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
+    private ImageView childProfileImg;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
@@ -61,7 +62,8 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
+        childProfileImg = findViewById(R.id.flipCoin_imgProfile);
+        childTurnTxt = findViewById(R.id.flipCoin_txtChildTurn);
         coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
         coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
         coinGif = findViewById(R.id.flipCoin_gifCoin);
@@ -99,6 +101,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         chooseSideRadioGroup.clearCheck();
 
         if(flipManager.getTurnChild() != null) {
+            childProfileImg.setImageBitmap(flipManager.getTurnChild().getImageBitmap(this));
             childTurnTxt.setText(getString(R.string.user_to_flip_next, flipManager.getTurnChild().getName()));
             chooseSideRadioGroup.setVisibility(View.VISIBLE);
             disableFlipCoinBtn();
@@ -108,6 +111,7 @@ public class FlipCoinActivity extends AppCompatActivity {
             } else {
                 childTurnTxt.setVisibility(View.INVISIBLE);
             }
+            childProfileImg.setImageBitmap(null);
             chooseSideRadioGroup.setVisibility(View.INVISIBLE);
             enableFlipCoinBtn();
         }

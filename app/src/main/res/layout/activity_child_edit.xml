@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/save"
-        app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toBottomOf="@+id/childEdit_editTxtChildName" />
 
     <Button
@@ -52,7 +52,7 @@
         android:text="@string/delete"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/childEdit_btnSave"
-        app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toTopOf="@+id/childEdit_btnSave"
         tools:visibility="invisible" />
 

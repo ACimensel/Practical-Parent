@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +40,7 @@ public class ChildEditActivity extends AppCompatActivity {
     private Boolean imageNeedsSaving = false;
     private Child clickedChild;
     private String newName;
+    private TextView inputName;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
@@ -46,6 +49,7 @@ public class ChildEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_edit);
         getDataFromIntent();
         setupToolbar();
+        setUpNameSizeLimit();
         fillChildName();
         fillChildImage();
         setupSaveButton();
@@ -76,9 +80,14 @@ public class ChildEditActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
+    private void setUpNameSizeLimit() {
+        final int MAX_INPUT_LENGTH = 20;
+        inputName = findViewById(R.id.childEdit_editTxtChildName);
+        inputName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_INPUT_LENGTH)});
+    }
+
     private void fillChildName() {
         if(clickedChild != null) {
-            EditText inputName = findViewById(R.id.childEdit_editTxtChildName);
             inputName.setText(clickedChild.getName());
         }
     }
