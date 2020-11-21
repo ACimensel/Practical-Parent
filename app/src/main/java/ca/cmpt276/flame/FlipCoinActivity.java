@@ -30,6 +30,7 @@ import pl.droidsonroids.gif.GifImageView;
  * no text is displayed for turn of child. If children are configured, they are allowed to pick
  * whether they think the next result will be a heads or tails.
  */
+// TODO onStop? clear the custom child
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
@@ -43,7 +44,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     protected RadioGroup chooseSideRadioGroup;
     private MediaPlayer coinSpinSound;
 
-    protected boolean childDisabled = false;
+
     private Button testBtn;
 
     @Override
@@ -52,6 +53,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
+        // TODO create setViews function for below
         childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
         coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
         coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
@@ -61,24 +63,26 @@ public class FlipCoinActivity extends AppCompatActivity {
         chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
         coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
 
+        // TODO put this in UI update function
         coinResultTxt.setText("");
         updateChildTurnText();
         updateCoinFrame();
         setUpRadioGroup();
         setUpOnclickListeners();
+    }
 
-        // TODO remove this
-        testBtn = findViewById(R.id.testButton);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flipManager.getTurnChild() == null) {
-                    Toast.makeText(FlipCoinActivity.this, "null", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(FlipCoinActivity.this, "" + flipManager.getTurnChild(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    protected void updateUI() {
+        chooseSideRadioGroup.clearCheck();
+
+        if(flipManager.getTurnChild() != null) {
+            childTurnTxt.setText(getString(R.string.user_to_flip_next, flipManager.getTurnChild().getName()));
+            chooseSideRadioGroup.setVisibility(View.VISIBLE);
+            disableFlipCoinBtn();
+        } else {
+            childTurnTxt.setText(R.string.no_user_selected_to_flip);
+            chooseSideRadioGroup.setVisibility(View.INVISIBLE);
+            enableFlipCoinBtn();
+        }
     }
 
     private void setupToolbar() {
@@ -211,7 +215,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    void setRadioGroupButtons(boolean enable) {
+    private void setRadioGroupButtons(boolean enable) {
         for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
             chooseSideRadioGroup.getChildAt(i).setEnabled(enable);
         }
@@ -222,7 +226,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
     }
 
-    protected void enableFlipCoinBtn() {
+    private void enableFlipCoinBtn() {
         flipBtn.setEnabled(true);
         flipBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
