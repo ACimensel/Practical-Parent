@@ -29,6 +29,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
     private boolean isFirstSpin = true;
+    private ImageView childProfileImg;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
     private ImageView coinFrame;
@@ -44,7 +45,8 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
 
-        childTurnTxt = findViewById(R.id.flipCoin_txtChildturn);
+        childProfileImg = findViewById(R.id.flipCoin_imgProfile);
+        childTurnTxt = findViewById(R.id.flipCoin_txtChildTurn);
         coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
         coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
         coinGif = findViewById(R.id.flipCoin_gifCoin);
@@ -54,7 +56,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
 
         coinResultTxt.setText("");
-        updateChildTurnText();
+        updateChildTurnViews();
         updateCoinFrame();
         setUpRadioGroup();
         setUpFlipCoinButton();
@@ -67,11 +69,14 @@ public class FlipCoinActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    private void updateChildTurnText() {
+    private void updateChildTurnViews() {
         Child child = flipManager.getTurnChild();
         if(child == null) {
+            childProfileImg.setImageBitmap(null);
             childTurnTxt.setText("");
         } else {
+            childProfileImg.setImageBitmap(child.getImageBitmap(this));
+
             if(isFirstSpin) {
                 childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
             } else {
@@ -142,7 +147,7 @@ public class FlipCoinActivity extends AppCompatActivity {
                 coinResultTxt.setText(R.string.tails_result);
             }
 
-            updateChildTurnText();
+            updateChildTurnViews();
             chooseSideRadioGroup.clearCheck();
             setRadioGroupButtons(true);
 
