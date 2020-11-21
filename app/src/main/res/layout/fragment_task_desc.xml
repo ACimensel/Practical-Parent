@@ -60,15 +60,16 @@
         android:layout_below="@+id/task_dialog_txtTurnChild"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="@string/took_turn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtTurnChild"
+        app:layout_constraintVertical_bias="0.508"
         app:layout_goneMarginBottom="20dp" />
 
     <ImageView
@@ -106,13 +107,14 @@
         android:layout_alignTop="@+id/task_dialog_btnTookTurn"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="60dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtTurnChild"
+        app:layout_constraintVertical_bias="0.508"
         app:layout_goneMarginBottom="20dp" />
 
     <androidx.constraintlayout.widget.Guideline
