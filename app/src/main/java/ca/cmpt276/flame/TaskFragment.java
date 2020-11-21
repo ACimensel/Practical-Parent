@@ -29,49 +29,46 @@ import ca.cmpt276.flame.model.TaskManager;
 
 public class TaskFragment extends AppCompatDialogFragment {
     private final TaskManager taskManager = TaskManager.getInstance();
-    private static final String TASK_ID = "TaskId";
-    private String taskName;
-    private String childName;
-    private String taskDesc;
-    private Task clickedTask;
+    private final TaskActivity taskActivity;
+    private final Task clickedTask;
+
+    public TaskFragment (TaskActivity taskActivity, Task clickedTask){
+        this.taskActivity = taskActivity;
+        this.clickedTask = clickedTask;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        //create the view to show
         View dialogLayout = LayoutInflater.from(getActivity())
-                .inflate(R.layout.task_description_layout, null);
+                .inflate(R.layout.fragment_task_desc, null);
 
-        //Receive data from clicked Task
-        extraDataFromActivity();
+        fillText(dialogLayout);
+        setupButton(dialogLayout);
 
-        //set up dialog layout
-        setupLayout(dialogLayout);
-
-        //Build the dialog
         return new AlertDialog.Builder(getActivity())
                 .setView(dialogLayout)
                 .create();
     }
 
-    private void setupLayout(View dialogLayout) {
-        //set up textView
+    private void fillText(View dialogLayout) {
         TextView txtTaskName = dialogLayout.findViewById(R.id.task_dialog_txtName);
-        txtTaskName.setText(taskName);
+        txtTaskName.setText(clickedTask.getName());
 
         TextView txtChildName = dialogLayout.findViewById(R.id.task_dialog_txtTurnChild);
-        txtChildName.setText(getString(R.string.task_turn_child, childName));
+        txtChildName.setText(getString(R.string.task_turn_child, clickedTask.getNextChild().getName()));
 
         TextView txtTaskDesc = dialogLayout.findViewById(R.id.task_dialog_txtDescription);
-        txtTaskDesc.setText(taskDesc);
+        txtTaskDesc.setText(clickedTask.getDesc());
+    }
 
+    private void setupButton(View dialogLayout) {
         //set up button
         Button btnTookTurn = dialogLayout.findViewById(R.id.task_dialog_btnTookTurn);
         btnTookTurn.setOnClickListener(v -> {
             taskManager.takeTurn(clickedTask);
-            Intent intent = new Intent(this.getContext(), TaskActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            ((TaskActivity) taskActivity).refreshListView();
+            this.dismiss();
         });
 
         Button btnCancel = dialogLayout.findViewById(R.id.task_dialog_btnCancel);
@@ -86,17 +83,4 @@ public class TaskFragment extends AppCompatDialogFragment {
             startActivity(intent);
         });
     }
-
-    private void extraDataFromActivity() {
-        Bundle mArgs = getArguments();
-        long taskId = 0L;
-        if (mArgs != null) {
-            taskId = mArgs.getLong(TASK_ID);
-        }
-        clickedTask = taskManager.getTask(taskId);
-        taskName = clickedTask.getName();
-        childName = clickedTask.getNextChild().getName();
-        taskDesc = clickedTask.getDesc();
-    }
-
 }

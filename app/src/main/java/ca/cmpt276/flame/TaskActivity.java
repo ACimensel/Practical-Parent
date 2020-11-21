@@ -38,15 +38,7 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         setupToolbar();
-        populateList();
-        setupListView();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        populateList();
-        setupListView();
+        refreshListView();
     }
 
     @Override
@@ -66,15 +58,11 @@ public class TaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void populateList() {
+    protected void refreshListView() {
         taskList.clear();
         for (Task task : taskManager) {
             taskList.add(task);
         }
-    }
-
-    private void setupListView() {
         ArrayAdapter<Task> adapter = new TaskListAdapter();
         ListView list = findViewById(R.id.task_listView);
         list.setAdapter(adapter);
@@ -113,7 +101,7 @@ public class TaskActivity extends AppCompatActivity {
             //set onClick to show Dialog
             itemView.setOnClickListener(v -> {
                 FragmentManager manager = getSupportFragmentManager();
-                TaskFragment dialog = new TaskFragment();
+                TaskFragment dialog = new TaskFragment(TaskActivity.this, clickedTask);
                 dialog.setArguments(args);
                 dialog.show(manager, "TaskDialog");
             });
