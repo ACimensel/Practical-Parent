@@ -13,6 +13,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:paddingStart="10dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/task_imagePortrait"
         app:layout_constraintEnd_toStartOf="@+id/task_txtChildName"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,14 +24,17 @@
         android:id="@+id/task_txtChildName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingRight="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/task_imagePortrait"
         app:layout_constraintEnd_toStartOf="@+id/task_imagePortrait"
         app:layout_constraintTop_toTopOf="@+id/task_imagePortrait" />
 
     <ImageView
         android:id="@+id/task_imagePortrait"
-        android:layout_width="103dp"
-        android:layout_height="88dp"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/default_child" />

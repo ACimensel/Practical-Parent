@@ -27,8 +27,8 @@
 
     <ImageButton
         android:id="@+id/task_dialog_imageBtnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignTop="@+id/task_dialog_txtName"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
