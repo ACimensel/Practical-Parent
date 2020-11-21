@@ -88,14 +88,16 @@ public class TaskActivity extends AppCompatActivity {
             }
 
             Task clickedTask = taskList.get(position);
+            if(clickedTask.getNextChild() != null){
+                TextView txtChildName = itemView.findViewById(R.id.task_txtChildName);
+                txtChildName.setText(clickedTask.getNextChild().getName());
+
+                ImageView imagePortrait = itemView.findViewById(R.id.task_imagePortrait);
+                imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
+            }
 
             TextView txtTaskName = itemView.findViewById(R.id.task_txtTaskName);
-            TextView txtChildName = itemView.findViewById(R.id.task_txtChildName);
-            ImageView imagePortrait = itemView.findViewById(R.id.task_imagePortrait);
-
             txtTaskName.setText(clickedTask.getName());
-            txtChildName.setText(clickedTask.getNextChild().getName());
-            imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
 
             itemView.setOnClickListener(v -> {
                 FragmentManager manager = getSupportFragmentManager();

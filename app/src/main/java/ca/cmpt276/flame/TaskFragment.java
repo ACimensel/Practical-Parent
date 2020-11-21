@@ -56,14 +56,19 @@ public class TaskFragment extends AppCompatDialogFragment {
         TextView txtTaskName = dialogLayout.findViewById(R.id.task_dialog_txtName);
         txtTaskName.setText(clickedTask.getName());
 
-        TextView txtChildName = dialogLayout.findViewById(R.id.task_dialog_txtTurnChild);
-        txtChildName.setText(getString(R.string.task_turn_child, clickedTask.getNextChild().getName()));
+        if(clickedTask.getNextChild() != null){
+            TextView txtChildName = dialogLayout.findViewById(R.id.task_dialog_txtTurnChild);
+            txtChildName.setText(getString(R.string.task_turn_child, clickedTask.getNextChild().getName()));
+
+            ImageView imagePortrait = dialogLayout.findViewById(R.id.task_dialog_imagePortrait);
+            imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
+        }
+
 
         TextView txtTaskDesc = dialogLayout.findViewById(R.id.task_dialog_txtDescription);
         txtTaskDesc.setText(clickedTask.getDesc());
 
-        ImageView imagePortrait = dialogLayout.findViewById(R.id.task_dialog_imagePortrait);
-        imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
+
     }
 
     private void setupButtons(View dialogLayout) {
