@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,15 +44,15 @@ public class TaskFragment extends AppCompatDialogFragment {
         View dialogLayout = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_task_desc, null);
 
-        fillText(dialogLayout);
-        setupButton(dialogLayout);
+        fillViews(dialogLayout);
+        setupButtons(dialogLayout);
 
         return new AlertDialog.Builder(getActivity())
                 .setView(dialogLayout)
                 .create();
     }
 
-    private void fillText(View dialogLayout) {
+    private void fillViews(View dialogLayout) {
         TextView txtTaskName = dialogLayout.findViewById(R.id.task_dialog_txtName);
         txtTaskName.setText(clickedTask.getName());
 
@@ -60,14 +61,16 @@ public class TaskFragment extends AppCompatDialogFragment {
 
         TextView txtTaskDesc = dialogLayout.findViewById(R.id.task_dialog_txtDescription);
         txtTaskDesc.setText(clickedTask.getDesc());
+
+        ImageView imagePortrait = dialogLayout.findViewById(R.id.task_dialog_imagePortrait);
+        imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
     }
 
-    private void setupButton(View dialogLayout) {
-        //set up button
+    private void setupButtons(View dialogLayout) {
         Button btnTookTurn = dialogLayout.findViewById(R.id.task_dialog_btnTookTurn);
         btnTookTurn.setOnClickListener(v -> {
             taskManager.takeTurn(clickedTask);
-            ((TaskActivity) taskActivity).refreshListView();
+            taskActivity.refreshListView();
             this.dismiss();
         });
 
@@ -76,11 +79,11 @@ public class TaskFragment extends AppCompatDialogFragment {
             this.dismiss();
         });
 
-        //set up image button
         ImageButton btnEdit = dialogLayout.findViewById(R.id.task_dialog_imageBtnEdit);
         btnEdit.setOnClickListener(v -> {
             Intent intent = TaskEditActivity.makeIntent(getActivity(), clickedTask);
             startActivity(intent);
+            this.dismiss();
         });
     }
 }

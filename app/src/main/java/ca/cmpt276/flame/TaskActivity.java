@@ -38,6 +38,11 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         setupToolbar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         refreshListView();
     }
 
@@ -82,10 +87,8 @@ public class TaskActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.list_view_task, parent, false);
             }
 
-            //find the task to work with
             Task clickedTask = taskList.get(position);
 
-            //set up the layout
             TextView txtTaskName = itemView.findViewById(R.id.task_txtTaskName);
             TextView txtChildName = itemView.findViewById(R.id.task_txtChildName);
             ImageView imagePortrait = itemView.findViewById(R.id.task_imagePortrait);
@@ -94,15 +97,9 @@ public class TaskActivity extends AppCompatActivity {
             txtChildName.setText(clickedTask.getNextChild().getName());
             imagePortrait.setImageBitmap(clickedTask.getNextChild().getImageBitmap(this.getContext()));
 
-            //passing task data to DialogFragment
-            Bundle args = new Bundle();
-            args.putLong("TaskId", clickedTask.getId());
-
-            //set onClick to show Dialog
             itemView.setOnClickListener(v -> {
                 FragmentManager manager = getSupportFragmentManager();
                 TaskFragment dialog = new TaskFragment(TaskActivity.this, clickedTask);
-                dialog.setArguments(args);
                 dialog.show(manager, "TaskDialog");
             });
 
