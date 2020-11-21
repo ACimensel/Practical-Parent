@@ -1,32 +1,35 @@
 package ca.cmpt276.flame;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import ca.cmpt276.flame.model.Child;
+import ca.cmpt276.flame.model.FlipManager;
 
 /**
  *  A recycler view adapter class responsible for making a view for each item in the data set
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    private FlipManager flipManager = FlipManager.getInstance();
     private Context context;
-    private List<Child> childrenQueue;
+    private List<Child> childList;
 
     public RecyclerViewAdapter(Context context, List<Child> childList) {
         this.context = context;
-        this.childrenQueue = childList;
+        this.childList = childList;
     }
 
     @NonNull
@@ -40,24 +43,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         vHolder.childItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "" + vHolder.childObj.getName(), Toast.LENGTH_SHORT).show();
-                FlipCoinActivity.customChild = vHolder.childObj;
-
-                // TODO Close fragment from here
+                flipManager.overrideTurnChild(vHolder.childObj);
+                ((AppCompatActivity) context).getSupportFragmentManager().popBackStack();
             }
         });
-
-
-
-
 
 
         return vHolder;
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder vHolder, int position) {
-        vHolder.childObj = childrenQueue.get(position);
+        vHolder.childObj = childList.get(position);
         vHolder.childImage.setImageBitmap(vHolder.childObj.getImageBitmap(context));
         vHolder.childName.setText(vHolder.childObj.getName());
         vHolder.childOrderInQ.setText(context.getString(R.string.child_pos_in_queue, position + 1));
@@ -65,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return childrenQueue.size();
+        return childList.size();
     }
 
     /**

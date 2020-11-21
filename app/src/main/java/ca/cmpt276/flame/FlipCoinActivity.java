@@ -43,7 +43,6 @@ public class FlipCoinActivity extends AppCompatActivity {
     protected RadioGroup chooseSideRadioGroup;
     private MediaPlayer coinSpinSound;
 
-    protected static Child customChild = null;
     protected boolean childDisabled = false;
     private Button testBtn;
 
@@ -73,10 +72,10 @@ public class FlipCoinActivity extends AppCompatActivity {
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(customChild == null) {
+                if(flipManager.getTurnChild() == null) {
                     Toast.makeText(FlipCoinActivity.this, "null", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(FlipCoinActivity.this, "" + customChild.getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FlipCoinActivity.this, "" + flipManager.getTurnChild(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,10 +149,10 @@ public class FlipCoinActivity extends AppCompatActivity {
         FlipManager.CoinSide flipResult;
 
         // Pass into flipManager.doFlip() whether heads, tails, or nothing was chosen
-        if(chosenCoinSide == R.id.flipCoin_headsBtn && !childDisabled) {
+        if(chosenCoinSide == R.id.flipCoin_headsBtn) {
             Toast.makeText(this, "Heads chosen", Toast.LENGTH_SHORT).show(); // TODO REMOVE
             flipResult = flipManager.doFlip(FlipManager.CoinSide.HEADS);
-        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn && !childDisabled) {
+        } else if(chosenCoinSide == R.id.flipCoin_tailsBtn) {
             Toast.makeText(this, "Tails chosen", Toast.LENGTH_SHORT).show(); // TODO REMOVE
             flipResult = flipManager.doFlip(FlipManager.CoinSide.TAILS);
         } else {
@@ -182,9 +181,7 @@ public class FlipCoinActivity extends AppCompatActivity {
             enableHistoryBtn();
             if(flipManager.getTurnChild() == null) {
                 enableFlipCoinBtn();
-            }
-            else{
-                childDisabled = false;
+            } else {
                 chooseSideRadioGroup.setVisibility(View.VISIBLE);
             }
         }, DELAY_IN_MS);

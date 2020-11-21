@@ -1,12 +1,10 @@
 package ca.cmpt276.flame;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +24,7 @@ public class ChooseFlipperFragment extends Fragment {
     private View v;
     private RecyclerView recyclerView;
     private FlipManager flipManager;
-    private List<Child> childrenQueue;
+    private List<Child> childList;
 
     public ChooseFlipperFragment() {
     }
@@ -39,7 +37,7 @@ public class ChooseFlipperFragment extends Fragment {
         recyclerView = v.findViewById(R.id.chooseFlipper_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), childrenQueue);
+        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), childList);
         recyclerView.setAdapter(recyclerAdapter);
 
         setupButtons();
@@ -52,7 +50,7 @@ public class ChooseFlipperFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         flipManager = FlipManager.getInstance();
-        childrenQueue = flipManager.getTurnQueue();
+        childList = flipManager.getTurnQueue();
     }
 
     private void setupButtons() {
@@ -68,10 +66,11 @@ public class ChooseFlipperFragment extends Fragment {
         noOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FlipCoinActivity parent = ((FlipCoinActivity)getActivity());
+                FlipCoinActivity parent = (FlipCoinActivity) getActivity();
 
-                parent.childDisabled = true;
+                flipManager.overrideTurnChild(null);
                 parent.childTurnTxt.setText(R.string.no_user_selected_to_flip);
+                parent.chooseSideRadioGroup.clearCheck();
                 parent.chooseSideRadioGroup.setVisibility(View.INVISIBLE);
                 parent.enableFlipCoinBtn();
 
