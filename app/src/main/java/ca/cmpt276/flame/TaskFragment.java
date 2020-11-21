@@ -56,7 +56,7 @@ public class TaskFragment extends AppCompatDialogFragment {
         TextView txtTaskName = dialogLayout.findViewById(R.id.task_dialog_txtName);
         txtTaskName.setText(clickedTask.getName());
 
-        if(clickedTask.getNextChild() != null){
+        if(clickedTask.getNextChild() != null) {
             TextView txtChildName = dialogLayout.findViewById(R.id.task_dialog_txtTurnChild);
             txtChildName.setText(getString(R.string.task_turn_child, clickedTask.getNextChild().getName()));
 

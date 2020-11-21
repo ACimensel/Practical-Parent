@@ -88,7 +88,7 @@ public class TaskActivity extends AppCompatActivity {
             }
 
             Task clickedTask = taskList.get(position);
-            if(clickedTask.getNextChild() != null){
+            if(clickedTask.getNextChild() != null) {
                 TextView txtChildName = itemView.findViewById(R.id.task_txtChildName);
                 txtChildName.setText(clickedTask.getNextChild().getName());
 
