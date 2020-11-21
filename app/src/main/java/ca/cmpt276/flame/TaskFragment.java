@@ -32,7 +32,7 @@ public class TaskFragment extends AppCompatDialogFragment {
     private final TaskActivity taskActivity;
     private final Task clickedTask;
 
-    public TaskFragment (TaskActivity taskActivity, Task clickedTask){
+    public TaskFragment(TaskActivity taskActivity, Task clickedTask) {
         this.taskActivity = taskActivity;
         this.clickedTask = clickedTask;
     }
