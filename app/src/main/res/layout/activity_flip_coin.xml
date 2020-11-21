@@ -40,7 +40,7 @@
         android:background="@color/colorBtnGray"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        android:text="@string/user_to_flip"
+        android:text="@string/user_to_flip_next"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
