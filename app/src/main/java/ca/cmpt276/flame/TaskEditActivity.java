@@ -96,11 +96,6 @@ public class TaskEditActivity extends AppCompatActivity {
                 return;
             }
 
-            if (newDesc.isEmpty()) {
-                Toast.makeText(this, getString(R.string.task_description_empty_error), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             if (clickedTask != null) {
                 taskManager.modifyTask(clickedTask, newName, newDesc);
             } else {

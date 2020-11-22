@@ -177,28 +177,34 @@ public class ChildEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
-        Bitmap fullSize = null;
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_CODE_CAMERA:
-                    Bundle extras = imageReturnedIntent.getExtras();
-                    fullSize = (Bitmap) extras.get("data");
-                    break;
-                case REQUEST_CODE_GALLERY:
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    try {
-                        fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                    } catch (IOException e) {
-                        Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-            }
+
+        if (resultCode != RESULT_OK) {
+            return;
         }
+
+        Bitmap fullSize = null;
+        
+        switch (requestCode) {
+            case REQUEST_CODE_CAMERA:
+                Bundle extras = imageReturnedIntent.getExtras();
+                fullSize = (Bitmap) extras.get("data");
+                break;
+            case REQUEST_CODE_GALLERY:
+                Uri selectedImage = imageReturnedIntent.getData();
+                try {
+                    fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                } catch (IOException e) {
+                    Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
         if(fullSize != null) {
             childImage = cropAndDownsizeImage(fullSize);
-            childImageView.setImageBitmap(childImage);
             imageNeedsSaving = true;
+
+            ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
+            childImageView.setImageBitmap(childImage);
         }
     }
 

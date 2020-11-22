@@ -124,8 +124,6 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
             FlipHistoryEntry currentHistory = historyList.get(position);
 
-            TextView txtName = itemView.findViewById(R.id.flipHistory_txtMain);
-
             String coinSideResult;
             if (currentHistory.getResult() == FlipManager.CoinSide.HEADS) {
                 coinSideResult = getString(R.string.heads);
@@ -146,14 +144,15 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 }
 
                 flipResult = getString(R.string.flip_result_child, child.getName(), coinSideResult, wonOrLost);
-
-                ImageView profileImg = itemView.findViewById(R.id.flipHistory_imgProfile);
-                profileImg.setImageBitmap(getChildBitmap(child));
             } else {
                 flipResult = getString(R.string.flip_result, coinSideResult);
             }
 
-            txtName.setText(getTextFromHtml(flipResult));
+            TextView txtMain = itemView.findViewById(R.id.flipHistory_txtMain);
+            txtMain.setText(getTextFromHtml(flipResult));
+
+            ImageView profileImg = itemView.findViewById(R.id.flipHistory_imgProfile);
+            profileImg.setImageBitmap(getChildBitmap(child));
 
             SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm", Locale.getDefault());
             String time = format.format(currentHistory.getDate());
@@ -167,6 +166,14 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     // reduce memory usage by only storing one bitmap in memory for each child
     private Bitmap getChildBitmap(Child child) {
+        if(child == null || !child.hasImage()) {
+            if(!childBitmaps.containsKey(Child.NONE)) {
+                childBitmaps.put(Child.NONE, Child.getDefaultImageBitmap(this));
+            }
+
+            return childBitmaps.get(Child.NONE);
+        }
+
         if(!childBitmaps.containsKey(child.getId())) {
             childBitmaps.put(child.getId(), child.getImageBitmap(this));
         }

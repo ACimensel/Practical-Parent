@@ -11,7 +11,6 @@
     <string name="child_pos_in_queue">%1$d.</string>
     <string name="child_name_empty_error">Please enter a non-empty name</string>
     <string name="task_name_empty_error">Please enter a non-empty name</string>
-    <string name="task_description_empty_error">Please enter a non-empty description</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="save">Save</string>
