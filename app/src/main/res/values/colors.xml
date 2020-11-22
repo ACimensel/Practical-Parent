@@ -6,7 +6,9 @@
     <color name="colorAccentPink">#ff69b4</color>
     <color name="colorAccentPurple">#b388eb</color>
     <color name="colorAccentBlue">#00ace6</color>
-    <color name="colorDarkGray">#333333</color>
+    <color name="colorShale">#333333</color>
+    <color name="colorDarkGray">#656565</color>
+    <color name="colorNavyBlue">#2B4162</color>
     <color name="colorTransparentNavyBlue">#AA093170</color>
     <color name="colorTransparentOffWhite">#EECCCCCC</color>
     <color name="colorTransparentWhite">#66FFFFFF</color>

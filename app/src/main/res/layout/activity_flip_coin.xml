@@ -16,14 +16,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".1" />
+        app:layout_constraintGuide_percent=".15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/turnTextRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonsLeft"
@@ -108,7 +108,7 @@
             android:id="@+id/flipCoin_imgProfile"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_weight="35"
             app:srcCompat="@drawable/default_child" />
 
         <Space
@@ -122,17 +122,19 @@
             android:layout_height="0dp"
             android:layout_weight="30"
             android:background="@drawable/clickable_text_bg"
-            android:textAlignment="center"
+            android:gravity="center"
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:text="@string/user_to_flip_next"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkGray"
             android:textStyle="bold"
             app:autoSizeTextType="uniform" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="15" />
+            android:layout_weight="10" />
     </LinearLayout>
 
     <RadioGroup
@@ -155,9 +157,12 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/heads_radio_txt"
-            android:textColor="@drawable/radio_text_color" />
+            android:textColor="@drawable/radio_text_color"
+            app:autoSizeTextType="uniform" />
 
         <Space
             android:layout_width="0dp"
@@ -172,9 +177,12 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/tails_radio_txt"
-            android:textColor="@drawable/radio_text_color" />
+            android:textColor="@drawable/radio_text_color"
+            app:autoSizeTextType="uniform" />
     </RadioGroup>
 
     <pl.droidsonroids.gif.GifImageView
@@ -280,6 +288,7 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/heads_result"
+        android:textColor="@color/colorDarkGray"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/textLower"
