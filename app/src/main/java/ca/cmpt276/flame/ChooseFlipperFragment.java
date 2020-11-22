@@ -26,20 +26,16 @@ public class ChooseFlipperFragment extends Fragment {
     private FlipManager flipManager;
     private List<Child> childList;
 
-    public ChooseFlipperFragment() {
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_choose_flipper, container, false);
+        setupButtons();
 
         recyclerView = v.findViewById(R.id.chooseFlipper_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), childList);
+        ChooseFlipperRecyclerViewAdapter recyclerAdapter = new ChooseFlipperRecyclerViewAdapter(getContext(), childList);
         recyclerView.setAdapter(recyclerAdapter);
-
-        setupButtons();
 
         return v;
     }

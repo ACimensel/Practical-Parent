@@ -47,7 +47,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
         setupViews();
-        setOnclickListeners();
+        setupOnclickListeners();
 
         coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
         coinResultTxt.setText("");
@@ -80,7 +80,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setOnclickListeners() {
+    private void setupOnclickListeners() {
         childTurnTxt.setOnClickListener(v -> {
             Fragment chooseFlipperFragment = new ChooseFlipperFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -155,13 +155,8 @@ public class FlipCoinActivity extends AppCompatActivity {
             updateUI();
             setRadioGroupButtons(true);
             childTurnTxt.setEnabled(true);
-
             enableHistoryBtn();
-            if(flipManager.getTurnChild() == null) {
-                enableFlipCoinBtn();
-            } else {
-                chooseSideRadioGroup.setVisibility(View.VISIBLE);
-            }
+
         }, DELAY_IN_MS);
     }
 
@@ -189,9 +184,9 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setRadioGroupButtons(boolean enable) {
+    private void setRadioGroupButtons(boolean enabled) {
         for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
-            chooseSideRadioGroup.getChildAt(i).setEnabled(enable);
+            chooseSideRadioGroup.getChildAt(i).setEnabled(enabled);
         }
     }
 

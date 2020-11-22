@@ -12,91 +12,169 @@
         layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/coinUpper"
+        android:id="@+id/turnTextLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/turnTextRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonsLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonsRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/radioGroupUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.34" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/radioGroupLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.40" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/coinUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.43" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/coinLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.63" />
+        app:layout_constraintGuide_percent="0.67" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/textLower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.72" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonsUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.80" />
 
-    <ImageView
-        android:id="@+id/flipCoin_imgProfile"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@drawable/default_child" />
-
-    <TextView
-        android:id="@+id/flipCoin_txtChildTurn"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonsLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorBtnGray"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:text="@string/user_to_flip_next"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipCoin_imgProfile" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.94" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="100"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupUpper"
+        app:layout_constraintEnd_toStartOf="@+id/turnTextRight"
+        app:layout_constraintStart_toStartOf="@+id/turnTextLeft"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10" />
+
+        <ImageView
+            android:id="@+id/flipCoin_imgProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            app:srcCompat="@drawable/default_child" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10" />
+
+        <TextView
+            android:id="@+id/flipCoin_txtChildTurn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:background="@drawable/clickable_text_bg"
+            android:textAlignment="center"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text="@string/user_to_flip_next"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15" />
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/flipCoin_radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipCoin_txtChildTurn">
+        android:weightSum="11"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupLower"
+        app:layout_constraintEnd_toStartOf="@+id/buttonsRight"
+        app:layout_constraintStart_toStartOf="@+id/buttonsLeft"
+        app:layout_constraintTop_toTopOf="@+id/radioGroupUpper">
 
         <RadioButton
             android:id="@+id/flipCoin_headsBtn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_weight="4"
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp"
+            android:gravity="center"
             android:shadowColor="@android:color/black"
             android:text="@string/heads_radio_txt"
             android:textColor="@drawable/radio_text_color" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
         <RadioButton
             android:id="@+id/flipCoin_tailsBtn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_weight="4"
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
-            android:paddingStart="18dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="18dp"
-            android:paddingBottom="6dp"
+            android:gravity="center"
             android:shadowColor="@android:color/black"
             android:text="@string/tails_radio_txt"
             android:textColor="@drawable/radio_text_color" />
-
     </RadioGroup>
 
     <pl.droidsonroids.gif.GifImageView
@@ -120,49 +198,93 @@
 
     <LinearLayout
         android:id="@+id/flipCoin_containerButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:weightSum="9"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLower"
+        app:layout_constraintEnd_toStartOf="@+id/buttonsRight"
+        app:layout_constraintStart_toStartOf="@+id/buttonsLeft"
         app:layout_constraintTop_toTopOf="@+id/buttonsUpper">
 
-        <Button
-            android:id="@+id/flipCoin_btnFlipCoin"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/flip_coin"
-            app:layout_constraintBottom_toTopOf="@+id/flipCoin_btnHistory"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
 
-        <Button
-            android:id="@+id/flipCoin_btnHistory"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/history"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".5"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/flipCoin_btnFlipCoin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:translationZ="5dp"
+                android:weightSum="5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/flip_coin"
+                    android:textColor="@android:color/white"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
+
+            <Button
+                android:id="@+id/flipCoin_btnHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:translationZ="5dp"
+                android:weightSum="5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/history"
+                    android:textColor="@android:color/white"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/flipCoin_txtResultTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/heads_result"
-        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/flipCoin_containerButtons"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/textLower"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipCoin_gifCoin"
-        app:layout_constraintVertical_bias=".2" />
+        app:layout_constraintTop_toBottomOf="@+id/flipCoin_gifCoin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

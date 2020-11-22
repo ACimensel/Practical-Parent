@@ -20,12 +20,12 @@ import ca.cmpt276.flame.model.FlipManager;
 /**
  *  A recycler view adapter class responsible for making a view for each item in the data set
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class ChooseFlipperRecyclerViewAdapter extends RecyclerView.Adapter<ChooseFlipperRecyclerViewAdapter.ViewHolder> {
     private final FlipManager flipManager = FlipManager.getInstance();
     private final Context context;
     private final List<Child> childList;
 
-    public RecyclerViewAdapter(Context context, List<Child> childList) {
+    public ChooseFlipperRecyclerViewAdapter(Context context, List<Child> childList) {
         this.context = context;
         this.childList = childList;
     }
