@@ -122,7 +122,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         disableHistoryBtn();
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
-        setRadioGroupButtons(false);
+        setRadioGroupButtonsEnabled(false);
         childTurnTxt.setEnabled(false);
 
         int chosenCoinSide = chooseSideRadioGroup.getCheckedRadioButtonId();
@@ -153,7 +153,7 @@ public class FlipCoinActivity extends AppCompatActivity {
             }
 
             updateUI();
-            setRadioGroupButtons(true);
+            setRadioGroupButtonsEnabled(true);
             childTurnTxt.setEnabled(true);
             enableHistoryBtn();
 
@@ -184,7 +184,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setRadioGroupButtons(boolean enabled) {
+    private void setRadioGroupButtonsEnabled(boolean enabled) {
         for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
             chooseSideRadioGroup.getChildAt(i).setEnabled(enabled);
         }

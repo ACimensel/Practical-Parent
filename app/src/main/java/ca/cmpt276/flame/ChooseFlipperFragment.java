@@ -26,7 +26,7 @@ import ca.cmpt276.flame.model.FlipManager;
  * A fragment class to pop up dialog box to enable user to choose child to go next
  */
 public class ChooseFlipperFragment extends Fragment {
-    private View v;
+    private View view;
     private RecyclerView recyclerView;
     private FlipManager flipManager;
     private List<Child> childList;
@@ -34,15 +34,15 @@ public class ChooseFlipperFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_choose_flipper, container, false);
+        view = inflater.inflate(R.layout.fragment_choose_flipper, container, false);
         setupButtons();
 
-        recyclerView = v.findViewById(R.id.chooseFlipper_recyclerView);
+        recyclerView = view.findViewById(R.id.chooseFlipper_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ChildViewAdapter recyclerAdapter = new ChildViewAdapter(getContext(), childList);
         recyclerView.setAdapter(recyclerAdapter);
 
-        return v;
+        return view;
     }
 
     @Override
@@ -54,10 +54,10 @@ public class ChooseFlipperFragment extends Fragment {
     }
 
     private void setupButtons() {
-        Button cancelBtn = v.findViewById(R.id.chooseFlipper_btnSelectCanceled);
+        Button cancelBtn = view.findViewById(R.id.chooseFlipper_btnSelectCanceled);
         cancelBtn.setOnClickListener(v -> getFragmentManager().popBackStack());
 
-        Button noOneBtn = v.findViewById(R.id.chooseFlipper_btnSelectNoOne);
+        Button noOneBtn = view.findViewById(R.id.chooseFlipper_btnSelectNoOne);
         noOneBtn.setOnClickListener(v -> {
             flipManager.overrideTurnChild(null);
             ((FlipCoinActivity) getActivity()).updateUI();
