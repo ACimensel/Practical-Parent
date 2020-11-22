@@ -61,25 +61,32 @@
     <string name="no_history_entries">No history entries.</string>
     <string name="helpActivity_appUsageTitleTxt">Usage Instructions</string>
     <string name="helpActivity_appUsageInstructions">
-        <b>Configure Children:</b>\n
-        1. Click on "Children" button in main menu.\n
-        2. If there are children already configured, the app will show the list of children.\n
-        3. To add a new child, click on the \"\+\" icon in the toolbar.\n
-        4. Enter the name of the child and click on \"Save\" button to save it.\n
-        5. Click on the child\'s name to edit or delete it. If a child is deleted, their coin flip history will also be removed.\n
+        <b>Tasks:</b>\n
+        1. Tap on the \"Tasks\" button in the main menu.\n
+        2. The app will show a list of tasks and the child whose turn it is next.\n
+        3. Tap on a task to get more information, edit the task or mark the child as having taken their turn.\n
+        4. Tap the \"+\" button at the top to add a new task.\n
         \n
         <b>Flip a Coin:</b>\n
-        1. Click on \"Flip Coin\" button in the main menu.\n
+        1. Tap on \"Flip Coin\" button in the main menu.\n
         2. If there are children configured, the app will show the child\'s name whose turn it is and allow the child to select heads or tails.\n
         3. Tap the \"Flip Coin\" button to flip.\n
         4. The app will show the result of flip which is automatically saved in the flip history.\n
+        5. To override which child is flipping, tap on their name. Tapping on a child will move them to the front of the queue.\n
         \n
         <b>Timeout:</b>\n
-        1. Click on \"Timeout\" button in the main menu.\n
-        2. Select one of the timer options or create a custom timer by entering a number of minutes and then click on \"Start Timer\" button to start the timer.\n
+        1. Tap on \"Timeout\" button in the main menu.\n
+        2. Select one of the timer options or create a custom timer by entering a number of minutes and then tap on \"Start Timer\" button to start the timer.\n
         3. Optionally pause, resume or reset the timer. If it is reset, it can either be started again or cancelled.\n
         4. If the app is closed, the timer will continue to run in the background.\n
         5. When timer is done, app will show a notification with an alarm and vibration. Tap the notification to dismiss it.\n
+        \n
+        <b>Configure Children:</b>\n
+        1. Tap on "Children" button in main menu.\n
+        2. If there are children already configured, the app will show the list of children.\n
+        3. To add a new child, tap on the \"\+\" icon in the toolbar.\n
+        4. Enter the name of the child and tap on \"Save\" button to save it.\n
+        5. Tap on the child\'s name to edit or delete it. If a child is deleted, their coin flip history will also be removed.\n
     </string>
     <string name="helpActivity_authorTitle">Team Flame</string>
     <string name="helpActivity_author_details">
@@ -99,7 +106,8 @@
         \t\t<a href="http://clipart-library.com/clip-art/cartoon-grass-transparent-12.htm">Main Activity Grass BG</a>\n
         \t\t<a href="https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">Clock Alarm Icon</a>\n
         \t\t<a href="https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">Sound On Icon</a>\n
-        \t\t<a href="https://www.pikpng.com/transpng/xRToRx/">Sound Off Icon</a>\n\n
+        \t\t<a href="https://www.pikpng.com/transpng/xRToRx/">Sound Off Icon</a>\n
+        \t\t<a href="https://www.iconfinder.com/icons/2607295/animal_bunny_easter_bunny_emoji_pet_rabbit_icon">Default Child Image</a>\n\n
         Sounds:\n
         \t\t<a href="https://www.youtube.com/watch?v=GCE0MQK2Sww">Spinning Coin Sound</a>\n
         \t\t<a href="https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">App BG Music</a>
