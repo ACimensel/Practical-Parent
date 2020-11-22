@@ -41,6 +41,7 @@ public class FlipManager implements Iterable<FlipHistoryEntry> {
 
     public void overrideTurnChild(Child child) {
         childrenQueue.setOverride(child);
+        persistToSharedPrefs();
     }
 
     // may return null if there are no children configured / no child is flipping

@@ -21,7 +21,7 @@
                 android:useLevel="true">
 
                 <gradient
-                    android:centerColor="@color/colorAccentSky"
+                    android:centerColor="@color/colorAccentBlue"
                     android:centerX="0.3"
                     android:endColor="@color/colorAccentPink"
                     android:startColor="@color/colorAccentPurple"

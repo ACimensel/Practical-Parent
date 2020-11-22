@@ -2,19 +2,22 @@ package ca.cmpt276.flame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import ca.cmpt276.flame.model.BGMusicPlayer;
-import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.FlipManager;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -28,7 +31,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class FlipCoinActivity extends AppCompatActivity {
     FlipManager flipManager = FlipManager.getInstance();
 
-    private boolean isFirstSpin = true;
     private ImageView childProfileImg;
     private TextView childTurnTxt;
     private TextView coinResultTxt;
@@ -44,23 +46,13 @@ public class FlipCoinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flip_coin);
         setupToolbar();
+        setupViews();
+        setupOnclickListeners();
 
-        childProfileImg = findViewById(R.id.flipCoin_imgProfile);
-        childTurnTxt = findViewById(R.id.flipCoin_txtChildTurn);
-        coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
-        coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
-        coinGif = findViewById(R.id.flipCoin_gifCoin);
-        flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
-        historyBtn = findViewById(R.id.flipCoin_btnHistory);
-        chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
         coinSpinSound = MediaPlayer.create(this, R.raw.coin_spin_sound);
-
         coinResultTxt.setText("");
-        updateChildTurnViews();
         updateCoinFrame();
-        setUpRadioGroup();
-        setUpFlipCoinButton();
-        setUpHistoryButton();
+        updateUI();
     }
 
     private void setupToolbar() {
@@ -69,20 +61,15 @@ public class FlipCoinActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    private void updateChildTurnViews() {
-        Child child = flipManager.getTurnChild();
-        if(child == null) {
-            childProfileImg.setImageBitmap(null);
-            childTurnTxt.setText("");
-        } else {
-            childProfileImg.setImageBitmap(child.getImageBitmap(this));
-
-            if(isFirstSpin) {
-                childTurnTxt.setText(getString(R.string.user_to_flip, child.getName()));
-            } else {
-                childTurnTxt.setText(getString(R.string.user_to_flip_next, child.getName()));
-            }
-        }
+    private void setupViews() {
+        childProfileImg = findViewById(R.id.flipCoin_imgProfile);
+        childTurnTxt = findViewById(R.id.flipCoin_txtChildTurn);
+        coinResultTxt = findViewById(R.id.flipCoin_txtResultTxt);
+        coinFrame = findViewById(R.id.flipCoin_imgCoinFrame);
+        coinGif = findViewById(R.id.flipCoin_gifCoin);
+        flipBtn = findViewById(R.id.flipCoin_btnFlipCoin);
+        historyBtn = findViewById(R.id.flipCoin_btnHistory);
+        chooseSideRadioGroup = findViewById(R.id.flipCoin_radioGroup);
     }
 
     private void updateCoinFrame() {
@@ -93,32 +80,50 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpRadioGroup() {
-        if(flipManager.getTurnChild() == null) {
-            chooseSideRadioGroup.removeAllViews();
-            enableFlipCoinBtn();
-        } else {
-            findViewById(R.id.flipCoin_headsBtn).setOnClickListener(v -> enableFlipCoinBtn());
-            findViewById(R.id.flipCoin_tailsBtn).setOnClickListener(v -> enableFlipCoinBtn());
-            disableFlipCoinBtn();
-        }
-    }
+    private void setupOnclickListeners() {
+        childTurnTxt.setOnClickListener(v -> {
+            Fragment chooseFlipperFragment = new ChooseFlipperFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.FlipCoinContainer, chooseFlipperFragment, "Choose Flipper");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
-    private void setUpFlipCoinButton() {
+        findViewById(R.id.flipCoin_headsBtn).setOnClickListener(v -> enableFlipCoinBtn());
+        findViewById(R.id.flipCoin_tailsBtn).setOnClickListener(v -> enableFlipCoinBtn());
+
         flipBtn.setOnClickListener(v -> flipCoin());
+        historyBtn.setOnClickListener(v -> startActivity(FlipHistoryActivity.makeIntent(this)));
     }
 
-    private void setUpHistoryButton() {
-        historyBtn.setOnClickListener(v -> startActivity(FlipHistoryActivity.makeIntent(this)));
+    protected void updateUI() {
+        chooseSideRadioGroup.clearCheck();
+
+        if(flipManager.getTurnChild() != null) {
+            childProfileImg.setImageBitmap(flipManager.getTurnChild().getImageBitmap(this));
+            childTurnTxt.setText(getString(R.string.user_to_flip_next, flipManager.getTurnChild().getName()));
+            chooseSideRadioGroup.setVisibility(View.VISIBLE);
+            disableFlipCoinBtn();
+        } else {
+            if(flipManager.getTurnQueue().size() > 0) {
+                childTurnTxt.setText(R.string.no_user_selected_to_flip);
+            } else {
+                childTurnTxt.setVisibility(View.INVISIBLE);
+            }
+            childProfileImg.setImageBitmap(null);
+            chooseSideRadioGroup.setVisibility(View.INVISIBLE);
+            enableFlipCoinBtn();
+        }
     }
 
     private void flipCoin() {
         disableFlipCoinBtn();
         disableHistoryBtn();
-        isFirstSpin = false;
         coinFrame.setImageDrawable(null);
         coinResultTxt.setText("");
-        setRadioGroupButtons(false);
+        setRadioGroupButtonsEnabled(false);
+        childTurnTxt.setEnabled(false);
 
         int chosenCoinSide = chooseSideRadioGroup.getCheckedRadioButtonId();
         FlipManager.CoinSide coinSideBeforeSpin = flipManager.getLastCoinValue();
@@ -147,14 +152,11 @@ public class FlipCoinActivity extends AppCompatActivity {
                 coinResultTxt.setText(R.string.tails_result);
             }
 
-            updateChildTurnViews();
-            chooseSideRadioGroup.clearCheck();
-            setRadioGroupButtons(true);
-
+            updateUI();
+            setRadioGroupButtonsEnabled(true);
+            childTurnTxt.setEnabled(true);
             enableHistoryBtn();
-            if(flipManager.getTurnChild() == null) {
-                enableFlipCoinBtn();
-            }
+
         }, DELAY_IN_MS);
     }
 
@@ -182,9 +184,9 @@ public class FlipCoinActivity extends AppCompatActivity {
         }
     }
 
-    void setRadioGroupButtons(boolean enable) {
+    private void setRadioGroupButtonsEnabled(boolean enabled) {
         for (int i = 0; i < chooseSideRadioGroup.getChildCount(); i++) {
-            chooseSideRadioGroup.getChildAt(i).setEnabled(enable);
+            chooseSideRadioGroup.getChildAt(i).setEnabled(enabled);
         }
     }
 

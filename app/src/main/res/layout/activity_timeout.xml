@@ -43,7 +43,7 @@
         android:id="@+id/timeout_txtTimeRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorDarkGray"
+        android:textColor="@color/colorShale"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/timeout_progressBar"
         app:layout_constraintEnd_toEndOf="@+id/timeout_progressBar"
