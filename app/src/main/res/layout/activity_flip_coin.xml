@@ -58,21 +58,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43" />
+        app:layout_constraintGuide_percent="0.44" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/coinLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.67" />
+        app:layout_constraintGuide_percent="0.69" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/textLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.72" />
+        app:layout_constraintGuide_percent="0.74" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonsUpper"
@@ -108,7 +108,7 @@
             android:id="@+id/flipCoin_imgProfile"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="35"
+            android:layout_weight="40"
             app:srcCompat="@drawable/default_child" />
 
         <Space
@@ -120,7 +120,7 @@
             android:id="@+id/flipCoin_txtChildTurn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="30"
+            android:layout_weight="25"
             android:background="@drawable/clickable_text_bg"
             android:gravity="center"
             android:paddingStart="6dp"
