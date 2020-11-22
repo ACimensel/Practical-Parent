@@ -89,8 +89,9 @@
         1. Tap on "Children" button in main menu.\n
         2. If there are children already configured, the app will show the list of children.\n
         3. To add a new child, tap on the \"\+\" icon in the toolbar.\n
-        4. Enter the name of the child and tap on \"Save\" button to save it.\n
-        5. Tap on the child\'s name to edit or delete it. If a child is deleted, their coin flip history will also be removed.\n
+        4. Enter the name of the child. If desired, a photo can be added by tapping the blue edit pencil.\n
+        5. Tap on \"Save\" button to save.\n
+        6. Tap on the child\'s name to edit or delete them. If a child is deleted, their coin flip history will also be removed.\n
     </string>
     <string name="helpActivity_authorTitle">Team Flame</string>
     <string name="helpActivity_author_details">
