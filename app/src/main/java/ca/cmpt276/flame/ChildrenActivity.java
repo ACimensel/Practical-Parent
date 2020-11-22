@@ -1,23 +1,27 @@
 package ca.cmpt276.flame;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
+import ca.cmpt276.flame.model.BGMusicPlayer;
 import ca.cmpt276.flame.model.Child;
 import ca.cmpt276.flame.model.ChildrenManager;
-
-import ca.cmpt276.flame.model.BGMusicPlayer;
 
 /**
  * ChildrenActivity: allow users to view a list of children
@@ -26,6 +30,7 @@ import ca.cmpt276.flame.model.BGMusicPlayer;
  */
 public class ChildrenActivity extends AppCompatActivity {
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
+    private final ArrayList<Child> childList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class ChildrenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_children);
         setupToolbar();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -59,12 +65,12 @@ public class ChildrenActivity extends AppCompatActivity {
 
     private void setupChildrenView() {
         ListView list = findViewById(R.id.children_listView);
-        ArrayList<Child> children = new ArrayList<>();
+        childList.clear();
         for (Child child : childrenManager) {
-            children.add(child);
+            childList.add(child);
         }
 
-        ArrayAdapter<Child> adapter = new ArrayAdapter<>(this, R.layout.list_view_children, children);
+        ArrayAdapter<Child> adapter = new ChildListAdapter();
         list.setAdapter(adapter);
     }
 
@@ -99,5 +105,28 @@ public class ChildrenActivity extends AppCompatActivity {
 
     protected static Intent makeIntent(Context context) {
         return new Intent(context, ChildrenActivity.class);
+    }
+
+    private class ChildListAdapter extends ArrayAdapter<Child> {
+        ChildListAdapter() {
+            super(ChildrenActivity.this, R.layout.list_view_children, childList);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.list_view_children, parent, false);
+            }
+            Child clickedChild = childList.get(position);
+            TextView txtChildName = itemView.findViewById(R.id.children_childName);
+            ImageView imagePortrait = itemView.findViewById(R.id.children_childImage);
+
+            txtChildName.setText(clickedChild.getName());
+            imagePortrait.setImageBitmap(clickedChild.getImageBitmap(ChildrenActivity.this));
+            return itemView;
+        }
+
     }
 }

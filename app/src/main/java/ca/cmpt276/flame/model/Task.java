@@ -39,8 +39,8 @@ public class Task {
     }
 
     protected void setDesc(String desc) {
-        if(desc == null || desc.isEmpty()) {
-            throw new IllegalArgumentException("Description must be non-empty");
+        if(desc == null) {
+            throw new IllegalArgumentException("Description must be non-null");
         }
 
         this.desc = desc;

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/save"
-        app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toBottomOf="@+id/childEdit_editTxtChildName" />
 
     <Button
@@ -52,7 +52,7 @@
         android:text="@string/delete"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/childEdit_btnSave"
-        app:layout_constraintEnd_toEndOf="@+id/childEdit_editTxtChildName"
+        app:layout_constraintStart_toStartOf="@+id/childEdit_editTxtChildName"
         app:layout_constraintTop_toTopOf="@+id/childEdit_btnSave"
         tools:visibility="invisible" />
 
@@ -68,11 +68,13 @@
 
     <ImageButton
         android:id="@+id/childEdit_changeImageBtn"
-        android:layout_width="44dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="112dp"
-        app:layout_constraintStart_toStartOf="@+id/childEdit_child_image_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edit_btn_background"
+        app:layout_constraintBottom_toTopOf="@+id/childEdit_child_image_view"
         app:layout_constraintTop_toTopOf="@+id/childEdit_child_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/childEdit_child_image_view"
+        app:layout_constraintStart_toEndOf="@+id/childEdit_child_image_view"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

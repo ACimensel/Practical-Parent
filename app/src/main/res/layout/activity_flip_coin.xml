@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/coinLower"
@@ -31,8 +31,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
 
+    <ImageView
+        android:id="@+id/flipCoin_imgProfile"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/default_child" />
+
     <TextView
-        android:id="@+id/flipCoin_txtChildturn"
+        android:id="@+id/flipCoin_txtChildTurn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -41,7 +51,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/flipCoin_imgProfile" />
 
     <RadioGroup
         android:id="@+id/flipCoin_radioGroup"
@@ -51,7 +61,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipCoin_txtChildturn">
+        app:layout_constraintTop_toBottomOf="@+id/flipCoin_txtChildTurn">
 
         <RadioButton
             android:id="@+id/flipCoin_headsBtn"

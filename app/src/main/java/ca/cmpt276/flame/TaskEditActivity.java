@@ -1,16 +1,17 @@
 package ca.cmpt276.flame;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import ca.cmpt276.flame.model.Task;
 import ca.cmpt276.flame.model.TaskManager;
@@ -26,6 +27,8 @@ public class TaskEditActivity extends AppCompatActivity {
     private Task clickedTask;
     private String newName;
     private String newDesc;
+    private EditText inputName;
+    private EditText inputDesc;
     private final TaskManager taskManager = TaskManager.getInstance();
 
     @Override
@@ -34,7 +37,8 @@ public class TaskEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_edit);
         getDataFromIntent();
         setupToolbar();
-        fillTaskName();
+        setUpTaskInputLimit();
+        fillTaskInfo();
         setupSaveButton();
 
         if (clickedTask == null) {
@@ -62,10 +66,17 @@ public class TaskEditActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
-    private void fillTaskName() {
+    private void setUpTaskInputLimit() {
+        final int MAX_NAME_LENGTH = 20;
+        final int MAX_DESC_LENGTH = 100;
+        inputName = findViewById(R.id.taskEdit_editTxtTaskName);
+        inputDesc = findViewById(R.id.taskEdit_editTxtTaskDesc);
+        inputName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_NAME_LENGTH)});
+        inputDesc.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_DESC_LENGTH)});
+    }
+
+    private void fillTaskInfo() {
         if (clickedTask != null) {
-            EditText inputName = findViewById(R.id.taskEdit_editTxtTaskName);
-            EditText inputDesc = findViewById(R.id.taskEdit_editTxtTaskDesc);
             inputName.setText(clickedTask.getName());
             inputDesc.setText(clickedTask.getDesc());
         }
@@ -82,11 +93,6 @@ public class TaskEditActivity extends AppCompatActivity {
 
             if (newName.isEmpty()) {
                 Toast.makeText(this, getString(R.string.task_name_empty_error), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (newDesc.isEmpty()) {
-                Toast.makeText(this, getString(R.string.task_description_empty_error), Toast.LENGTH_SHORT).show();
                 return;
             }
 

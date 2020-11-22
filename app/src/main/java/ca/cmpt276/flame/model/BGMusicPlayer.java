@@ -44,7 +44,7 @@ public class BGMusicPlayer {
     }
 
     public static void pauseBgMusic() {
-        if (bgMusic != null) {
+        if (bgMusic != null && bgMusic.isPlaying()) {
             bgMusic.pause();
         }
     }

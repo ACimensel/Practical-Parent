@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,10 +34,13 @@ import ca.cmpt276.flame.model.ChildrenManager;
  */
 public class ChildEditActivity extends AppCompatActivity {
     private static final String EXTRA_CHILD_ID = "EXTRA_CHILD_ID";
+    private static final int REQUEST_CODE_CAMERA = 0;
+    private static final int REQUEST_CODE_GALLERY = 1;
     private Bitmap childImage = null;
     private Boolean imageNeedsSaving = false;
     private Child clickedChild;
     private String newName;
+    private TextView inputName;
     private final ChildrenManager childrenManager = ChildrenManager.getInstance();
 
     @Override
@@ -44,6 +49,7 @@ public class ChildEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_edit);
         getDataFromIntent();
         setupToolbar();
+        setUpNameSizeLimit();
         fillChildName();
         fillChildImage();
         setupSaveButton();
@@ -74,9 +80,14 @@ public class ChildEditActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
+    private void setUpNameSizeLimit() {
+        final int MAX_INPUT_LENGTH = 20;
+        inputName = findViewById(R.id.childEdit_editTxtChildName);
+        inputName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_INPUT_LENGTH)});
+    }
+
     private void fillChildName() {
         if(clickedChild != null) {
-            EditText inputName = findViewById(R.id.childEdit_editTxtChildName);
             inputName.setText(clickedChild.getName());
         }
     }
@@ -148,57 +159,71 @@ public class ChildEditActivity extends AppCompatActivity {
                     pickImageFromGallery();
                 }))
                 .setNegativeButton(R.string.camera, ((dialogInterface, i) -> {
-                   ///
+                    pickImageFromCamera();
                 })).show();
     }
-
+    private void pickImageFromCamera() {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
+    }
 
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
 
     //handle result of picked image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        Uri selectedImage;
-        ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        Bitmap fullSize = null;
+        
         switch (requestCode) {
-            case 0:
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    selectedImage = imageReturnedIntent.getData();
-                    try {
-                        Bitmap fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-
-                        // crop
-                        int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
-                        int offsetX = 0;
-                        int offsetY = 0;
-
-                        if(fullSize.getWidth() > fullSize.getHeight()) {
-                            offsetX = (fullSize.getWidth() - size) / 2;
-                        } else {
-                            offsetY = (fullSize.getHeight() - size) / 2;
-                        }
-
-                        Bitmap cropped = Bitmap.createBitmap(fullSize, offsetX, offsetY, size, size);
-
-                        // down size
-                        final int IMAGE_DIM = 150;
-                        childImage = Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
-                        childImageView.setImageBitmap(childImage);
-
-                        imageNeedsSaving = true;
-                    } catch (IOException e) {
-                        Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
-                    }
+            case REQUEST_CODE_CAMERA:
+                Bundle extras = imageReturnedIntent.getExtras();
+                fullSize = (Bitmap) extras.get("data");
+                break;
+            case REQUEST_CODE_GALLERY:
+                Uri selectedImage = imageReturnedIntent.getData();
+                try {
+                    fullSize = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                } catch (IOException e) {
+                    Toast.makeText(this, getResources().getText(R.string.something_wrong_try_again), Toast.LENGTH_SHORT).show();
                 }
-
                 break;
         }
+
+        if(fullSize != null) {
+            childImage = cropAndDownsizeImage(fullSize);
+            imageNeedsSaving = true;
+
+            ImageView childImageView = findViewById(R.id.childEdit_child_image_view);
+            childImageView.setImageBitmap(childImage);
+        }
+    }
+
+    private Bitmap cropAndDownsizeImage(Bitmap fullSize) {
+        int size = Math.min(fullSize.getWidth(), fullSize.getHeight());
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if(fullSize.getWidth() > fullSize.getHeight()) {
+            offsetX = (fullSize.getWidth() - size) / 2;
+        } else {
+            offsetY = (fullSize.getHeight() - size) / 2;
+        }
+
+        Bitmap cropped = Bitmap.createBitmap(fullSize, offsetX, offsetY, size, size);
+
+        // down size
+        final int IMAGE_DIM = 150;
+        return Bitmap.createScaledBitmap(cropped, IMAGE_DIM, IMAGE_DIM, false);
     }
 
     private void saveChildImage() {
