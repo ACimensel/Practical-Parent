@@ -1,4 +1,4 @@
 Scrum Master: Artun
-Project Owner: Jasmeen
+Product Owner: Jasmeen
 Repository Manager: Ethan
 Team Member: Ryan
