@@ -136,7 +136,7 @@
             android:layout_weight="1"
             android:background="@color/colorTaskPurple"
             android:padding="14dp"
-            android:text="@string/about"
+            android:text="@string/help"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/main_btnChildren"
             app:layout_constraintStart_toStartOf="@+id/main_btnChildren"

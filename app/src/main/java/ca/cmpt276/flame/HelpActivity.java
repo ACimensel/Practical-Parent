@@ -12,26 +12,26 @@ import android.widget.TextView;
 import ca.cmpt276.flame.model.BGMusicPlayer;
 
 /**
- * AboutActivity: provides details about the app usage, details about developing team and references to used images and sounds.
+ * HelpActivity: gives instructions, team name and members, and references to used images and sounds.
  */
-public class AboutActivity extends AppCompatActivity {
+public class HelpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_help);
         setupToolbar();
         setLinksClickable();
     }
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.about);
+        toolbar.setTitle(R.string.help);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
     private void setLinksClickable() {
-        TextView references = findViewById(R.id.aboutActivity_reference_body);
+        TextView references = findViewById(R.id.helpActivity_txtReferences);
         references.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -42,6 +42,6 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     protected static Intent makeIntent(Context context) {
-        return new Intent(context, AboutActivity.class);
+        return new Intent(context, HelpActivity.class);
     }
 }
