@@ -21,3 +21,8 @@ and not lag for a reasonable amount of entries.
 
 We continued to be careful about our image sizes throughout the app and compressed all of them using TinyPNG (tinypng.com)
 to reduce the size of our app.
+
+
+In addition to the task name, we added an optional field for a user to add a longer description to the task. 
+This way the task list remains easy to read, displaying only the task name, and the user can input additional information, 
+if desired, which can be seen as a description when tapping on the task.
