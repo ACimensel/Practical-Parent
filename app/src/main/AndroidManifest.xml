@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/practical_parent_icon"
@@ -11,9 +12,11 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
 
-
         <receiver android:name=".TimerAlarmReceiver" />
 
+        <activity
+            android:name=".TakeBreathActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TaskEditActivity"
             android:screenOrientation="portrait" />

@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        Button flipCoinBtn = findViewById(R.id.main_btnFlipCoin);
         Button taskBtn = findViewById(R.id.main_btnTask);
+        Button flipCoinBtn = findViewById(R.id.main_btnFlipCoin);
+        Button takeBreathBtn = findViewById(R.id.main_btnTakeBreath);
         Button timeoutBtn = findViewById(R.id.main_btnTimeout);
         Button childrenBtn = findViewById(R.id.main_btnChildren);
         Button helpBtn = findViewById(R.id.main_btnAbout);
@@ -59,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
             musicOnOffBtn.setImageResource(R.drawable.music_off);
         }
 
+        taskBtn.setOnClickListener(view -> startActivity(TaskActivity.makeIntent(this)));
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
+        takeBreathBtn.setOnClickListener(view -> startActivity(TakeBreathActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         helpBtn.setOnClickListener(view -> startActivity(HelpActivity.makeIntent(this)));
-        taskBtn.setOnClickListener(view -> startActivity(TaskActivity.makeIntent(this)));
 
         timeoutBtn.setOnClickListener(view -> {
             if(TimeoutManager.getInstance().getTimerState() == TimeoutManager.TimerState.STOPPED) {
