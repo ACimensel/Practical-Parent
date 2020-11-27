@@ -77,6 +77,7 @@ public class TimeoutManager {
             return;
         }
 
+        cancelAlarm(context);
         timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
         timerState = TimerState.RUNNING;
         setAlarm(context);
