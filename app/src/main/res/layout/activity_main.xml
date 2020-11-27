@@ -26,14 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.17" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonsLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.68" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/childUpper"
@@ -54,18 +54,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".2" />
+        app:layout_constraintGuide_percent=".20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineV_R"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".8" />
+        app:layout_constraintGuide_percent=".80" />
 
     <TextView
         android:id="@+id/main_txtTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".8"
         android:gravity="center"
@@ -74,9 +74,11 @@
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/titleLower"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleUpper" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineV_R"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineV_L"
+        app:layout_constraintTop_toTopOf="@+id/titleUpper"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/main_containerButtons"
@@ -185,7 +187,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/take_breath"
+                    android:text="@string/take_a_breath"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     app:autoSizeTextType="uniform" />

@@ -21,7 +21,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_Task);
-        toolbar.setTitle(R.string.take_breath);
+        toolbar.setTitle(R.string.take_a_breath);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
