@@ -28,8 +28,9 @@ public class TimeoutManager {
     private static TimeoutManager timeoutManager;
     private TimerState timerState = TimerState.STOPPED;
     private int minutesEntered;
+    private double rateModifier = 1.0;
     private long timerFinishTime;
-    private long timerOffsetMillis;
+    private long timeLeftMillis;
 
     public static TimeoutManager getInstance() {
         if(timeoutManager == null) {
@@ -50,27 +51,48 @@ public class TimeoutManager {
         reset(context);
     }
 
+    public double getRateModifier() {
+        return rateModifier;
+    }
+
+    public void setRateModifier(Context context, double newRateModifier) {
+        if(newRateModifier <= 0.0) {
+            throw new IllegalArgumentException("TimeoutManager expects non-zero, positive rate modifier");
+        }
+
+        timeLeftMillis = (long) (getMillisRemaining() / newRateModifier);
+        timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
+        rateModifier = newRateModifier;
+
+        if(getTimerState() == TimerState.RUNNING) {
+            cancelAlarm(context);
+            setAlarm(context);
+        }
+
+        persistToSharedPrefs();
+    }
+
     public void start(Context context) {
         if(getTimerState() == TimerState.RUNNING) {
             return;
         }
 
-        cancelAlarm(context);
-        timerFinishTime = System.currentTimeMillis() + timerOffsetMillis;
+        timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
         timerState = TimerState.RUNNING;
         setAlarm(context);
         persistToSharedPrefs();
     }
 
     public void pause(Context context) {
-        timerOffsetMillis = getMillisRemaining();
+        timeLeftMillis = getMillisRemainingReal();
         timerState = TimerState.PAUSED;
         cancelAlarm(context);
         persistToSharedPrefs();
     }
 
     public void reset(Context context) {
-        timerOffsetMillis = minutesEntered * MILLIS_IN_MIN;
+        rateModifier = 1.0;
+        timeLeftMillis = minutesEntered * MILLIS_IN_MIN;
         timerState = TimerState.STOPPED;
         cancelAlarm(context);
         persistToSharedPrefs();
@@ -92,17 +114,22 @@ public class TimeoutManager {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public long getMillisRemaining() {
+    private long getMillisRemainingReal() {
         if(timerState == TimerState.RUNNING) {
             long offset = timerFinishTime - System.currentTimeMillis();
             return offset > 0 ? offset : 0;
         } else {
-            return timerOffsetMillis;
+            return timeLeftMillis;
         }
     }
 
+    // this function will "lie" about how many milliseconds are remaining based upon the rateModifier
+    public long getMillisRemaining() {
+        return (long) (getMillisRemainingReal() * rateModifier);
+    }
+
     public TimerState getTimerState() {
-        if(timerState == TimerState.RUNNING && getMillisRemaining() == 0) {
+        if(timerState == TimerState.RUNNING && getMillisRemainingReal() == 0) {
             timerState = TimerState.STOPPED;
         }
 
