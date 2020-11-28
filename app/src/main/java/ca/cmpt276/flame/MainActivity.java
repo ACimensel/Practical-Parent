@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         taskBtn.setOnClickListener(view -> startActivity(TaskActivity.makeIntent(this)));
         flipCoinBtn.setOnClickListener(view -> startActivity(FlipCoinActivity.makeIntent(this)));
-        takeBreathBtn.setOnClickListener(view -> startActivity(TakeBreathActivity.makeIntent(this)));
+        takeBreathBtn.setOnClickListener(view -> startActivity(BreathsActivity.makeIntent(this)));
         childrenBtn.setOnClickListener(view -> startActivity(ChildrenActivity.makeIntent(this)));
         helpBtn.setOnClickListener(view -> startActivity(HelpActivity.makeIntent(this)));
 
