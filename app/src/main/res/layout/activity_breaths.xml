@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TakeBreathActivity">
+    tools:context=".BreathsActivity">
 
     <include
-        android:id="@+id/toolbar_Task"
+        android:id="@+id/toolbar_Breaths"
         layout="@layout/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
