@@ -115,6 +115,7 @@ public class TimeoutManager {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
+    // returns the actual number of milliseconds remaining in real-world time
     private long getMillisRemainingReal() {
         if(timerState == TimerState.RUNNING) {
             long offset = timerFinishTime - System.currentTimeMillis();
@@ -124,7 +125,7 @@ public class TimeoutManager {
         }
     }
 
-    // this function will "lie" about how many milliseconds are remaining based upon the rateModifier
+    // returns the number of milliseconds remaining, modified by the rateModifier (what the user expects to see)
     public long getMillisRemaining() {
         return (long) (getMillisRemainingReal() * rateModifier);
     }
