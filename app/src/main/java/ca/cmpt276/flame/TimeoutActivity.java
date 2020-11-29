@@ -1,20 +1,25 @@
 package ca.cmpt276.flame;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import java.util.Locale;
 
-import ca.cmpt276.flame.model.TimeoutManager;
-
 import ca.cmpt276.flame.model.BGMusicPlayer;
+import ca.cmpt276.flame.model.TimeoutManager;
 
 /**
  * TimeoutActivity shows the currently running timer, and allows the user
@@ -25,7 +30,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_SEC = 1000;
     private static final int PROGRESS_BAR_STEPS = 1000;
     private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
-
+    private double speed = 100;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
@@ -44,9 +49,40 @@ public class TimeoutActivity extends AppCompatActivity {
         circularProgressBar.setMax(PROGRESS_BAR_STEPS);
 
         setupToolbar();
+        setUpSettingsBtn();
         setupPauseButton();
         setUpResetButton();
         setupTimer();
+    }
+
+    private void setUpSettingsBtn() {
+        ImageButton settingBtn = findViewById(R.id.timeoutActivity_settingsImageButton);
+        settingBtn.setOnClickListener(view->{
+            chooseNumberDialog();
+        });
+    }
+
+    private void chooseNumberDialog() {
+        final NumberPicker chooseSpeed = new NumberPicker(this);
+        chooseSpeed.setMaxValue(400);
+        chooseSpeed.setMinValue(25);
+        chooseSpeed.setWrapSelectorWheel(true);
+        LinearLayout numberLayout = setLinearNumberLayout(chooseSpeed);
+
+        new AlertDialog.Builder(TimeoutActivity.this)
+                .setTitle(R.string.choose_time_speed)
+                .setView(numberLayout)
+                .setPositiveButton("Ok",(dialogInterface, i) -> {
+                    speed = chooseSpeed.getValue();
+                })
+                .setNegativeButton(R.string.cancel, null).show();
+    }
+
+    private LinearLayout setLinearNumberLayout(NumberPicker numbers) {
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.addView(numbers);
+        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+        return layout;
     }
 
     @Override

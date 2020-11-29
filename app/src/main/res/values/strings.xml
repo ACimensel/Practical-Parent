@@ -125,4 +125,5 @@
     <string name="gallery">Gallery</string>
     <string name="something_wrong_try_again">Something went wrong. Please try again.</string>
     <string name="took_turn">Take Turn</string>
+    <string name="choose_time_speed">Select the speed for timer</string>
 </resources>
