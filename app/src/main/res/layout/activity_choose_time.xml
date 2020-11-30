@@ -19,69 +19,178 @@
         layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineH1"
+        android:id="@+id/instructionUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".1" />
+        app:layout_constraintGuide_percent=".15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineH2"
+        android:id="@+id/instructionLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".9" />
+        app:layout_constraintGuide_percent=".21" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/timeUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/timeLower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".31" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".40" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonLower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".70" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/startTimerUpper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.86" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/startTimerLower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.932" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/widthLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/widthRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonsLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonsRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
         android:id="@+id/chooseTime_txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/choose_or_enter_the_time"
         android:textAlignment="center"
         android:textColorHint="@android:color/black"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineH1" />
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/instructionLower"
+        app:layout_constraintEnd_toStartOf="@+id/widthRight"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/widthLeft"
+        app:layout_constraintTop_toTopOf="@+id/instructionUpper"
+        app:layout_constraintVertical_bias="1.0" />
 
     <RadioGroup
         android:id="@+id/chooseTime_radioTimeOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/chooseTime_btnStart"
-        app:layout_constraintEnd_toEndOf="@+id/chooseTime_txtTitle"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="@+id/chooseTime_txtTitle"
-        app:layout_constraintTop_toBottomOf="@+id/chooseTime_inputTime"
-        app:layout_constraintVertical_bias=".4" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="5"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLower"
+        app:layout_constraintEnd_toStartOf="@+id/widthRight"
+        app:layout_constraintStart_toStartOf="@+id/widthLeft"
+        app:layout_constraintTop_toTopOf="@+id/buttonUpper">
+
+        <RadioButton
+            android:id="@+id/chooseTime_radioOption1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_12sdp" />
+
+        <RadioButton
+            android:id="@+id/chooseTime_radioOption2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_12sdp" />
+
+        <RadioButton
+            android:id="@+id/chooseTime_radioOption3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_12sdp" />
+
+        <RadioButton
+            android:id="@+id/chooseTime_radioOption4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_12sdp" />
+
+        <RadioButton
+            android:id="@+id/chooseTime_radioOption5"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_12sdp" />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/chooseTime_inputTime"
         android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:importantForAutofill="no"
         android:inputType="time"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/chooseTime_txtTitle"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/chooseTime_txtTitle"
-        app:layout_constraintTop_toBottomOf="@+id/chooseTime_txtTitle"
+        android:textSize="@dimen/_20sdp"
+        app:layout_constraintBottom_toTopOf="@+id/timeLower"
+        app:layout_constraintEnd_toStartOf="@+id/widthRight"
+        app:layout_constraintStart_toStartOf="@+id/widthLeft"
+        app:layout_constraintTop_toTopOf="@+id/timeUpper"
         tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/chooseTime_btnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:paddingEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="@string/start_timer"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineH2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/_14sdp"
+        app:layout_constraintBottom_toTopOf="@+id/startTimerLower"
+        app:layout_constraintEnd_toStartOf="@+id/buttonsRight"
+        app:layout_constraintStart_toStartOf="@+id/buttonsLeft"
+        app:layout_constraintTop_toTopOf="@+id/startTimerUpper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

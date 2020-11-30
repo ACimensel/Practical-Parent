@@ -79,18 +79,25 @@ public class ChooseTimeActivity extends AppCompatActivity {
     private void createTimerOptions() {
         RadioGroup group = findViewById(R.id.chooseTime_radioTimeOptions);
         final int[] MINUTE_OPTIONS =  {1, 2, 3, 5, 10};
+        final RadioButton[] RADIO_BTN_OPTIONS =  {
+                findViewById(R.id.chooseTime_radioOption1),
+                findViewById(R.id.chooseTime_radioOption2),
+                findViewById(R.id.chooseTime_radioOption3),
+                findViewById(R.id.chooseTime_radioOption4),
+                findViewById(R.id.chooseTime_radioOption5)
+        };
 
-        for(int numMinutes : MINUTE_OPTIONS) {
-            RadioButton timerBtn = new RadioButton(this);
-            timerBtn.setText(getResources().getQuantityString(R.plurals.minute, numMinutes, numMinutes));
+        for(int idx = 0; idx < MINUTE_OPTIONS.length; idx++) {
+            int numMinutes = MINUTE_OPTIONS[idx];
+            RadioButton btn = RADIO_BTN_OPTIONS[idx];
+
+            btn.setText(getResources().getQuantityString(R.plurals.minute, numMinutes, numMinutes));
 
             String numMinutesStr = String.format(Locale.getDefault(), "%d", numMinutes);
-            timerBtn.setOnClickListener(v -> timeValueTxt.setText(numMinutesStr));
-
-            group.addView(timerBtn);
+            btn.setOnClickListener(v -> timeValueTxt.setText(numMinutesStr));
 
             if (numMinutes == timeoutManager.getMinutesEntered()) {
-                timerBtn.setChecked(true);
+                btn.setChecked(true);
                 timeValueTxt.setText(numMinutesStr);
             }
         }

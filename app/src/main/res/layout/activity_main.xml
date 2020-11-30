@@ -77,8 +77,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineV_R"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineV_L"
-        app:layout_constraintTop_toTopOf="@+id/titleUpper"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/titleUpper" />
 
     <LinearLayout
         android:id="@+id/main_containerButtons"
