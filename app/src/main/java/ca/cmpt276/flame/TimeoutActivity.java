@@ -30,7 +30,8 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_SEC = 1000;
     private static final int PROGRESS_BAR_STEPS = 1000;
     private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
-    private double speed = 100;
+    public static final int DIVIDER_FOR_PERCENTAGE_TO_NUMBER = 100;
+    private double speedPercentage = 100;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
@@ -53,36 +54,6 @@ public class TimeoutActivity extends AppCompatActivity {
         setupPauseButton();
         setUpResetButton();
         setupTimer();
-    }
-
-    private void setUpSettingsBtn() {
-        ImageButton settingBtn = findViewById(R.id.timeoutActivity_settingsImageButton);
-        settingBtn.setOnClickListener(view->{
-            chooseNumberDialog();
-        });
-    }
-
-    private void chooseNumberDialog() {
-        final NumberPicker chooseSpeed = new NumberPicker(this);
-        chooseSpeed.setMaxValue(400);
-        chooseSpeed.setMinValue(25);
-        chooseSpeed.setWrapSelectorWheel(true);
-        LinearLayout numberLayout = setLinearNumberLayout(chooseSpeed);
-
-        new AlertDialog.Builder(TimeoutActivity.this)
-                .setTitle(R.string.choose_time_speed)
-                .setView(numberLayout)
-                .setPositiveButton("Ok",(dialogInterface, i) -> {
-                    speed = chooseSpeed.getValue();
-                })
-                .setNegativeButton(R.string.cancel, null).show();
-    }
-
-    private LinearLayout setLinearNumberLayout(NumberPicker numbers) {
-        LinearLayout layout = new LinearLayout(getApplicationContext());
-        layout.addView(numbers);
-        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
-        return layout;
     }
 
     @Override
@@ -131,6 +102,18 @@ public class TimeoutActivity extends AppCompatActivity {
         }
     }
 
+    private void updateTimerSpeedTxt() {
+        TextView timeSpeed = findViewById(R.id.timoutActivity_timeSpeedView);
+        timeSpeed.setText(getString(R.string.timer_speed, speedPercentage));
+    }
+
+    private void setUpSettingsBtn() {
+        ImageButton settingBtn = findViewById(R.id.timeoutActivity_settingsImageButton);
+        settingBtn.setOnClickListener(view->{
+            setUpSpeedChooser();
+        });
+    }
+
     private void setupPauseButton() {
         pauseTimerBtn = findViewById(R.id.timeout_btnPause);
 
@@ -167,6 +150,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeoutManager.reset(getApplicationContext());
                 updateUI();
                 updateButtons();
+                speedPercentage = 100;
+                updateTimerSpeedTxt();
             }
         });
     }
@@ -186,6 +171,38 @@ public class TimeoutActivity extends AppCompatActivity {
         };
     }
 
+    private void setUpSpeedChooser() {
+        final NumberPicker chooseSpeed = new NumberPicker(this);
+        chooseSpeed.setMaxValue(400);
+        chooseSpeed.setMinValue(25);
+        chooseSpeed.setWrapSelectorWheel(true);
+        LinearLayout numberLayout = setLinearNumberLayout(chooseSpeed);
+
+        chooseSpeedDialog(chooseSpeed, numberLayout);
+    }
+
+    private void chooseSpeedDialog(NumberPicker chooseSpeed, LinearLayout numberLayout) {
+        new AlertDialog.Builder(TimeoutActivity.this)
+                .setTitle(R.string.choose_time_speed)
+                .setView(numberLayout)
+                .setPositiveButton("Ok",(dialogInterface, i) -> {
+                    speedPercentage = chooseSpeed.getValue();
+                    timeoutManager.setRateModifier(this, speedPercentage / DIVIDER_FOR_PERCENTAGE_TO_NUMBER);
+                    updateTimerSpeedTxt();
+                    timeoutManager.pause(this);
+                    timeoutManager.start(this);
+                })
+                .setNegativeButton(R.string.cancel, null).show();
+    }
+
+    private LinearLayout setLinearNumberLayout(NumberPicker numbers) {
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.addView(numbers);
+        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+        return layout;
+    }
+
+
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.timeout);
@@ -198,7 +215,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
         updateUI();
         updateButtons();
-
+        updateTimerSpeedTxt();
         if(timeoutManager.getTimerState() == TimeoutManager.TimerState.RUNNING) {
             countDownTimer.start();
         }
