@@ -2,6 +2,7 @@ package ca.cmpt276.flame;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -31,7 +32,11 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int PROGRESS_BAR_STEPS = 1000;
     private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
     public static final int DIVIDER_FOR_PERCENTAGE_TO_NUMBER = 100;
-    private double speedPercentage = 100;
+    public static final int TIMER_SPEED_MIN_VALUE = 25;
+    public static final int TIMER_SPEED_MAX_VALUE = 400;
+    public static final int DEFAULT_SPEED_PERCENTAGE = 100;
+
+    private double speedPercentage = DEFAULT_SPEED_PERCENTAGE;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
@@ -109,8 +114,9 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void setUpSettingsBtn() {
         ImageButton settingBtn = findViewById(R.id.timeoutActivity_settingsImageButton);
-        settingBtn.setOnClickListener(view->{
-            setUpSpeedChooser();
+        settingBtn.setBackgroundColor(Color.TRANSPARENT);
+        settingBtn.setOnClickListener(view -> {
+            chooseSpeedDialog();
         });
     }
 
@@ -150,7 +156,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeoutManager.reset(getApplicationContext());
                 updateUI();
                 updateButtons();
-                speedPercentage = 100;
+                speedPercentage = DEFAULT_SPEED_PERCENTAGE;
                 updateTimerSpeedTxt();
             }
         });
@@ -171,22 +177,19 @@ public class TimeoutActivity extends AppCompatActivity {
         };
     }
 
-    private void setUpSpeedChooser() {
-        final NumberPicker chooseSpeed = new NumberPicker(this);
-        chooseSpeed.setMaxValue(400);
-        chooseSpeed.setMinValue(25);
-        chooseSpeed.setWrapSelectorWheel(true);
-        LinearLayout numberLayout = setLinearNumberLayout(chooseSpeed);
-
-        chooseSpeedDialog(chooseSpeed, numberLayout);
-    }
-
-    private void chooseSpeedDialog(NumberPicker chooseSpeed, LinearLayout numberLayout) {
+    private void chooseSpeedDialog() {
+        //set up number picker
+        final NumberPicker CHOOSE_SPEED = new NumberPicker(this);
+        CHOOSE_SPEED.setMaxValue(TIMER_SPEED_MAX_VALUE);
+        CHOOSE_SPEED.setMinValue(TIMER_SPEED_MIN_VALUE);
+        CHOOSE_SPEED.setWrapSelectorWheel(true);
+        LinearLayout numberLayout = setLinearNumberLayout(CHOOSE_SPEED);
+        //Set up the dialog
         new AlertDialog.Builder(TimeoutActivity.this)
                 .setTitle(R.string.choose_time_speed)
                 .setView(numberLayout)
-                .setPositiveButton("Ok",(dialogInterface, i) -> {
-                    speedPercentage = chooseSpeed.getValue();
+                .setPositiveButton("Ok", (dialogInterface, i) -> {
+                    speedPercentage = CHOOSE_SPEED.getValue();
                     timeoutManager.setRateModifier(this, speedPercentage / DIVIDER_FOR_PERCENTAGE_TO_NUMBER);
                     updateTimerSpeedTxt();
                     timeoutManager.pause(this);
