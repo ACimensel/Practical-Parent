@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name_short">PracParent</string>
     <string name="app_name_long">Practical Parent</string>
     <string name="flip_coin">Flip Coin</string>
@@ -125,4 +125,17 @@
     <string name="gallery">Gallery</string>
     <string name="something_wrong_try_again">Something went wrong. Please try again.</string>
     <string name="took_turn">Take Turn</string>
+    <string name="out">OUT</string>
+    <string name="good_job">Good Job</string>
+    <string name="begin">Begin</string>
+    <string name="in">In</string>
+    <string name="edit_breaths">Edit Breaths</string>
+    <string name="breaths_heading_begin" tools:ignore="PluralsCandidate">Let\'s take %1$d breath together</string>
+    <string name="keep_inhaling">Keep Inhaling!</string>
+    <string name="keep_exhaling">Keep Exhaling!</string>
+    <string name="breaths_edit_heading">Choose how many times you want to breath</string>
+    <string name="breaths_edit_choosing" tools:ignore="PluralsCandidate">You choose %1$d time</string>
+    <string name="breath_before_inhale">Hold button and breath in</string>
+    <string name="breaths_hold_too_long">Release button and breath out</string>
+    <string name="breaths_finish">You are relaxed now!</string>
 </resources>
