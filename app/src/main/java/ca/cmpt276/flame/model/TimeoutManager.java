@@ -25,6 +25,7 @@ public class TimeoutManager {
 
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_TIMEOUT_MANAGER";
     private static final int MILLIS_IN_MIN = 60000;
+    private static final int DEFAULT_SPEED_PERCENTAGE = 100;
     private static TimeoutManager timeoutManager;
     private TimerState timerState = TimerState.STOPPED;
     private int minutesEntered;
@@ -53,6 +54,10 @@ public class TimeoutManager {
 
     public double getRateModifier() {
         return rateModifier;
+    }
+
+    public double getDefaultSpeedPercentage() {
+        return DEFAULT_SPEED_PERCENTAGE;
     }
 
     public void setRateModifier(Context context, double newRateModifier) {

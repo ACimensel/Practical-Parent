@@ -34,7 +34,6 @@ public class TimeoutActivity extends AppCompatActivity {
     public static final int DECIMAL_TO_PERCENTAGE = 100;
     public static final int TIMER_SPEED_MIN_VALUE = 0;
     public static final int TIMER_SPEED_MAX_VALUE = 15;
-    public static final int DEFAULT_SPEED_PERCENTAGE = 100;
     public static final int PICKER_VALUES_INCREMENT = 25;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private double speedPercentage = timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE;
@@ -108,7 +107,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void updateTimerSpeedTxt() {
-        TextView timeSpeed = findViewById(R.id.timoutActivity_timeSpeedView);
+        TextView timeSpeed = findViewById(R.id.timeoutActivity_timeSpeedView);
         timeSpeed.setText(getString(R.string.timer_speed, timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE));
     }
 
@@ -156,7 +155,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeoutManager.reset(getApplicationContext());
                 updateTimerProgress();
                 updateButtons();
-                speedPercentage = DEFAULT_SPEED_PERCENTAGE;
+                speedPercentage = timeoutManager.getDefaultSpeedPercentage();
                 updateTimerSpeedTxt();
             }
         });
@@ -182,12 +181,13 @@ public class TimeoutActivity extends AppCompatActivity {
         speedPicker.setWrapSelectorWheel(true);
         speedPicker.setMinValue(TIMER_SPEED_MIN_VALUE);
         speedPicker.setMaxValue(TIMER_SPEED_MAX_VALUE);
-        speedPicker.setFormatter(new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                return String.valueOf((value * PICKER_VALUES_INCREMENT + PICKER_VALUES_INCREMENT));
-            }
-        });
+        String[] numberString = new String[TIMER_SPEED_MAX_VALUE + 1];
+        int j = 0;
+        while(j <= TIMER_SPEED_MAX_VALUE) {
+            numberString[j] = String.valueOf((j * PICKER_VALUES_INCREMENT) + PICKER_VALUES_INCREMENT);
+            j++;
+        }
+        speedPicker.setDisplayedValues(numberString);
         speedPicker.setValue((int)(((timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE) - PICKER_VALUES_INCREMENT) / PICKER_VALUES_INCREMENT));
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
         new AlertDialog.Builder(TimeoutActivity.this)
