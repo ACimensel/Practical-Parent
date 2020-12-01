@@ -188,6 +188,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 return String.valueOf((value * PICKER_VALUES_INCREMENT + PICKER_VALUES_INCREMENT));
             }
         });
+        speedPicker.setValue((int)(((timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE) - PICKER_VALUES_INCREMENT) / PICKER_VALUES_INCREMENT));
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
         new AlertDialog.Builder(TimeoutActivity.this)
                 .setTitle(R.string.choose_time_speed)
