@@ -25,11 +25,12 @@ public class TimeoutManager {
 
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_TIMEOUT_MANAGER";
     private static final int MILLIS_IN_MIN = 60000;
-    private static final int DECIMAL_TO_PERCENTAGE = 100;
+    private static final int DECIMAL_TO_PERCENT = 100;
+    private static final double DEFAULT_SPEED_MODIFIER = 1.0;
     private static TimeoutManager timeoutManager;
     private TimerState timerState = TimerState.STOPPED;
+    private double speedMultiplier = DEFAULT_SPEED_MODIFIER;
     private int minutesEntered;
-    private double speedPercentage = 1.0;
     private long timerFinishTime;
     private long timeLeftMillis;
 
@@ -52,20 +53,20 @@ public class TimeoutManager {
         reset(context);
     }
 
-    public double getSpeedPercentage() {
-        return speedPercentage * DECIMAL_TO_PERCENTAGE;
+    public int getSpeedPercentage() {
+        return (int) speedMultiplier * DECIMAL_TO_PERCENT;
     }
 
-
-    public void setSpeedPercentage(Context context, double newSpeedPercentage) {
-        newSpeedPercentage /= DECIMAL_TO_PERCENTAGE;
-        if(newSpeedPercentage <= 0.0) {
-            throw new IllegalArgumentException("TimeoutManager expects non-zero, positive rate modifier");
+    public void setSpeedPercentage(Context context, int percent) {
+        if(percent <= 0) {
+            throw new IllegalArgumentException("TimeoutManager expects non-zero, positive speed percentage");
         }
 
-        timeLeftMillis = (long) (getMillisRemaining() / newSpeedPercentage);
+        double newSpeedMultiplier = (double) percent / DECIMAL_TO_PERCENT;
+
+        timeLeftMillis = (long) (getMillisRemainingReal() * speedMultiplier / newSpeedMultiplier);
         timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
-        speedPercentage = newSpeedPercentage;
+        speedMultiplier = newSpeedMultiplier;
 
         if(getTimerState() == TimerState.RUNNING) {
             cancelAlarm(context);
@@ -76,11 +77,13 @@ public class TimeoutManager {
     }
 
     public void start(Context context) {
-        if(getTimerState() == TimerState.RUNNING) {
-            return;
+        switch(getTimerState()) {
+            case RUNNING:
+                return;
+            case STOPPED:
+                reset(context);
         }
 
-        cancelAlarm(context);
         timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
         timerState = TimerState.RUNNING;
         setAlarm(context);
@@ -95,8 +98,8 @@ public class TimeoutManager {
     }
 
     public void reset(Context context) {
-        speedPercentage = 1.0;
-        timeLeftMillis = minutesEntered * MILLIS_IN_MIN;
+        speedMultiplier = DEFAULT_SPEED_MODIFIER;
+        timeLeftMillis = (long) ((minutesEntered * MILLIS_IN_MIN) / speedMultiplier);
         timerState = TimerState.STOPPED;
         cancelAlarm(context);
         persistToSharedPrefs();
@@ -130,7 +133,7 @@ public class TimeoutManager {
 
     // returns the number of milliseconds remaining, modified by the rateModifier (what the user expects to see)
     public long getMillisRemaining() {
-        return (long) (getMillisRemainingReal() * speedPercentage);
+        return (long) (getMillisRemainingReal() * speedMultiplier);
     }
 
     public TimerState getTimerState() {
