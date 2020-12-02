@@ -44,6 +44,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private ProgressBar circularProgressBar;
     private ImageButton settingImageBtn;
     private float millisEntered;
+    private boolean timerFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,11 @@ public class TimeoutActivity extends AppCompatActivity {
                 resetBtn.setText(R.string.reset);
                 break;
             case STOPPED:
-                pauseTimerBtn.setText(R.string.start);
+                if(timerFinished) {
+                    pauseTimerBtn.setText(R.string.restart);
+                } else {
+                    pauseTimerBtn.setText(R.string.start);
+                }
                 resetBtn.setText(R.string.cancel);
                 break;
         }
@@ -103,6 +108,7 @@ public class TimeoutActivity extends AppCompatActivity {
         if(timeoutManager.getMillisRemaining() == 0) {
             countDownTimer.cancel();
             countdownTimeTxt.setText(R.string.finished);
+            timerFinished = true;
             updateButtons();
             updateTimerSpeedTxt();
             settingImageBtn.setVisibility(TextView.INVISIBLE);
@@ -135,7 +141,8 @@ public class TimeoutActivity extends AppCompatActivity {
                     // "Start" button if timer is stopped
                     settingImageBtn.setVisibility(TextView.VISIBLE);
                     countDownTimer.start();
-                    timeoutManager.start(getApplicationContext());
+                    timeoutManager.start(getApplicationContext(), timerFinished);
+                    timerFinished = false;
                     break;
             }
 
@@ -184,14 +191,14 @@ public class TimeoutActivity extends AppCompatActivity {
         speedPicker.setMinValue(0);
         speedPicker.setMaxValue(numberStrings.length - 1);
         speedPicker.setDisplayedValues(numberStrings);
-        speedPicker.setValue((timeoutManager.getSpeedPercentage() - TIMER_SPEED_INCREMENT) / TIMER_SPEED_INCREMENT);
+        speedPicker.setValue((timeoutManager.getSpeedPercentage() / TIMER_SPEED_INCREMENT) - 1);
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
         new AlertDialog.Builder(TimeoutActivity.this)
                 .setTitle(R.string.choose_time_speed)
                 .setView(numberLayout)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    int rate = ((TIMER_SPEED_INCREMENT * speedPicker.getValue()) + TIMER_SPEED_INCREMENT);
-                    timeoutManager.setSpeedPercentage(this, rate);
+                    int speed = ((TIMER_SPEED_INCREMENT * speedPicker.getValue()) + TIMER_SPEED_INCREMENT);
+                    timeoutManager.setSpeedPercentage(this, speed);
                     updateTimerSpeedTxt();
                 })
                 .setNegativeButton(R.string.cancel, null).show();
