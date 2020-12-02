@@ -131,6 +131,7 @@
     <string name="in">In</string>
     <string name="edit_breaths">Edit Breaths</string>
     <string name="breaths_heading_begin" tools:ignore="PluralsCandidate">Let\'s take %1$d breath together</string>
+    <string name="breaths_num_left" tools:ignore="PluralsCandidate">Breaths Left : %1$d</string>
     <string name="keep_inhaling">Keep Inhaling!</string>
     <string name="keep_exhaling">Keep Exhaling!</string>
     <string name="breaths_edit_heading">Choose how many times you want to breath</string>
