@@ -16,9 +16,6 @@
         <receiver android:name=".TimerAlarmReceiver" />
 
         <activity
-            android:name=".BreathsEditActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".BreathsActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -1,6 +1,7 @@
 package ca.cmpt276.flame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -9,10 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import ca.cmpt276.flame.model.BreathsManager;
@@ -24,7 +28,9 @@ public class BreathsActivity extends AppCompatActivity {
     private final BreathsManager breathsManager = BreathsManager.getInstance();
     private boolean isExhale;
     private boolean isInvisible = false;
-    public static final int DEFAULT_NUM = 3;
+    public static final int MAX_NUM_BREATH = 10;
+    public static final int MIN_NUM_BREATH = 1;
+    public static final int DEFAULT_NUM_BREATH = 3;
     public static final int INHALE_DURATION_TIME = 3000;
     public static final int EXHALE_DURATION_TIME = 3000;
     public static final int OVER_TIME = 10000;
@@ -37,7 +43,7 @@ public class BreathsActivity extends AppCompatActivity {
         setupToolbar();
         setupBeginPart();
 
-        breathsManager.setNumBreaths(DEFAULT_NUM);
+        breathsManager.setNumBreaths(DEFAULT_NUM_BREATH);
     }
 
     @Override
@@ -85,11 +91,36 @@ public class BreathsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_breaths_add) {
-            Intent intent = BreathsEditActivity.makeIntent(BreathsActivity.this);
-            startActivity(intent);
+            startEditDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startEditDialog() {
+        NumberPicker numberPicker = new NumberPicker(this);
+        numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setMinValue(MIN_NUM_BREATH);
+        numberPicker.setMaxValue(MAX_NUM_BREATH);
+        numberPicker.setValue(breathsManager.getNumBreaths());
+
+        LinearLayout numberLayout = setSettingDialogLayout(numberPicker);
+        new AlertDialog.Builder(BreathsActivity.this)
+                .setTitle(R.string.edit_breaths)
+                .setView(numberLayout)
+                .setPositiveButton(R.string.save, (dialogInterface, i) -> {
+                    breathsManager.setNumBreaths(numberPicker.getValue());
+                    refreshHeadingTxt();
+                })
+                .setNegativeButton(R.string.cancel, null).show();
+
+    }
+
+    private LinearLayout setSettingDialogLayout(NumberPicker numberPicker) {
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.addView(numberPicker);
+        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+        return layout;
     }
 
     private void hideEditButton(boolean state) {
