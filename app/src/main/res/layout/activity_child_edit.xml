@@ -41,20 +41,6 @@
         app:layout_constraintGuide_percent="0.65" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/pencilLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.61" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/pencilRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.69" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imageUpper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,6 +60,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toStartOf="@+id/imageRight"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageLeft"
         app:layout_constraintTop_toTopOf="@+id/imageUpper"
         tools:srcCompat="@tools:sample/avatars" />
@@ -85,8 +72,8 @@
         android:adjustViewBounds="true"
         android:background="@drawable/edit_btn"
         app:layout_constraintBottom_toTopOf="@+id/imageUpper"
-        app:layout_constraintEnd_toStartOf="@+id/pencilRight"
-        app:layout_constraintStart_toStartOf="@+id/pencilLeft"
+        app:layout_constraintEnd_toStartOf="@+id/imageRight"
+        app:layout_constraintStart_toStartOf="@+id/imageRight"
         app:layout_constraintTop_toTopOf="@+id/childEdit_child_image_view" />
 
     <LinearLayout
@@ -161,7 +148,6 @@
                 android:text="@string/save"
                 android:textSize="@dimen/_14sdp" />
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

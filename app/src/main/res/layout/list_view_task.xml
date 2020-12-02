@@ -5,37 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/task_txtTaskName"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="10dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/task_imagePortrait"
-        app:layout_constraintEnd_toStartOf="@+id/task_txtChildName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/task_txtChildName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingRight="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/task_imagePortrait"
-        app:layout_constraintEnd_toStartOf="@+id/task_imagePortrait"
-        app:layout_constraintTop_toTopOf="@+id/task_imagePortrait" />
+        <TextView
+            android:id="@+id/task_txtTaskName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:layout_weight="5"
+            android:gravity="center_vertical|start"
+            android:text="@string/child_name"
+            android:textSize="@dimen/_11sdp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/task_imagePortrait"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/task_txtChildName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_weight="5"
+            android:gravity="center_vertical|end"
+            android:text="@string/child_name"
+            android:textSize="@dimen/_11sdp" />
+
+        <ImageView
+            android:id="@+id/task_imagePortrait"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
