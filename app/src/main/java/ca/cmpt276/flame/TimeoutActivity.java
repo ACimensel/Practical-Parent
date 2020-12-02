@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import ca.cmpt276.flame.model.BGMusicPlayer;
@@ -31,12 +32,13 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final int MILLIS_IN_SEC = 1000;
     private static final int PROGRESS_BAR_STEPS = 1000;
     private static final int COUNTDOWN_INTERVAL_MILLIS = 40;
-    public static final int DECIMAL_TO_PERCENTAGE = 100;
-    public static final int TIMER_SPEED_MIN_VALUE = 0;
-    public static final int TIMER_SPEED_MAX_VALUE = 15;
-    public static final int PICKER_VALUES_INCREMENT = 25;
+    public static final int TIMER_SPEED_MIN_VALUE = 25;
+    public static final int TIMER_SPEED_MAX_VALUE = 400;
+    public static final int TIMER_SPEED_INCREMENT = 25;
+    private static final int TIMER_SPEED_MIN_VALUE_INDEX = 0;
+    private static final int TIMER_SPEED_MAX_VALUE_INDEX = (TIMER_SPEED_MAX_VALUE - TIMER_SPEED_MIN_VALUE) / TIMER_SPEED_INCREMENT;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
-    private double speedPercentage = timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE;
+
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
     private Button resetBtn;
@@ -108,7 +110,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void updateTimerSpeedTxt() {
         TextView timeSpeed = findViewById(R.id.timeoutActivity_timeSpeedView);
-        timeSpeed.setText(getString(R.string.timer_speed, timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE));
+        timeSpeed.setText(getString(R.string.timer_speed, timeoutManager.getSpeedPercentage()));
     }
 
     private void setUpSettingsBtn() {
@@ -155,7 +157,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeoutManager.reset(getApplicationContext());
                 updateTimerProgress();
                 updateButtons();
-                speedPercentage = timeoutManager.getDefaultSpeedPercentage();
                 updateTimerSpeedTxt();
             }
         });
@@ -179,26 +180,31 @@ public class TimeoutActivity extends AppCompatActivity {
     private void chooseSpeedDialog() {
         NumberPicker speedPicker = new NumberPicker(this);
         speedPicker.setWrapSelectorWheel(true);
-        speedPicker.setMinValue(TIMER_SPEED_MIN_VALUE);
-        speedPicker.setMaxValue(TIMER_SPEED_MAX_VALUE);
-        String[] numberString = new String[TIMER_SPEED_MAX_VALUE + 1];
-        int j = 0;
-        while(j <= TIMER_SPEED_MAX_VALUE) {
-            numberString[j] = String.valueOf((j * PICKER_VALUES_INCREMENT) + PICKER_VALUES_INCREMENT);
-            j++;
-        }
+        speedPicker.setMinValue(TIMER_SPEED_MIN_VALUE_INDEX);
+        speedPicker.setMaxValue(TIMER_SPEED_MAX_VALUE_INDEX);
+        String[] numberString = getSpeedOptions();
         speedPicker.setDisplayedValues(numberString);
-        speedPicker.setValue((int)(((timeoutManager.getRateModifier() * DECIMAL_TO_PERCENTAGE) - PICKER_VALUES_INCREMENT) / PICKER_VALUES_INCREMENT));
+        speedPicker.setValue((int)((timeoutManager.getSpeedPercentage() - TIMER_SPEED_INCREMENT) / TIMER_SPEED_INCREMENT));
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
         new AlertDialog.Builder(TimeoutActivity.this)
                 .setTitle(R.string.choose_time_speed)
                 .setView(numberLayout)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    speedPercentage = (PICKER_VALUES_INCREMENT * speedPicker.getValue()) + PICKER_VALUES_INCREMENT;
-                    timeoutManager.setRateModifier(this, speedPercentage / DECIMAL_TO_PERCENTAGE);
+                    double rate = ((TIMER_SPEED_INCREMENT * speedPicker.getValue()) + TIMER_SPEED_INCREMENT);
+                    timeoutManager.setSpeedPercentage(this, rate);
                     updateTimerSpeedTxt();
                 })
                 .setNegativeButton(R.string.cancel, null).show();
+    }
+
+    private String[] getSpeedOptions() {
+        ArrayList<String> options = new ArrayList<>();
+
+        for(int i = TIMER_SPEED_MIN_VALUE; i <= TIMER_SPEED_MAX_VALUE; i += TIMER_SPEED_INCREMENT) {
+            options.add(String.valueOf(i));
+        }
+
+        return options.toArray(new String[0]);
     }
 
     private LinearLayout setLinearNumberLayout(NumberPicker numberPicker) {

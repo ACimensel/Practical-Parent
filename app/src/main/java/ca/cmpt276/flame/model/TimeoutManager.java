@@ -25,11 +25,11 @@ public class TimeoutManager {
 
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_TIMEOUT_MANAGER";
     private static final int MILLIS_IN_MIN = 60000;
-    private static final int DEFAULT_SPEED_PERCENTAGE = 100;
+    private static final int DECIMAL_TO_PERCENTAGE = 100;
     private static TimeoutManager timeoutManager;
     private TimerState timerState = TimerState.STOPPED;
     private int minutesEntered;
-    private double rateModifier = 1.0;
+    private double speedPercentage = 1.0;
     private long timerFinishTime;
     private long timeLeftMillis;
 
@@ -52,22 +52,20 @@ public class TimeoutManager {
         reset(context);
     }
 
-    public double getRateModifier() {
-        return rateModifier;
+    public double getSpeedPercentage() {
+        return speedPercentage * DECIMAL_TO_PERCENTAGE;
     }
 
-    public double getDefaultSpeedPercentage() {
-        return DEFAULT_SPEED_PERCENTAGE;
-    }
 
-    public void setRateModifier(Context context, double newRateModifier) {
-        if(newRateModifier <= 0.0) {
+    public void setSpeedPercentage(Context context, double newSpeedPercentage) {
+        newSpeedPercentage /= DECIMAL_TO_PERCENTAGE;
+        if(newSpeedPercentage <= 0.0) {
             throw new IllegalArgumentException("TimeoutManager expects non-zero, positive rate modifier");
         }
 
-        timeLeftMillis = (long) (getMillisRemaining() / newRateModifier);
+        timeLeftMillis = (long) (getMillisRemaining() / newSpeedPercentage);
         timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
-        rateModifier = newRateModifier;
+        speedPercentage = newSpeedPercentage;
 
         if(getTimerState() == TimerState.RUNNING) {
             cancelAlarm(context);
@@ -97,7 +95,7 @@ public class TimeoutManager {
     }
 
     public void reset(Context context) {
-        rateModifier = 1.0;
+        speedPercentage = 1.0;
         timeLeftMillis = minutesEntered * MILLIS_IN_MIN;
         timerState = TimerState.STOPPED;
         cancelAlarm(context);
@@ -132,7 +130,7 @@ public class TimeoutManager {
 
     // returns the number of milliseconds remaining, modified by the rateModifier (what the user expects to see)
     public long getMillisRemaining() {
-        return (long) (getMillisRemainingReal() * rateModifier);
+        return (long) (getMillisRemainingReal() * speedPercentage);
     }
 
     public TimerState getTimerState() {
