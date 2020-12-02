@@ -134,8 +134,6 @@
     <string name="breaths_num_left" tools:ignore="PluralsCandidate">Breaths Left : %1$d</string>
     <string name="keep_inhaling">Keep Inhaling!</string>
     <string name="keep_exhaling">Keep Exhaling!</string>
-    <string name="breaths_edit_heading">Choose how many times you want to breath</string>
-    <string name="breaths_edit_choosing" tools:ignore="PluralsCandidate">You choose %1$d time</string>
     <string name="breath_before_inhale">Hold button and breath in</string>
     <string name="breaths_hold_too_long">Release button and breath out</string>
     <string name="breaths_finish">You are relaxed now!</string>

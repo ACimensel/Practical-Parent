@@ -38,7 +38,10 @@ public class BreathsActivity extends AppCompatActivity {
     //***************************************************************
     //State code start here
     //***************************************************************
-    public abstract class State {
+    /**
+     * TODO: add description to the activity
+     */
+    public abstract static class State {
 
         void handleEnter() {
         }
@@ -53,7 +56,7 @@ public class BreathsActivity extends AppCompatActivity {
     private final State beginState = new BeginState();
     private final State inhaleState = new InhaleState();
     private final State exhaleState = new ExhaleState();
-    private State currentState = new idleState();
+    private State currentState = new IdleState();
 
     private void setState(State newState) {
         currentState.handleExit();
@@ -215,7 +218,7 @@ public class BreathsActivity extends AppCompatActivity {
         }
     }
 
-    private class idleState extends State {
+    private static class IdleState extends State {
     }
     //***************************************************************
     //State code end here
