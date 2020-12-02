@@ -54,7 +54,7 @@ public class TimeoutManager {
     }
 
     public int getSpeedPercentage() {
-        return (int) speedMultiplier * DECIMAL_TO_PERCENT;
+        return (int) (speedMultiplier * DECIMAL_TO_PERCENT);
     }
 
     public void setSpeedPercentage(Context context, int percent) {
@@ -131,7 +131,7 @@ public class TimeoutManager {
         }
     }
 
-    // returns the number of milliseconds remaining, modified by the rateModifier (what the user expects to see)
+    // returns the number of milliseconds remaining, modified by the speedMultiplier (what the user expects to see)
     public long getMillisRemaining() {
         return (long) (getMillisRemainingReal() * speedMultiplier);
     }

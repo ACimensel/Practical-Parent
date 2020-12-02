@@ -35,8 +35,6 @@ public class TimeoutActivity extends AppCompatActivity {
     public static final int TIMER_SPEED_MIN_VALUE = 25;
     public static final int TIMER_SPEED_MAX_VALUE = 400;
     public static final int TIMER_SPEED_INCREMENT = 25;
-    private static final int TIMER_SPEED_MIN_VALUE_INDEX = 0;
-    private static final int TIMER_SPEED_MAX_VALUE_INDEX = (TIMER_SPEED_MAX_VALUE - TIMER_SPEED_MIN_VALUE) / TIMER_SPEED_INCREMENT;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
 
     private CountDownTimer countDownTimer;
@@ -182,10 +180,10 @@ public class TimeoutActivity extends AppCompatActivity {
     private void chooseSpeedDialog() {
         NumberPicker speedPicker = new NumberPicker(this);
         speedPicker.setWrapSelectorWheel(true);
-        speedPicker.setMinValue(TIMER_SPEED_MIN_VALUE_INDEX);
-        speedPicker.setMaxValue(TIMER_SPEED_MAX_VALUE_INDEX);
-        String[] numberString = getSpeedOptions();
-        speedPicker.setDisplayedValues(numberString);
+        String[] numberStrings = getSpeedOptions();
+        speedPicker.setMinValue(0);
+        speedPicker.setMaxValue(numberStrings.length - 1);
+        speedPicker.setDisplayedValues(numberStrings);
         speedPicker.setValue((timeoutManager.getSpeedPercentage() - TIMER_SPEED_INCREMENT) / TIMER_SPEED_INCREMENT);
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
         new AlertDialog.Builder(TimeoutActivity.this)
