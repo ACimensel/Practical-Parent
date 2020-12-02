@@ -157,12 +157,10 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/heads_radio_txt"
             android:textColor="@drawable/radio_text_color"
-            app:autoSizeTextType="uniform" />
+            android:textSize="@dimen/_14sdp" />
 
         <Space
             android:layout_width="0dp"
@@ -177,12 +175,10 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/tails_radio_txt"
             android:textColor="@drawable/radio_text_color"
-            app:autoSizeTextType="uniform" />
+            android:textSize="@dimen/_14sdp" />
     </RadioGroup>
 
     <pl.droidsonroids.gif.GifImageView
