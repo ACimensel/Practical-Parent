@@ -29,6 +29,7 @@ public class BreathsActivity extends AppCompatActivity {
     private final BreathsManager breathsManager = BreathsManager.getInstance();
     private boolean isExhale;
     private boolean isInvisible = false;
+    private int breathNum;
     public static final int MAX_NUM_BREATH = 10;
     public static final int MIN_NUM_BREATH = 1;
     public static final int INHALE_DURATION_TIME = 3000;
@@ -68,11 +69,13 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             super.handleEnter();
+            breathNum = breathsManager.getNumBreaths();
+
             TextView txt = findViewById(R.id.breaths_txtBtn);
             txt.setText(R.string.begin);
 
             TextView heading = findViewById(R.id.breaths_txtHeading);
-            heading.setText(getString(R.string.breaths_heading_begin, breathsManager.getNumBreaths()));
+            heading.setText(getString(R.string.breaths_heading_begin, breathNum));
 
             TextView numLeft = findViewById(R.id.breaths_txtNumLeft);
             numLeft.setVisibility(View.INVISIBLE);
@@ -110,7 +113,7 @@ public class BreathsActivity extends AppCompatActivity {
 
             TextView numLeft = findViewById(R.id.breaths_txtNumLeft);
             numLeft.setVisibility(View.VISIBLE);
-            numLeft.setText(getString(R.string.breaths_num_left, breathsManager.getNumBreaths()));
+            numLeft.setText(getString(R.string.breaths_num_left, breathNum));
         }
 
         @Override
@@ -174,7 +177,7 @@ public class BreathsActivity extends AppCompatActivity {
             ImageButton breath = findViewById(R.id.breathes_imageButton);
 
             @SuppressLint("ClickableViewAccessibility") Runnable runExhale = () -> {
-                int breathsLeft = breathsManager.getNumBreaths() - 1;
+                int breathsLeft = breathNum - 1;
 
                 if (breathsLeft == 0) {
                     txt.setText(R.string.good_job);
@@ -188,7 +191,7 @@ public class BreathsActivity extends AppCompatActivity {
                         setupBreathsButton();
                     });
                 } else {
-                    breathsManager.setNumBreaths(breathsLeft);
+                    breathNum = breathsLeft;
                     heading.setText(R.string.breath_before_inhale);
                     breath.setEnabled(true);
                     isExhale = false;
@@ -231,8 +234,6 @@ public class BreathsActivity extends AppCompatActivity {
         setupToolbar();
         setState(beginState);
         setupBreathsButton();
-        //setupBeginPart();
-
     }
 
     private void setupBreathsButton() {
@@ -242,6 +243,7 @@ public class BreathsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        breathNum = breathsManager.getNumBreaths();
         refreshHeadingTxt();
     }
 
@@ -285,6 +287,7 @@ public class BreathsActivity extends AppCompatActivity {
                 .setView(numberLayout)
                 .setPositiveButton(R.string.save, (dialogInterface, i) -> {
                     breathsManager.setNumBreaths(numberPicker.getValue());
+                    breathNum = breathsManager.getNumBreaths();
                     refreshHeadingTxt();
                 })
                 .setNegativeButton(R.string.cancel, null).show();
