@@ -180,14 +180,17 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void chooseSpeedDialog() {
+        String[] numberStrings = getSpeedOptions();
+
         NumberPicker speedPicker = new NumberPicker(this);
         speedPicker.setWrapSelectorWheel(true);
-        String[] numberStrings = getSpeedOptions();
         speedPicker.setMinValue(0);
         speedPicker.setMaxValue(numberStrings.length - 1);
         speedPicker.setDisplayedValues(numberStrings);
         speedPicker.setValue((timeoutManager.getSpeedPercentage() / TIMER_SPEED_INCREMENT) - 1);
+        
         LinearLayout numberLayout = setLinearNumberLayout(speedPicker);
+        
         new AlertDialog.Builder(TimeoutActivity.this)
                 .setTitle(R.string.choose_time_speed)
                 .setView(numberLayout)
