@@ -76,17 +76,14 @@ public class TimeoutManager {
         persistToSharedPrefs();
     }
 
-    public void start(Context context, boolean timerFinished) {
-        if(!timerFinished) {
-            switch (getTimerState()) {
-                case RUNNING:
-                    return;
-                case STOPPED:
-                    reset(context);
-            }
-        } else {
-            timeLeftMillis = (long) ((minutesEntered * MILLIS_IN_MIN) / speedMultiplier);
+    public void start(Context context) {
+        switch (getTimerState()) {
+            case RUNNING:
+                return;
+            case STOPPED:
+                reset(context);
         }
+
         timerFinishTime = System.currentTimeMillis() + timeLeftMillis;
         timerState = TimerState.RUNNING;
         setAlarm(context);

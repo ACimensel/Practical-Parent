@@ -128,5 +128,4 @@
     <string name="choose_time_speed">Timer speed (%):</string>
     <string name= "timer_speed">Timer speed @ %d%%</string>
     <string name= "ok">OK</string>
-    <string name="restart">Restart</string>
 </resources>

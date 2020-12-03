@@ -36,7 +36,7 @@ public class TimeoutActivity extends AppCompatActivity {
     public static final int TIMER_SPEED_MAX_VALUE = 400;
     public static final int TIMER_SPEED_INCREMENT = 25;
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
-
+    private TextView timeSpeedTxt;
     private CountDownTimer countDownTimer;
     private Button pauseTimerBtn;
     private Button resetBtn;
@@ -44,7 +44,6 @@ public class TimeoutActivity extends AppCompatActivity {
     private ProgressBar circularProgressBar;
     private ImageButton settingImageBtn;
     private float millisEntered;
-    private boolean timerFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class TimeoutActivity extends AppCompatActivity {
         circularProgressBar = findViewById(R.id.timeout_progressBar);
         circularProgressBar.setMax(PROGRESS_BAR_STEPS);
         settingImageBtn = findViewById(R.id.timeoutActivity_settingsImageButton);
+        timeSpeedTxt = findViewById(R.id.timeoutActivity_timeSpeedView);
         setupToolbar();
         setUpSettingsBtn();
         setupPauseButton();
@@ -79,11 +79,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 resetBtn.setText(R.string.reset);
                 break;
             case STOPPED:
-                if(timerFinished) {
-                    pauseTimerBtn.setText(R.string.restart);
-                } else {
-                    pauseTimerBtn.setText(R.string.start);
-                }
+                pauseTimerBtn.setText(R.string.start);
                 resetBtn.setText(R.string.cancel);
                 break;
         }
@@ -108,16 +104,14 @@ public class TimeoutActivity extends AppCompatActivity {
         if(timeoutManager.getMillisRemaining() == 0) {
             countDownTimer.cancel();
             countdownTimeTxt.setText(R.string.finished);
-            timerFinished = true;
             updateButtons();
-            updateTimerSpeedTxt();
+            timeSpeedTxt.setVisibility(TextView.INVISIBLE);
             settingImageBtn.setVisibility(TextView.INVISIBLE);
         }
     }
 
     private void updateTimerSpeedTxt() {
-        TextView timeSpeed = findViewById(R.id.timeoutActivity_timeSpeedView);
-        timeSpeed.setText(getString(R.string.timer_speed, timeoutManager.getSpeedPercentage()));
+        timeSpeedTxt.setText(getString(R.string.timer_speed, timeoutManager.getSpeedPercentage()));
     }
 
     private void setUpSettingsBtn() {
@@ -140,9 +134,10 @@ public class TimeoutActivity extends AppCompatActivity {
                 case STOPPED:
                     // "Start" button if timer is stopped
                     settingImageBtn.setVisibility(TextView.VISIBLE);
+                    timeSpeedTxt.setVisibility(TextView.VISIBLE);
                     countDownTimer.start();
-                    timeoutManager.start(getApplicationContext(), timerFinished);
-                    timerFinished = false;
+                    timeoutManager.start(getApplicationContext());
+                    updateTimerSpeedTxt();
                     break;
             }
 
@@ -197,7 +192,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 .setTitle(R.string.choose_time_speed)
                 .setView(numberLayout)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    int speed = ((TIMER_SPEED_INCREMENT * speedPicker.getValue()) + TIMER_SPEED_INCREMENT);
+                    int speed = Integer.parseInt(numberStrings[speedPicker.getValue()]);
                     timeoutManager.setSpeedPercentage(this, speed);
                     updateTimerSpeedTxt();
                 })
