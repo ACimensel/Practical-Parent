@@ -11,6 +11,18 @@
         android:id="@+id/toolbar_Breaths"
         layout="@layout/toolbar" />
 
+    <ImageButton
+        android:id="@+id/breaths_btnSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_Breaths"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar_Breaths"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_Breaths"
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/breaths_layoutContent"
         android:layout_width="0dp"
