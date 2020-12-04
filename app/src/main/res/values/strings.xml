@@ -134,7 +134,10 @@
         <item quantity="one">Let\'s take a breath together</item>
         <item quantity="other">Let\'s take %d breaths together</item>
     </plurals>
-    <string name="breaths_num_left">Breaths left: %d</string>
+    <plurals name="breaths_num_left">
+        <item quantity="one">%d breath left</item>
+        <item quantity="other">%d breaths left</item>
+    </plurals>
     <string name="keep_inhaling">Keep Inhaling!</string>
     <string name="keep_exhaling">Keep Exhaling!</string>
     <string name="breath_before_inhale">Hold button and breathe in</string>

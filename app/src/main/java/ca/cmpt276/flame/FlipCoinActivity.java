@@ -29,7 +29,7 @@ import pl.droidsonroids.gif.GifImageView;
  * whether they think the next result will be a heads or tails.
  */
 public class FlipCoinActivity extends AppCompatActivity {
-    FlipManager flipManager = FlipManager.getInstance();
+    private final FlipManager flipManager = FlipManager.getInstance();
 
     private ImageView childProfileImg;
     private TextView childTurnTxt;

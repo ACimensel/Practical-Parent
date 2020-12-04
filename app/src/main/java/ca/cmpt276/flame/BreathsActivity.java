@@ -30,11 +30,11 @@ import ca.cmpt276.flame.model.BreathsManager;
  * show help message to indicate the user to go through the process of breath.
  */
 public class BreathsActivity extends AppCompatActivity {
-    public static final int MIN_NUM_BREATH = 1;
-    public static final int MAX_NUM_BREATH = 10;
-    public static final int INHALE_HOLD_TIME = 3000;
-    public static final int EXHALE_WAIT_TIME = 3000;
-    public static final int MAX_TIME = 10000;
+    private static final int INHALE_HOLD_TIME = 3000;
+    private static final int EXHALE_WAIT_TIME = 3000;
+    private static final int MAX_TIME = 10000;
+    private static final float ALPHA_OPAQUE = 1.0f;
+    private static final float ALPHA_LIGHTER = 0.7f;
 
     private final BreathsManager breathsManager = BreathsManager.getInstance();
     private int numBreathsLeft = breathsManager.getNumBreaths();
@@ -46,11 +46,12 @@ public class BreathsActivity extends AppCompatActivity {
     private Animation growAnim;
     private TextView numLeftText;
 
+    private final State idleState = new IdleState();
     private final State beginState = new BeginState();
     private final State inhaleState = new InhaleState();
     private final State exhaleState = new ExhaleState();
     private final State finishState = new FinishState();
-    private State currentState = new IdleState();
+    private State currentState = idleState;
 
     //***************************************************************
     //State code start here
@@ -104,6 +105,7 @@ public class BreathsActivity extends AppCompatActivity {
         Runnable holdLongEnough = () -> {
             heldLongEnough = true;
             buttonText.setText(R.string.out);
+            breathButton.setAlpha(ALPHA_LIGHTER);
         };
 
         Runnable holdTooLong = () -> {
@@ -112,14 +114,12 @@ public class BreathsActivity extends AppCompatActivity {
 
         @Override
         void handleEnter() {
-            if(soundPlayer == null) {
-                soundPlayer = MediaPlayer.create(BreathsActivity.this, R.raw.inhale);
-            }
-
+            soundPlayer = MediaPlayer.create(BreathsActivity.this, R.raw.inhale);
             heldLongEnough = false;
+
             headingText.setText(R.string.breath_before_inhale);
             buttonText.setText(R.string.in);
-            numLeftText.setText(getString(R.string.breaths_num_left, numBreathsLeft));
+            numLeftText.setText(getResources().getQuantityString(R.plurals.breaths_num_left, numBreathsLeft, numBreathsLeft));
             breathButton.setImageResource(R.drawable.breaths_btn_in);
         }
 
@@ -150,6 +150,7 @@ public class BreathsActivity extends AppCompatActivity {
 
         void stopRunning() {
             handler.removeCallbacksAndMessages(null);
+            breathButton.setAlpha(ALPHA_OPAQUE);
             stopAnimation();
 
             if(soundPlayer.isPlaying()) {
@@ -160,6 +161,8 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleExit() {
             stopRunning();
+            soundPlayer.release();
+            soundPlayer = null;
         }
     }
 
@@ -169,7 +172,7 @@ public class BreathsActivity extends AppCompatActivity {
 
         Runnable waitLongEnough = () -> {
             numBreathsLeft--;
-            numLeftText.setText(getString(R.string.breaths_num_left, numBreathsLeft));
+            numLeftText.setText(getResources().getQuantityString(R.plurals.breaths_num_left, numBreathsLeft, numBreathsLeft));
 
             if(numBreathsLeft > 0) {
                 buttonText.setText(R.string.in);
@@ -178,15 +181,14 @@ public class BreathsActivity extends AppCompatActivity {
             }
 
             breathButton.setEnabled(true);
+            breathButton.setAlpha(ALPHA_LIGHTER);
         };
 
         Runnable waitTooLong = this::setNextState;
 
         @Override
         void handleEnter() {
-            if(soundPlayer == null) {
-                soundPlayer = MediaPlayer.create(BreathsActivity.this, R.raw.exhale);
-            }
+            soundPlayer = MediaPlayer.create(BreathsActivity.this, R.raw.exhale);
 
             handler.postDelayed(waitLongEnough, EXHALE_WAIT_TIME);
             handler.postDelayed(waitTooLong, MAX_TIME);
@@ -217,6 +219,7 @@ public class BreathsActivity extends AppCompatActivity {
 
         @Override
         void handleExit() {
+            breathButton.setAlpha(ALPHA_OPAQUE);
             handler.removeCallbacksAndMessages(null);
             breathButton.setEnabled(true);
             stopAnimation();
@@ -224,6 +227,9 @@ public class BreathsActivity extends AppCompatActivity {
             if(soundPlayer.isPlaying()) {
                 soundPlayer.pause();
             }
+
+            soundPlayer.release();
+            soundPlayer = null;
         }
     }
 
@@ -268,7 +274,7 @@ public class BreathsActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        currentState.handleExit();
+        setState(idleState);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -295,10 +301,11 @@ public class BreathsActivity extends AppCompatActivity {
     private float getAnimationScale() {
         ConstraintLayout rootLayout = findViewById(R.id.breaths_layoutContent);
 
-        int parentMaxDim = Math.max(rootLayout.getWidth(), rootLayout.getHeight());
-        int btnDim = breathButton.getWidth();
+        // Pythagorean theorem
+        float parentDim = (float) Math.sqrt(Math.pow(rootLayout.getWidth(), 2) + Math.pow(rootLayout.getHeight(), 2));
+        float btnDim = breathButton.getWidth();
 
-        return (float) parentMaxDim / (float) btnDim;
+        return parentDim / btnDim;
     }
 
     private void startAnimation(boolean isShrink) {
@@ -315,6 +322,7 @@ public class BreathsActivity extends AppCompatActivity {
 
         growAnim = new ScaleAnimation(fromScale, toScale, fromScale, toScale, Animation.RELATIVE_TO_SELF, HALF_LAYOUT, Animation.RELATIVE_TO_SELF, HALF_LAYOUT);
         growAnim.setDuration(MAX_TIME);
+        growAnim.setFillAfter(true);
         breathButton.startAnimation(growAnim);
     }
 
@@ -328,8 +336,8 @@ public class BreathsActivity extends AppCompatActivity {
     private void showSettingsDialog() {
         NumberPicker numberPicker = new NumberPicker(this);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setMinValue(MIN_NUM_BREATH);
-        numberPicker.setMaxValue(MAX_NUM_BREATH);
+        numberPicker.setMinValue(BreathsManager.MIN_BREATHS);
+        numberPicker.setMaxValue(BreathsManager.MAX_BREATHS);
         numberPicker.setValue(breathsManager.getNumBreaths());
 
         LinearLayout numberLayout = setSettingDialogLayout(numberPicker);
