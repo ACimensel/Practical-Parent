@@ -137,4 +137,7 @@
     <string name="breath_before_inhale">Hold button and breath in</string>
     <string name="breaths_hold_too_long">Release button and breath out</string>
     <string name="breaths_finish">You are relaxed now!</string>
+    <string name="choose_time_speed">Timer speed (%):</string>
+    <string name= "timer_speed">Timer speed @ %d%%</string>
+    <string name= "ok">OK</string>
 </resources>
