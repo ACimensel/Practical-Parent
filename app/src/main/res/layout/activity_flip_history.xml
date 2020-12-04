@@ -10,18 +10,23 @@
         android:id="@+id/toolbar_flipHistory"
         layout="@layout/toolbar" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/flipHistory_switch"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/flipHistory_toggleContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_12sdp"
-        android:ellipsize="none"
-        android:scrollHorizontally="false"
-        android:textColor="@color/colorDarkGray"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_flipHistory" />
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_flipHistory">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/flipHistory_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_12sdp"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/flipHistory_listView"
@@ -30,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipHistory_switch" />
+        app:layout_constraintTop_toBottomOf="@+id/flipHistory_toggleContainer" />
 
     <TextView
         android:id="@+id/flipHistory_txtNoCoinsFlipped"
@@ -41,6 +46,6 @@
         android:textSize="@dimen/_16sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipHistory_switch" />
+        app:layout_constraintTop_toBottomOf="@+id/flipHistory_toggleContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
