@@ -37,6 +37,10 @@ public class BreathsActivity extends AppCompatActivity {
     public static final int INHALE_DURATION_TIME = 3000;
     public static final int EXHALE_DURATION_TIME = 3000;
     public static final int OVER_TIME = 10000;
+    private TextView buttonText;
+    private TextView headingText;
+    private TextView numLeftText;
+    private ImageButton breathButton;
 
     //***************************************************************
     //State code start here
@@ -76,14 +80,9 @@ public class BreathsActivity extends AppCompatActivity {
             super.handleEnter();
             breathNum = breathsManager.getNumBreaths();
 
-            TextView txt = findViewById(R.id.breaths_txtBtn);
-            txt.setText(R.string.begin);
-
-            TextView heading = findViewById(R.id.breaths_txtHeading);
-            heading.setText(getString(R.string.breaths_heading_begin, breathNum));
-
-            TextView numLeft = findViewById(R.id.breaths_txtNumLeft);
-            numLeft.setVisibility(View.INVISIBLE);
+            buttonText.setText(R.string.begin);
+            headingText.setText(getString(R.string.breaths_heading_begin, breathNum));
+            numLeftText.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -95,10 +94,10 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleBreathButton() {
             super.handleBreathButton();
-            ImageButton breath = findViewById(R.id.breathes_imageButton);
+
             setEditBtnVisible(true);
-            breath.setOnTouchListener(null);
-            breath.setOnClickListener(v -> {
+            breathButton.setOnTouchListener(null);
+            breathButton.setOnClickListener(v -> {
                 setEditBtnVisible(false);
                 setState(inhaleState);
                 setupBreathsButton();
@@ -110,15 +109,11 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             super.handleEnter();
-            TextView txt = findViewById(R.id.breaths_txtBtn);
-            txt.setText(R.string.in);
 
-            TextView heading = findViewById(R.id.breaths_txtHeading);
-            heading.setText(R.string.breath_before_inhale);
-
-            TextView numLeft = findViewById(R.id.breaths_txtNumLeft);
-            numLeft.setVisibility(View.VISIBLE);
-            numLeft.setText(getString(R.string.breaths_num_left, breathNum));
+            buttonText.setText(R.string.in);
+            headingText.setText(R.string.breath_before_inhale);
+            numLeftText.setVisibility(View.VISIBLE);
+            numLeftText.setText(getString(R.string.breaths_num_left, breathNum));
         }
 
         @Override
@@ -131,24 +126,20 @@ public class BreathsActivity extends AppCompatActivity {
         void handleBreathButton() {
             super.handleBreathButton();
 
-            TextView heading = findViewById(R.id.breaths_txtHeading);
-            TextView txt = findViewById(R.id.breaths_txtBtn);
-
             Runnable runBreathe = () -> {
-                txt.setText(R.string.out);
+                buttonText.setText(R.string.out);
                 isExhale = true;
             };
 
             Runnable runOverTime = () -> {
-                heading.setText(R.string.breaths_hold_too_long);
+                headingText.setText(R.string.breaths_hold_too_long);
             };
 
-            ImageButton breath = findViewById(R.id.breathes_imageButton);
             Handler handler = new Handler();
-            breath.setOnTouchListener((arg0, arg1) -> {
+            breathButton.setOnTouchListener((arg0, arg1) -> {
                 switch (arg1.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        heading.setText(R.string.keep_inhaling);
+                        headingText.setText(R.string.keep_inhaling);
                         handler.postDelayed(runBreathe, INHALE_DURATION_TIME);
                         handler.postDelayed(runOverTime, OVER_TIME);
                         break;
@@ -160,7 +151,7 @@ public class BreathsActivity extends AppCompatActivity {
                             setState(exhaleState);
                             setupBreathsButton();
                         } else {
-                            heading.setText(R.string.breath_before_inhale);
+                            headingText.setText(R.string.breath_before_inhale);
                         }
                         break;
 
@@ -174,31 +165,28 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             super.handleEnter();
-            TextView heading = findViewById(R.id.breaths_txtHeading);
-            TextView txt = findViewById(R.id.breaths_txtBtn);
-            Handler handler = new Handler();
 
-            heading.setText(R.string.keep_exhaling);
-            ImageButton breath = findViewById(R.id.breathes_imageButton);
+            headingText.setText(R.string.keep_exhaling);
+
+            Handler handler = new Handler();
 
             @SuppressLint("ClickableViewAccessibility") Runnable runExhale = () -> {
                 int breathsLeft = breathNum - 1;
 
                 if (breathsLeft == 0) {
-                    txt.setText(R.string.good_job);
-                    heading.setText(R.string.breaths_finish);
-                    TextView numLeft = findViewById(R.id.breaths_txtNumLeft);
-                    numLeft.setText(getString(R.string.breaths_num_left, breathsLeft));
-                    breath.setEnabled(true);
-                    breath.setOnTouchListener(null);
-                    breath.setOnClickListener(v -> {
+                    buttonText.setText(R.string.good_job);
+                    headingText.setText(R.string.breaths_finish);
+                    numLeftText.setText(getString(R.string.breaths_num_left, breathsLeft));
+                    breathButton.setEnabled(true);
+                    breathButton.setOnTouchListener(null);
+                    breathButton.setOnClickListener(v -> {
                         setState(beginState);
                         setupBreathsButton();
                     });
                 } else {
                     breathNum = breathsLeft;
-                    heading.setText(R.string.breath_before_inhale);
-                    breath.setEnabled(true);
+                    headingText.setText(R.string.breath_before_inhale);
+                    breathButton.setEnabled(true);
                     isExhale = false;
                     setState(inhaleState);
                     setupBreathsButton();
@@ -212,8 +200,7 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleExit() {
             super.handleExit();
-            ImageButton breath = findViewById(R.id.breathes_imageButton);
-            breath.setEnabled(true);
+            breathButton.setEnabled(true);
 
             isExhale = false;
         }
@@ -221,8 +208,7 @@ public class BreathsActivity extends AppCompatActivity {
         @Override
         void handleBreathButton() {
             super.handleBreathButton();
-            ImageButton breath = findViewById(R.id.breathes_imageButton);
-            breath.setEnabled(false);
+            breathButton.setEnabled(false);
         }
     }
 
@@ -237,8 +223,16 @@ public class BreathsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breaths);
         setupToolbar();
+        setupViews();
         setState(beginState);
         setupBreathsButton();
+    }
+
+    private void setupViews() {
+        buttonText = findViewById(R.id.breaths_txtBtn);
+        headingText = findViewById(R.id.breaths_txtHeading);
+        numLeftText = findViewById(R.id.breaths_txtNumLeft);
+        breathButton = findViewById(R.id.breathes_imageButton);
     }
 
     private void setupBreathsButton() {
