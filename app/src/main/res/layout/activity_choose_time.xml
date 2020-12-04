@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.6"
-        android:background="@drawable/bg_timeout" />
+        android:background="@drawable/bg_timeout"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <include
         android:id="@+id/toolbar"
@@ -51,14 +53,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".40" />
+        app:layout_constraintGuide_percent=".35" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonLower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".70" />
+        app:layout_constraintGuide_percent=".8" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/startTimerUpper"
@@ -121,51 +123,14 @@
 
     <RadioGroup
         android:id="@+id/chooseTime_radioTimeOptions"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
         android:orientation="vertical"
-        android:weightSum="5"
         app:layout_constraintBottom_toTopOf="@+id/buttonLower"
         app:layout_constraintEnd_toStartOf="@+id/widthRight"
         app:layout_constraintStart_toStartOf="@+id/widthLeft"
-        app:layout_constraintTop_toTopOf="@+id/buttonUpper">
-
-        <RadioButton
-            android:id="@+id/chooseTime_radioOption1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_12sdp" />
-
-        <RadioButton
-            android:id="@+id/chooseTime_radioOption2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_12sdp" />
-
-        <RadioButton
-            android:id="@+id/chooseTime_radioOption3"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_12sdp" />
-
-        <RadioButton
-            android:id="@+id/chooseTime_radioOption4"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_12sdp" />
-
-        <RadioButton
-            android:id="@+id/chooseTime_radioOption5"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/_12sdp" />
-    </RadioGroup>
+        app:layout_constraintTop_toTopOf="@+id/buttonUpper" />
 
     <EditText
         android:id="@+id/chooseTime_inputTime"

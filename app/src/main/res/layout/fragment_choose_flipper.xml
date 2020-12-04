@@ -27,8 +27,7 @@
 
         <Space
             android:layout_width="@dimen/_60sdp"
-            android:layout_height="match_parent"
-            android:padding="@dimen/_5sdp" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/item_child_name"

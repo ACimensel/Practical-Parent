@@ -18,7 +18,7 @@
             android:id="@+id/item_child_image"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_8sdp"
             app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
         <TextView
