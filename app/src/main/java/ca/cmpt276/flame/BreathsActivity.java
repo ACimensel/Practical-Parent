@@ -23,12 +23,14 @@ import android.widget.TextView;
 import ca.cmpt276.flame.model.BreathsManager;
 
 /**
- * TODO: add description to the activity
+ * BreathActivity allow user to change number of breaths if desired
+ * One big breath button which does most of the interactions
+ * show help message to indicate the user to go through the process of breath.
  */
 public class BreathsActivity extends AppCompatActivity {
     private final BreathsManager breathsManager = BreathsManager.getInstance();
     private boolean isExhale;
-    private boolean isInvisible = false;
+    private boolean editBtnVisible = true;
     private int breathNum;
     public static final int MAX_NUM_BREATH = 10;
     public static final int MIN_NUM_BREATH = 1;
@@ -39,10 +41,13 @@ public class BreathsActivity extends AppCompatActivity {
     //***************************************************************
     //State code start here
     //***************************************************************
+
     /**
-     * TODO: add description to the activity
+     * This State class represent three different State of Breath which is begin,inhale and exhale.
+     * Each State have their own setting of Breath button.
+     * Also do actions when exit and enter a new State.
      */
-    public abstract static class State {
+    private abstract static class State {
 
         void handleEnter() {
         }
@@ -91,10 +96,10 @@ public class BreathsActivity extends AppCompatActivity {
         void handleBreathButton() {
             super.handleBreathButton();
             ImageButton breath = findViewById(R.id.breathes_imageButton);
-            hideEditButton(false);
+            setEditBtnVisible(true);
             breath.setOnTouchListener(null);
             breath.setOnClickListener(v -> {
-                hideEditButton(true);
+                setEditBtnVisible(false);
                 setState(inhaleState);
                 setupBreathsButton();
             });
@@ -256,7 +261,7 @@ public class BreathsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_breaths_edit, menu);
 
-        if (isInvisible) {
+        if (!editBtnVisible) {
             for (int i = 0; i < menu.size(); i++) {
                 menu.getItem(i).setVisible(false);
             }
@@ -301,8 +306,8 @@ public class BreathsActivity extends AppCompatActivity {
         return layout;
     }
 
-    private void hideEditButton(boolean state) {
-        isInvisible = state;
+    private void setEditBtnVisible(boolean state) {
+        editBtnVisible = state;
         invalidateOptionsMenu();
     }
 
