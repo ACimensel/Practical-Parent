@@ -16,7 +16,7 @@
             android:id="@+id/task_txtTaskName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_4sdp"
             android:layout_weight="6"
             android:gravity="center_vertical|start"

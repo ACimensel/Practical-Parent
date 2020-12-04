@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
     Child turnChild = flipManager.getTurnChild();
     private final ArrayList<FlipHistoryEntry> historyList = new ArrayList<>();
     private final HashMap<Long, Bitmap> childBitmaps = new HashMap<>();
+    private static final float SCREEN_SIZE_BASE_RATIO = 4.4f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
         setupSwitchButton();
         populateList();
         setupListView();
+        resizeToggleSwitch();
     }
 
     private void setupToolbar() {
@@ -106,6 +109,24 @@ public class FlipHistoryActivity extends AppCompatActivity {
         ArrayAdapter<FlipHistoryEntry> adapter = new HistoryListAdapter();
         ListView list = findViewById(R.id.flipHistory_listView);
         list.setAdapter(adapter);
+    }
+
+
+    private void resizeToggleSwitch() {
+        SwitchCompat switchCompat = findViewById(R.id.flipHistory_switch);
+        switchCompat.setScaleX(getScreenSizeInInches() / SCREEN_SIZE_BASE_RATIO);
+        switchCompat.setScaleY(getScreenSizeInInches() / SCREEN_SIZE_BASE_RATIO);
+    }
+
+    private float getScreenSizeInInches() {
+        // returns the usable screen size, which is slightly less than the actual screen size but works fine for screen size ratio calculations
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        double widthInch = (double) displayMetrics.widthPixels / (double)displayMetrics.xdpi;
+        double heightInch = (double) displayMetrics.heightPixels / (double)displayMetrics.ydpi;
+
+        return (float) Math.sqrt(Math.pow(widthInch, 2) + Math.pow(heightInch, 2));
     }
 
     private class HistoryListAdapter extends ArrayAdapter<FlipHistoryEntry> {
