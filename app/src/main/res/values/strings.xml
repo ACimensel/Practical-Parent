@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name_short">PracParent</string>
     <string name="app_name_long">Practical Parent</string>
     <string name="flip_coin">Flip Coin</string>
@@ -125,18 +125,21 @@
     <string name="gallery">Gallery</string>
     <string name="something_wrong_try_again">Something went wrong. Please try again.</string>
     <string name="took_turn">Take Turn</string>
-    <string name="out">OUT</string>
-    <string name="good_job">Good Job</string>
+    <string name="number_of_breaths">Number of breaths</string>
     <string name="begin">Begin</string>
-    <string name="in">In</string>
-    <string name="edit_breaths">Edit Breaths</string>
-    <string name="breaths_heading_begin" tools:ignore="PluralsCandidate">Let\'s take %1$d breath together</string>
-    <string name="breaths_num_left" tools:ignore="PluralsCandidate">Breaths Left : %1$d</string>
+    <string name="good_job">Good Job</string>
+    <string name="in">IN</string>
+    <string name="out">OUT</string>
+    <plurals name="breaths_heading_begin">
+        <item quantity="one">Let\'s take a breath together</item>
+        <item quantity="other">Let\'s take %d breaths together</item>
+    </plurals>
+    <string name="breaths_num_left">Breaths left: %d</string>
     <string name="keep_inhaling">Keep Inhaling!</string>
     <string name="keep_exhaling">Keep Exhaling!</string>
-    <string name="breath_before_inhale">Hold button and breath in</string>
-    <string name="breaths_hold_too_long">Release button and breath out</string>
-    <string name="breaths_finish">You are relaxed now!</string>
+    <string name="breath_before_inhale">Hold button and breathe in</string>
+    <string name="breaths_hold_too_long">Release button and breathe out</string>
+    <string name="all_done">All done!</string>
     <string name="choose_time_speed">Timer speed (%):</string>
     <string name= "timer_speed">Timer speed @ %d%%</string>
     <string name= "ok">OK</string>
