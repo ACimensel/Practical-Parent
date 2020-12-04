@@ -77,7 +77,6 @@ public class BreathsActivity extends AppCompatActivity {
     private class BeginState extends State {
         @Override
         void handleEnter() {
-            super.handleEnter();
             breathNum = breathsManager.getNumBreaths();
 
             buttonText.setText(R.string.begin);
@@ -87,14 +86,11 @@ public class BreathsActivity extends AppCompatActivity {
 
         @Override
         void handleExit() {
-            super.handleExit();
         }
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         void handleBreathButton() {
-            super.handleBreathButton();
-
             setEditBtnVisible(true);
             breathButton.setOnTouchListener(null);
             breathButton.setOnClickListener(v -> {
@@ -108,8 +104,6 @@ public class BreathsActivity extends AppCompatActivity {
     private class InhaleState extends State {
         @Override
         void handleEnter() {
-            super.handleEnter();
-
             buttonText.setText(R.string.in);
             headingText.setText(R.string.breath_before_inhale);
             numLeftText.setVisibility(View.VISIBLE);
@@ -118,14 +112,11 @@ public class BreathsActivity extends AppCompatActivity {
 
         @Override
         void handleExit() {
-            super.handleExit();
         }
 
         @SuppressLint("ClickableViewAccessibility")
         @Override
         void handleBreathButton() {
-            super.handleBreathButton();
-
             Runnable runBreathe = () -> {
                 buttonText.setText(R.string.out);
                 isExhale = true;
@@ -164,8 +155,6 @@ public class BreathsActivity extends AppCompatActivity {
     private class ExhaleState extends State {
         @Override
         void handleEnter() {
-            super.handleEnter();
-
             headingText.setText(R.string.keep_exhaling);
 
             Handler handler = new Handler();
@@ -199,15 +188,12 @@ public class BreathsActivity extends AppCompatActivity {
 
         @Override
         void handleExit() {
-            super.handleExit();
             breathButton.setEnabled(true);
-
             isExhale = false;
         }
 
         @Override
         void handleBreathButton() {
-            super.handleBreathButton();
             breathButton.setEnabled(false);
         }
     }
@@ -247,8 +233,7 @@ public class BreathsActivity extends AppCompatActivity {
     }
 
     private void refreshHeadingTxt() {
-        TextView heading = findViewById(R.id.breaths_txtHeading);
-        heading.setText(getString(R.string.breaths_heading_begin, breathsManager.getNumBreaths()));
+        headingText.setText(getString(R.string.breaths_heading_begin, breathsManager.getNumBreaths()));
     }
 
     @Override
