@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     app:layout_constraintGuide_percent=".7">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_task_guideline_upper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_task_guideline_lower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
     <TextView
         android:id="@+id/task_dialog_txtName"
         android:layout_width="0dp"
@@ -52,39 +66,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtName" />
 
-    <Button
-        android:id="@+id/task_dialog_btnTookTurn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/task_dialog_txtTurnChild"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:text="@string/took_turn"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtTurnChild"
-        app:layout_constraintVertical_bias="0.508"
-        app:layout_goneMarginBottom="20dp" />
-
     <ImageView
         android:id="@+id/task_dialog_imagePortrait"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/task_dialog_txtName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_task_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtDescription" />
+        app:layout_constraintBottom_toTopOf="@+id/fragment_task_guideline_lower"
+        app:layout_constraintTop_toTopOf="@+id/fragment_task_guideline_upper" />
 
     <TextView
         android:id="@+id/task_dialog_txtTurnChild"
@@ -116,11 +106,24 @@
         app:layout_constraintVertical_bias="0.508"
         app:layout_goneMarginBottom="20dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/fragment_task_guideline"
+    <Button
+        android:id="@+id/task_dialog_btnTookTurn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        android:layout_below="@+id/task_dialog_txtTurnChild"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/took_turn"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/task_dialog_txtTurnChild"
+        app:layout_constraintVertical_bias="0.508"
+        app:layout_goneMarginBottom="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
