@@ -12,6 +12,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
 
+
         <receiver android:name=".TimerAlarmReceiver" />
 
         <activity

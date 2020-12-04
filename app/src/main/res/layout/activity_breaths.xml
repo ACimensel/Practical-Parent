@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".BreathsActivity">
 
     <include
         android:id="@+id/toolbar_Breaths"
         layout="@layout/toolbar" />
+
+    <ImageButton
+        android:id="@+id/breathes_imageButton"
+        android:layout_width="269dp"
+        android:layout_height="275dp"
+        android:layout_marginTop="172dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_Breaths"
+        app:srcCompat="@drawable/circular_countdown" />
+
+    <TextView
+        android:id="@+id/breaths_txtBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/breathes_imageButton"
+        app:layout_constraintEnd_toEndOf="@+id/breathes_imageButton"
+        app:layout_constraintStart_toStartOf="@+id/breathes_imageButton"
+        app:layout_constraintTop_toTopOf="@+id/breathes_imageButton" />
+
+    <TextView
+        android:id="@+id/breaths_txtHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/breathes_imageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_Breaths"
+        app:layout_constraintVertical_bias="0.479" />
+
+    <TextView
+        android:id="@+id/breaths_txtNumLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breathes_imageButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
