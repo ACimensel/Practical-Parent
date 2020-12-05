@@ -21,11 +21,12 @@
             android:id="@+id/flipHistory_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_12sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_12sdp"
             android:ellipsize="none"
             android:scrollHorizontally="false"
             android:textColor="@color/colorDarkGray"
-            android:textSize="13sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <ListView

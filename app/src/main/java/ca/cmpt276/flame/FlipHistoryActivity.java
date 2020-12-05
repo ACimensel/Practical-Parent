@@ -44,7 +44,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
     Child turnChild = flipManager.getTurnChild();
     private final ArrayList<FlipHistoryEntry> historyList = new ArrayList<>();
     private final HashMap<Long, Bitmap> childBitmaps = new HashMap<>();
-    private static final float SCREEN_SIZE_BASE_RATIO = 4.4f;
+    private static final float SCREEN_SIZE_BASE_RATIO = 5.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
