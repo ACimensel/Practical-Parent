@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_percent="0.78" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/buttonsLower"
@@ -157,12 +157,10 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/heads_radio_txt"
             android:textColor="@drawable/radio_text_color"
-            app:autoSizeTextType="uniform" />
+            android:textSize="@dimen/_14sdp" />
 
         <Space
             android:layout_width="0dp"
@@ -177,12 +175,10 @@
             android:background="@drawable/radio_selector"
             android:button="@android:color/transparent"
             android:gravity="center"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:shadowColor="@android:color/black"
             android:text="@string/tails_radio_txt"
             android:textColor="@drawable/radio_text_color"
-            app:autoSizeTextType="uniform" />
+            android:textSize="@dimen/_14sdp" />
     </RadioGroup>
 
     <pl.droidsonroids.gif.GifImageView
@@ -216,70 +212,30 @@
         app:layout_constraintStart_toStartOf="@+id/buttonsLeft"
         app:layout_constraintTop_toTopOf="@+id/buttonsUpper">
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/flipCoin_btnFlipCoin"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4">
-
-            <Button
-                android:id="@+id/flipCoin_btnFlipCoin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:translationZ="5dp"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="@string/flip_coin"
-                    android:textColor="@android:color/white"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
-        </RelativeLayout>
+            android:layout_weight="4"
+            android:background="@color/colorPrimary"
+            android:text="@string/flip_coin"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14sdp" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/flipCoin_btnHistory"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4">
-
-            <Button
-                android:id="@+id/flipCoin_btnHistory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:translationZ="5dp"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="@string/history"
-                    android:textColor="@android:color/white"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
-        </RelativeLayout>
+            android:layout_weight="4"
+            android:background="@color/colorPrimary"
+            android:text="@string/history"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_14sdp" />
     </LinearLayout>
 
     <TextView

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,6 +29,7 @@ import ca.cmpt276.flame.model.TimeoutManager;
 public class ChooseTimeActivity extends AppCompatActivity {
     private final TimeoutManager timeoutManager = TimeoutManager.getInstance();
     private TextView timeValueTxt;
+    private static final float SCREEN_SIZE_BASE = 4.9857f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,17 @@ public class ChooseTimeActivity extends AppCompatActivity {
         setupToolbar();
         createTimerOptions();
         setUpButtons();
+    }
+
+    private float getScreenSizeInInches() {
+        // returns the usable screen size, which is slightly less than the actual screen size but works fine for screen size ratio calculations
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        double widthInch = (double) displayMetrics.widthPixels / (double)displayMetrics.xdpi;
+        double heightInch = (double) displayMetrics.heightPixels / (double)displayMetrics.ydpi;
+
+        return (float) Math.sqrt(Math.pow(widthInch, 2) + Math.pow(heightInch, 2));
     }
 
     private void setUpTimeValueTxt() {
@@ -65,7 +78,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 minutes = 0;
             }
 
-            if(minutes <= 0) {
+            if (minutes <= 0) {
                 Toast.makeText(this, R.string.choose_time_error, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -78,9 +91,9 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
     private void createTimerOptions() {
         RadioGroup group = findViewById(R.id.chooseTime_radioTimeOptions);
-        final int[] MINUTE_OPTIONS =  {1, 2, 3, 5, 10};
+        final int[] MINUTE_OPTIONS = {1, 2, 3, 5, 10};
 
-        for(int numMinutes : MINUTE_OPTIONS) {
+        for (int numMinutes : MINUTE_OPTIONS) {
             RadioButton timerBtn = new RadioButton(this);
             timerBtn.setText(getResources().getQuantityString(R.plurals.minute, numMinutes, numMinutes));
 
@@ -94,6 +107,9 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 timeValueTxt.setText(numMinutesStr);
             }
         }
+
+        group.setScaleX(getScreenSizeInInches() / SCREEN_SIZE_BASE);
+        group.setScaleY(getScreenSizeInInches() / SCREEN_SIZE_BASE);
     }
 
     // inspired by code from: https://developer.android.com/training/notify-user/channels

@@ -8,102 +8,113 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
+    android:weightSum="100"
     tools:context=".ChooseFlipperFragment"
     tools:layout="@layout/fragment_choose_flipper">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:background="@color/colorTransparentNavyBlue"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintBottom_toTopOf="@+id/fragUpperBound"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragUpperBound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.09" />
+        <Space
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="match_parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/fragLowerBound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9" />
+        <TextView
+            android:id="@+id/item_child_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center_vertical|start"
+            android:paddingStart="@dimen/_4sdp"
+            android:text="@string/child_name"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorTransparentNavyBlue"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="6dp"
-            app:layout_constraintBottom_toTopOf="@+id/fragUpperBound"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/item_child_order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/_8sdp"
+            android:text="@string/order"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-            <Space
-                android:layout_width="60dp"
-                android:layout_height="match_parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chooseFlipper_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="80"
+        app:layout_constraintBottom_toTopOf="@+id/fragLowerBound"
+        app:layout_constraintTop_toTopOf="@+id/fragUpperBound" />
 
-            <TextView
-                android:id="@+id/item_child_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="12dp"
-                android:text="@string/child_name"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
 
-            <TextView
-                android:id="@+id/item_child_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:text="@string/order"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:orientation="horizontal"
+        android:weightSum="14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragLowerBound">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chooseFlipper_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/fragLowerBound"
-            app:layout_constraintTop_toTopOf="@+id/fragUpperBound" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragLowerBound">
+        <Button
+            android:id="@+id/chooseFlipper_btnSelectCanceled"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="@string/cancel"
+            android:textSize="@dimen/_13sdp" />
 
-            <Button
-                android:id="@+id/chooseFlipper_btnSelectCanceled"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="@string/cancel" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
 
-            <Space
-                android:layout_width="40dp"
-                android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/chooseFlipper_btnSelectNoOne"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:backgroundTint="@color/colorMainGreen"
+            android:text="@string/select_no_one"
+            android:textSize="@dimen/_13sdp" />
 
-            <Button
-                android:id="@+id/chooseFlipper_btnSelectNoOne"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/colorMainGreen"
-                android:text="@string/select_no_one" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
 
 </LinearLayout>
