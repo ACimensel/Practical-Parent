@@ -6,7 +6,7 @@ package ca.cmpt276.flame.model;
 public class BreathsManager {
     public static final int MIN_BREATHS = 1;
     public static final int MAX_BREATHS = 10;
-    public static final int DEFAULT_NUM_BREATHS = 3;
+    private static final int DEFAULT_NUM_BREATHS = 3;
     private static final String SHARED_PREFS_KEY = "SHARED_PREFS_BREATHS_MANAGER";
     private static BreathsManager breathsManager;
     private int numBreaths = DEFAULT_NUM_BREATHS;

@@ -38,9 +38,9 @@ import ca.cmpt276.flame.model.FlipManager;
  * and shows all children's history
  */
 public class FlipHistoryActivity extends AppCompatActivity {
-    FlipManager flipManager = FlipManager.getInstance();
-    ChildrenManager childrenManager = ChildrenManager.getInstance();
-    Child turnChild = flipManager.getTurnChild();
+    private final FlipManager flipManager = FlipManager.getInstance();
+    private final ChildrenManager childrenManager = ChildrenManager.getInstance();
+    private final Child turnChild = flipManager.getTurnChild();
     private final ArrayList<FlipHistoryEntry> historyList = new ArrayList<>();
     private final HashMap<Long, Bitmap> childBitmaps = new HashMap<>();
 
