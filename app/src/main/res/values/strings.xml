@@ -96,10 +96,10 @@
     </string>
     <string name="helpActivity_authorTitle">Team Flame</string>
     <string name="helpActivity_author_details">
-        Artun <i>(Repository Manager)</i>\n
-        Ethan <i>(Scrum Master)</i>\n
-        Jasmeen <i>(Team Member)</i>\n
-        Ryan <i>(Product Owner)</i>
+        Artun <i>(Product Owner)</i>\n
+        Ethan <i>(Team Member)</i>\n
+        Jasmeen <i>(Scrum Master)</i>\n
+        Ryan <i>(Repository Manager)</i>
     </string>
     <string name="helpActivity_referencesTitle">References</string>
     <string name="helpActivity_references_data">
@@ -113,10 +113,12 @@
         \t\t<a href="https://www.clipartmax.com/middle/m2i8d3i8K9K9b1b1_alarm-clock-icon-myiconfinder-iphone-remind-me-icon/">Clock Alarm Icon</a>\n
         \t\t<a href="https://www.hiclipart.com/free-transparent-background-png-clipart-ytyui">Sound On Icon</a>\n
         \t\t<a href="https://www.pikpng.com/transpng/xRToRx/">Sound Off Icon</a>\n
-        \t\t<a href="https://www.iconfinder.com/icons/2607295/animal_bunny_easter_bunny_emoji_pet_rabbit_icon">Default Child Image</a>\n\n
+        \t\t<a href="https://www.iconfinder.com/icons/2607295/animal_bunny_easter_bunny_emoji_pet_rabbit_icon">Default Child Image</a>\n
+        \t\t<a href="http://appletree-preschool.com/sessions/pencil-icon-hi3/">Pencil icon</a>\n\n
         Sounds:\n
         \t\t<a href="https://www.youtube.com/watch?v=GCE0MQK2Sww">Spinning Coin Sound</a>\n
-        \t\t<a href="https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">App BG Music</a>
+        \t\t<a href="https://www.fesliyanstudios.com/royalty-free-music/download/serenity/897">App BG Music</a>\n
+        \t\t<a href="https://www.youtube.com/watch?v=490z2QH6v5o">Inhale/Exhale Sound</a>
     </string>
     <string name="choose">Select</string>
     <string name="camera">Camera</string>
